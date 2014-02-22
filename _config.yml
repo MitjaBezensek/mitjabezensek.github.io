@@ -5,7 +5,6 @@ author: Mitja Bezenšek
 simple_search: http://google.com/search
 email_md5: 1675bcdc8b420a0c1a8e7520599fc7b3
 
-
 subscribe_rss: /atom.xml
 
 root: /
@@ -43,9 +42,11 @@ twitter_tweet_button: true
 disqus_short_name: mitjabezensek
 disqus_show_comment_count: false
 
-google_analytics_tracking_id:
+google_analytics_tracking_id: UA-48337858-1
 
 stackoverflow_user: mitja-bezensek
 stackoverflow_user_id: 1810018
+
+linkedin_user: 209640770
 
 facebook_like: true
