@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Mitja Bezenšek]]></title>
-  <link href="http://MitjaBezensek.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Random | Mitja Bezenšek]]></title>
+  <link href="http://MitjaBezensek.github.io/blog/categories/random/atom.xml" rel="self"/>
   <link href="http://MitjaBezensek.github.io/"/>
   <updated>2014-02-22T23:12:26+01:00</updated>
   <id>http://MitjaBezensek.github.io/</id>
