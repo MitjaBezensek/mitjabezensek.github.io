@@ -1,0 +1,41 @@
+.post{
+	h1.title, .entry-content{
+		margin-left: 200px;
+		@media screen and (max-width: 800px){
+			margin-left: 0;
+		}
+	}
+	.meta{
+		top: 85px;
+		line-height: 2;
+		font-size: 1.3em;
+		color: #247648;
+		width: 170px;
+		@media screen and (max-width: 800px){
+			margin-top: 15px;
+			position: static;
+			width: auto;
+		}
+		a{
+			color: #247648;
+			@include transition(0.3s);
+		}
+		.date, .tags, .comments{			
+			position: relative;
+			margin-right: 15px;
+			&:before{
+				color: $color-gray03;
+				font: 1.3em $font-icon;
+				line-height: 1em;
+				margin-right: 10px;
+			}
+			@media screen and (max-width: 800px){
+				@include inline-block;
+				margin-right: 30px;
+			}
+		}
+		.date:before{content: "\f073";}
+		.tags:before{content: "\f02c";}
+		.comments:before{content: "\f075";}
+	}
+}
