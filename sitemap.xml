@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
+    <url>
+        <loc>http://MitjaBezensek.github.io/about/</loc>
+        <lastmod>2014-02-22T21:56:58+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://MitjaBezensek.github.io/blog/archives/</loc>
+        <lastmod>2014-02-22T20:58:57+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://MitjaBezensek.github.io/blog/categories/</loc>
+        <lastmod>2014-02-22T16:42:20+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://MitjaBezensek.github.io/</loc>
+        <lastmod>2014-02-22T16:42:20+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://MitjaBezensek.github.io/robots.txt</loc>
+        <lastmod>2014-02-22T15:59:21+01:00</lastmod>
+    </url>
+</urlset>
