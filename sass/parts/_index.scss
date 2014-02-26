@@ -2,8 +2,7 @@
 	padding: 20px 0;
 	height: 20px;
 	line-height: 20px;
-	position: relative;
-	@include border-shadow();
+	position: relative;	
 	a{
 		&:hover{
 			text-decoration: underline;

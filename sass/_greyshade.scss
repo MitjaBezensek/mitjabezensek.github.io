@@ -44,7 +44,7 @@ body {
 	}
 	
 	h2{
-		color: #fff;
+		color: #f6f7f9;
 		font-family: Lato;
 		font-weight: 300;
 		margin-bottom: 30px;
@@ -87,8 +87,8 @@ body {
 		position: absolute;
   		right: 0;
   		min-height: 100%;
-		width: 77%;
-		background: white;
+		width: 75%;
+		background: #f6f7f9;
 		#banner {
 			width: 100%;
 			small {
@@ -219,7 +219,7 @@ body {
 	}
 	
 	.left-col {
-		width: 23%;
+		width: 25%;
 		position: fixed;	
 		-webkit-transition: all .2s ease-in;
 		-moz-transition: all .2s ease-in;
@@ -248,8 +248,8 @@ body {
 			}
 			a {
 				font-family: Lato;
-				color: #EFEFEF;
-				font-size: 40pt;
+				color: #f6f7f9;
+				font-size: 30pt;
 				font-weight: 900;
 				line-height: 1em;
 				text-shadow: 0 1px #134027;
