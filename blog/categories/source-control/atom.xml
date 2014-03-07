@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Source Control | Mitja Bezenšek]]></title>
   <link href="http://bezensek.com/blog/categories/source-control/atom.xml" rel="self"/>
   <link href="http://bezensek.com/"/>
-  <updated>2014-03-07T09:10:26+01:00</updated>
+  <updated>2014-03-07T09:19:03+01:00</updated>
   <id>http://bezensek.com/</id>
   <author>
     <name><![CDATA[Mitja Bezenšek]]></name>
@@ -20,7 +20,9 @@
     <id>http://bezensek.com/blog/2014/03/06/using-git-with-visual-studio</id>
     <content type="html"><![CDATA[<p>Source code needs to be under <a href="http://www.joelonsoftware.com/articles/fog0000000043.html">version control</a>, period. When it comes to deciding which system to use, <a href="http://en.wikipedia.org/wiki/Git_%28software%29">Git</a> is one of the options. There are many <a href="http://stackoverflow.com/questions/871/why-is-git-better-than-subversion/875#875">heated debates</a> which one is the best, but let&rsquo;s not go into that. All of them do their job, so it mostly comes down to personal preference. I like Git.</p>
 
-<p><img src="/img/gitflow.png" title="&lsquo;Gitflow&rsquo; &lsquo;Gitflow&rsquo;" ></p>
+<p><img src="/img/gitflow.png" title="&lsquo;Gitflow&rsquo; &lsquo;Gitflow&rsquo;" >
+</br>
+<sup><a href="http://nvie.com/posts/a-successful-git-branching-model/">Image source</a></sup></p>
 
 <!-- more -->
 
@@ -47,7 +49,8 @@
 
 <p>The most used commands are directly exposed on the toolbar, but you can open up a window where all git commands are only a click away. You can also see your branch tree and commit messages.</p>
 
-<p><img src="/img/gitExtensions2.png" title="&lsquo;Git Extensions window&rsquo; &lsquo;Git Extensions window&rsquo;" ></p>
+<p><img src="/img/gitExtensions2.png" title="&lsquo;Git Extensions window&rsquo; &lsquo;Git Extensions window&rsquo;" ></br>
+<sup><a href="https://code.google.com/p/gitextensions/">Image source</a></sup></p>
 
 <p>If you like the integrated way you might also want to check <a href="http://visualstudiogallery.msdn.microsoft.com/63a7e40d-4d71-4fbb-a23b-d262124b8f4c">Git Source Control Provider</a> which allows you to see the status of your files in the solution explorer. It makes it easy to see which files were newly added, which were changed,&hellip;</p>
 
@@ -57,7 +60,8 @@
 
 <p>The last option is a standalone desktop application called <a href="http://www.sourcetreeapp.com/">Source Tree</a> from Atlassian. While the Mac version has been around for quite some while they have released the Windows version not so long ago.</p>
 
-<p><img class="<a" src="href="http://www.sourcetreeapp.com/images/sourcetree_hero_win_full_interface_windows.png">http://www.sourcetreeapp.com/images/sourcetree_hero_win_full_interface_windows.png</a>" title="&lsquo;Source tree UI &rsquo; &lsquo;Source Tree UI&rsquo;" ></p>
+<p><img class="<a" src="href="http://www.sourcetreeapp.com/images/sourcetree_hero_win_full_interface_windows.png">http://www.sourcetreeapp.com/images/sourcetree_hero_win_full_interface_windows.png</a>" title="&lsquo;Source tree UI &rsquo; &lsquo;Source Tree UI&rsquo;" ></br>
+<sup><a href="http://www.sourcetreeapp.com">Image source</a></sup></p>
 
 <p>I must admit that lately I&rsquo;ve been using Source tree the most. I really like the nice user interface, it is also very easy to keep track of multiple projects. And there is another little gem: it has support for Gitflow. So you can easily start new features, hotfixes, releases.</p>
 
