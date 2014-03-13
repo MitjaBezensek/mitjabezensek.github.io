@@ -298,6 +298,40 @@ body {
 			margin: 0 0;
 	}
 }
+@media screen and (max-width: 1000px){
+	.container {		
+		.left-col {		
+			#header {			
+				a {				
+					font-size: 25pt;					
+				}
+			}
+		}
+		.mid-col {			
+			.mid-col-container {			
+				#content {
+					article {
+						.title {
+							margin-left: 0px;						
+						}
+						.meta {
+							float: none;
+						}						
+					}					
+					h1.title{	
+						font-size: 20pt;
+						a {							
+							font-size: 20pt;											
+						}						
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
 @media screen and (max-width: 700px){
 	.container {
 		.credit-box {
@@ -334,10 +368,23 @@ body {
 				padding: 15px 15px;
 				#content {
 					article {
+						.title {
+							margin-left: 0px;						
+						}
 						.meta {
 							float: none;
 						}
-					}
+						h1.title{	
+							font-size: 40pt;
+							a {							
+								font-size: 40pt;											
+							}						
+						}
+						.entry-content {						
+							line-height: 1.2em;
+							font-size: 1.3em;
+						}
+					}					
 				}
 			}
 		}
