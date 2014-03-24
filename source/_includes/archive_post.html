@@ -13,5 +13,5 @@
 	<h2 class="year">{{ date | date: "%Y" }}</h2>
 	<ul>
 {% endunless %}<li>
-	<a href="{{ root_url }}{{ post.url }}">{{post.title}}</a>
+	<a href="{{ root_url }}{{ post.url }}">{{post.title | titlecase}}</a>
 </li>
