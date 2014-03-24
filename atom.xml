@@ -4,7 +4,7 @@
   <title><![CDATA[Mitja Bezenšek]]></title>
   <link href="http://bezensek.com/atom.xml" rel="self"/>
   <link href="http://bezensek.com/"/>
-  <updated>2014-03-13T09:22:08+01:00</updated>
+  <updated>2014-03-24T21:10:50+01:00</updated>
   <id>http://bezensek.com/</id>
   <author>
     <name><![CDATA[Mitja Bezenšek]]></name>
@@ -12,6 +12,56 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The best way to get to know Excel Object Model]]></title>
+    <link href="http://bezensek.com/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model/"/>
+    <updated>2014-03-24T21:10:04+01:00</updated>
+    <id>http://bezensek.com/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model</id>
+    <content type="html"><![CDATA[<p>I am starting a category called &ldquo;excel Excel&rdquo; which will contain useful tips and tricks for Excel. It will be mostly directed towards Excel developers and power users.</p>
+
+<h1>How do I [blank] in Excel?</h1>
+
+<p><a href="http://stackoverflow.com/">StackOverflow</a> is full of questions like:</p>
+
+<blockquote><p>&ldquo;How do I change the color of a Chart Series in Excel in VBA / C#?&rdquo;</p></blockquote>
+
+<p>While doing it manually is easy, the problem occurs when you wish to start talking to Excel from the code. This is not surprising, considering the number of different objects present in the <a href="http://msdn.microsoft.com/en-us/library/wss56bz7.aspx">Excel Object Model</a>. One can spend an insane amount of time trying to figure out the exact five steps to reach the desired effect. It is easy to get lost in all the objects, and their methods and properties. Which is why I love the <strong>macro recording option</strong>.</p>
+
+<!-- more -->
+
+
+<p>After learning about it you will be able to do all the tasks you already know how to do manually in code as well. Well, almost all. I&rsquo;ll write about this in a future post.</p>
+
+<p>The primary use of macro recording is to <strong>automate repetitive tasks</strong>. You just start the recording, perform the task and stop the recording. After that you can replay the recorded macro as many times as you wish. And not only that, you can also <strong>see all the steps</strong> that were performed in code!</p>
+
+<h1>How to record a macro</h1>
+
+<p>First of all I recommend that you show the Developer ribbon tab. You can do this under File | Options | Customize Ribbon, where you need to check the Developer ribbon tab:</p>
+
+<p><img src="http://bezensek.com/img/enableDeveloperRibbon.png" title="Enable developer ribbon" alt="Enable developer ribbon"></p>
+
+<p>After enabling the tab you gain access to macro recording and viewing options. You are now ready to record your first macro:</p>
+
+<ol>
+<li>Click on the Record macro button under Developer tab</li>
+<li>Perform the selected task, like changing a color of a Chart Series</li>
+<li>Stop the macro recording</li>
+<li>View the results</li>
+</ol>
+
+
+<p><img src="http://bezensek.com/img/recordMacro.gif" title="Record macro Excel" alt="Record macro Excel"></p>
+
+<p>As you can see at the end of the animation all of the steps that I performed during the recording are saved in the macro. It is now easy to find the object / property you need. I use this extensively, almost every day. It mainly serves as a way of finding the specific object / property to set, after which I use the Intellisense to explore the options a bit further.</p>
+
+<p> <strong>Tip:</strong></p>
+
+<blockquote><p>If you will be using the described technique as much as I do, I even recommend adding it to the Quick Access Toolbar. Click on the arrows in the Toolbar, Select More commands and then add Record macro and View macro commands to your Toolbar:</p></blockquote>
+
+<p> <img src="http://bezensek.com/img/quickAccess.png" title="Quick access toolbar customization" alt="Quick access toolbar customization"></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Using Git with Visual Studio]]></title>
