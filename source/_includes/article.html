@@ -16,10 +16,11 @@
 	<h1 class="title" itemprop="name">{% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %}</h1>
 	<div class="meta">
 		<div class="date">{% include post/date.html %}{{ time }}</div>
-		<div class="tags">{% include post/categories.html %}</div>
+		<div class="tags">{% include post/categories.html %}</div>		
 		{% if site.disqus_short_name and site.disqus_show_comment_count == true %}
 			<div class="comments"><a href="{{ root_url }}{{ post.url }}#disqus_thread">Comments</a></div>
 		{% endif %}
 	</div> 
-	<div class="entry-content" itemprop="articleBody">{{ content }}</div>
+	<div class="entry-content" itemprop="articleBody">{{ content }} <p class="followOnTwitter"><span>Keep up with the updates: </span> {% include post/followOnTwitter.html %}</p></div>
+	
 {% endif %}
