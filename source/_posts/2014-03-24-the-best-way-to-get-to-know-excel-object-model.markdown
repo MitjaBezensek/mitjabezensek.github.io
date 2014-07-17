@@ -3,6 +3,8 @@ layout: post
 title: "The best way to get to know Excel Object Model"
 date: 2014-03-24 21:10:04 +0100
 comments: true
+description: What is the best way to get to know Excel object model? Most likely the macro recorder.
+keywords: Excel, macro recorder, Office, object model, programming
 categories: [Excel, excel Excel]
 ---
 I am starting a category called "excel Excel" which will contain useful tips and tricks for Excel. It will be mostly directed towards Excel developers and power users.

@@ -5,6 +5,8 @@ date: 2014-03-06 21:15
 comments: false
 sharing: false
 footer: false
+description: A brief biography of Mitja Bezenšek, the author of this blog.
+keywords: Mitja Bezenšek, blog, about
 ---
 # Computers and Gaming
 Computers have always been a big part of my life. It all started with gaming on the C64 and the [Sega Mega Drive][1]. The fantastic world that was offered to anyone that took the joystick in his hand is something I still love to remember to this day. Countless hours went by just by looking at those big pixels. 

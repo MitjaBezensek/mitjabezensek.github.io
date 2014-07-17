@@ -5,6 +5,8 @@ date: 2013-07-28 23:11
 comments: true
 sharing: false
 footer: true
+description: The categories of Mitja Bezenšek's blog.
+keywords: Mitja Bezenšek, blog, categories
 ---
 <ul>
 {% for item in site.categories %}

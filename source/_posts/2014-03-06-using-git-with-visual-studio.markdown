@@ -3,6 +3,8 @@ layout: post
 title: "Using Git with Visual Studio"
 date: 2014-03-06 21:30:35 +0100
 comments: true
+description: A few different techniques on how to use Git in Visual studio.
+keywords: Visual studio, C#, git, source control, programming
 categories: [programming, source control, git]
 ---
 Source code needs to be under [version control][1], period. When it comes to deciding which system to use, [Git][2] is one of the options. There are many [heated debates][3] which one is the best, but let's not go into that. All of them do their job, so it mostly comes down to personal preference. I like Git.
