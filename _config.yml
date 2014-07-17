@@ -5,7 +5,7 @@ author: Mitja Bezenšek
 simple_search: http://google.com/search
 email_md5: 1675bcdc8b420a0c1a8e7520599fc7b3
 
-subscribe_rss: /atom.xml
+subscribe_rss: "http://feeds.feedburner.com/MitjaBezensek"
 
 root: /
 permalink: /blog/:year/:month/:day/:title/
