@@ -1,37 +1,54 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
-    <url>
-        <loc>http://bezensek.com/blog/2014/03/06/using-git-with-visual-studio/</loc>
-        <lastmod>2014-07-17T23:54:50+02:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://bezensek.com/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model/
-        </loc>
-        <lastmod>2014-07-17T23:55:52+02:00</lastmod>
-    </url>
-    <url>
-        <loc>http://bezensek.com/404.html</loc>
-        <lastmod>2014-02-26T23:52:18+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://bezensek.com/about/</loc>
-        <lastmod>2014-07-17T23:57:04+02:00</lastmod>
-    </url>
-    <url>
-        <loc>http://bezensek.com/blog/archives/</loc>
-        <lastmod>2014-07-18T00:01:49+02:00</lastmod>
-    </url>
-    <url>
-        <loc>http://bezensek.com/blog/categories/</loc>
-        <lastmod>2014-07-18T00:02:27+02:00</lastmod>
-    </url>
-    <url>
-        <loc>http://bezensek.com/</loc>
-        <lastmod>2014-07-17T23:55:52+02:00</lastmod>
-    </url>
-    <url>
-        <loc>http://bezensek.com/robots.txt</loc>
-        <lastmod>2014-02-22T15:59:21+01:00</lastmod>
-    </url>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  
+  <url>
+    <loc>http://bezensek.com/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model/</loc>
+    <lastmod>2014-03-24T21:10:04+01:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://bezensek.com/blog/2014/03/06/using-git-with-visual-studio/</loc>
+    <lastmod>2014-03-06T21:30:35+01:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  
+  <url>
+    <loc>http://bezensek.com/404.html</loc>
+    <lastmod>2014-07-18T12:00:50+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://bezensek.com/blog/archives/</loc>
+    <lastmod>2014-07-18T12:00:50+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://bezensek.com/</loc>
+    <lastmod>2014-07-18T12:00:50+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <url>
+    <loc>http://bezensek.com/blog/categories/</loc>
+    <lastmod>2014-07-18T12:00:50+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://bezensek.com/about/</loc>
+    <lastmod>2014-07-18T12:00:50+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  
 </urlset>
