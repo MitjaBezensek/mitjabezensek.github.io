@@ -6,7 +6,7 @@
 {% endif %}
 <head>
 	<meta charset="utf-8">
-	<title>{% if page.title %}{{ page.title }}{% endif %}</title>
+	<title>{% if page.title %}{{ page.title }}{% else %}{{ site.subtitle }}{% endif %}</title>
 	<meta name="author" content="{{ site.author }}">
 
 	{% capture description %}{% if page.description %}{{ page.description }}{% else %}{{ content | raw_content }}{% endif %}{% endcapture %}
@@ -26,8 +26,5 @@
 	<link href="{{ root_url }}/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="{{ root_url }}/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	{% include custom/head.html %}
-  {% include google_analytics.html %}
+	{% include custom/head.html %}  
 </head>
