@@ -1,24 +1,137 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Mitja Bezenšek]]></title>
-  <link href="http://bezensek.com/atom.xml" rel="self"/>
-  <link href="http://bezensek.com/"/>
-  <updated>2014-07-23T10:21:04+02:00</updated>
-  <id>http://bezensek.com/</id>
-  <author>
-    <name><![CDATA[Mitja Bezenšek]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Excel ActivePane Index property bug and a workaround - Mitja Bezenšek</title>
+	<meta name="author" content="Mitja Bezenšek">
+
+	
+	<meta name="description" content="A short description of a bug in the Excel object model. The ActivePane Index property does not work according to specification.">
+	<meta name="keywords" content="Excel, bug, ActivePane, index, vsto">
+	<meta name="language" content="english">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="http://feeds.feedburner.com/MitjaBezensek" rel="alternate" title="Mitja Bezenšek" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://bezensek.com/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+  
+	<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-48337858-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<img src="http://www.gravatar.com/avatar/1675bcdc8b420a0c1a8e7520599fc7b3?s=160" alt="Mitja Bezenšek" />
+	
+</div>
+<hgroup>
+  <h1><a href="/">Mitja Bezenšek</a></h1>
+  
+    <h2>Writting about software development, agile techniques, C#, Excel and occasional random thoughts.</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+   <li><a href="/about/">About</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">		
+		
+		
+			<a class="google" href="https://plus.google.com/110394804035614273200" rel="author" title="Google+">Google+</a>
+		
+		
+			<a class="twitter" href="http://twitter.com/mitjabezensek" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/mitjabezensek" title="GitHub">GitHub</a>
+		
+		
+		
+		  <a class="stackoverflow" href="http://stackoverflow.com/users/1810018/mitja-bezensek" title="StackOverflow"></a>
+		
+		
+			<a class="linkedin" href="http://www.linkedin.com/in/mitjabezensek" title="LinkedIn">LinkedIn</a>
+		
+		
+		
+		
+		
+		
+			<a class="rss" href="http://feeds.feedburner.com/MitjaBezensek" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">	
+	<h1 class="title" itemprop="name">Excel ActivePane Index Property Bug and a Workaround</h1>
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
 
   
-  <entry>
-    <title type="html"><![CDATA[Excel ActivePane Index property bug and a workaround]]></title>
-    <link href="http://bezensek.com/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround/"/>
-    <updated>2014-07-23T11:20:04+02:00</updated>
-    <id>http://bezensek.com/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround</id>
-    <content type="html"><![CDATA[<p>In <a href="http://zebra.bi/">Zebra BI</a> we are positioning our custom WPF forms on top of the Excel window in order to offer a richer and more contextual UI. Calculating the exact position for the forms is quite complex and painful, due to things like:</p>
+
+
+<time datetime="2014-07-23T11:20:04+02:00" data-updated="true" itemprop="datePublished">Jul 23<sup>rd</sup>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/excel/'>excel</a>, <a class='category' href='/blog/categories/excel-bug/'>excel bug</a>, <a class='category' href='/blog/categories/vsto/'>vsto</a>
+
+
+</div>		
+		
+	</div> 
+	<div class="entry-content" itemprop="articleBody"><p>In <a href="http://zebra.bi/">Zebra BI</a> we are positioning our custom WPF forms on top of the Excel window in order to offer a richer and more contextual UI. Calculating the exact position for the forms is quite complex and painful, due to things like:</p>
 
 <ul>
 <li>detecting the Excel window state and left edge position</li>
@@ -58,7 +171,7 @@
 
 <p>Let&rsquo;s see it in action.</p>
 
-<p><img src="http://bezensek.com/img/ActivePane.gif" title="ActivePane" alt="ActivePane"></p>
+<p><img src="/img/ActivePane.gif" title="ActivePane" alt="ActivePane"></p>
 
 <p>As you see when there are 2 panes it <strong>always returns 2</strong> and when we have 4 panes it <strong>always returns 4</strong>. I&rsquo;m guessing it is just returning the number of the panes :)</p>
 
@@ -136,115 +249,84 @@
 </ol>
 </div>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The best way to get to know Excel Object Model]]></title>
-    <link href="http://bezensek.com/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model/"/>
-    <updated>2014-03-24T21:10:04+01:00</updated>
-    <id>http://bezensek.com/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model</id>
-    <content type="html"><![CDATA[<p>I am starting a category called &ldquo;excel Excel&rdquo; which will contain useful tips and tricks for Excel. It will be mostly directed towards Excel developers and power users.</p>
+ <p class="followOnTwitter"><span>Keep up with the updates: </span> <a href="https://twitter.com/MitjaBezensek" class="twitter-follow-button" data-show-count="false">Follow @MitjaBezensek</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></p></div>
+	
 
-<h1>How do I [blank] in Excel?</h1>
+</article>
 
-<p><a href="http://stackoverflow.com/">StackOverflow</a> is full of questions like:</p>
-
-<blockquote><p>&ldquo;How do I change the color of a Chart Series in Excel in VBA / C#?&rdquo;</p></blockquote>
-
-<p>While doing it manually is easy, the problem occurs when you wish to start talking to Excel from the code. This is not surprising, considering the number of different objects present in the <a href="http://msdn.microsoft.com/en-us/library/wss56bz7.aspx">Excel Object Model</a>. One can spend an insane amount of time trying to figure out the exact five steps to reach the desired effect. It is easy to get lost in all the objects, and their methods and properties. Which is why I love the <strong>macro recording option</strong>.</p>
-
-<!-- more -->
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+	
+	
+	<a class="addthis_button_tweet"></a>
+		
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
 
 
-<p>After learning about it you will be able to do all the tasks you already know how to do manually in code as well. Well, almost all. I&rsquo;ll write about this in a future post.</p>
 
-<p>The primary use of macro recording is to <strong>automate repetitive tasks</strong>. You just start the recording, perform the task and stop the recording. After that you can replay the recorded macro as many times as you wish. And not only that, you can also <strong>see all the steps</strong> that were performed in code!</p>
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - Mitja Bezenšek 
+</p></footer>
+			
 
-<h1>How to record a macro</h1>
-
-<p>First of all I recommend that you show the Developer ribbon tab. You can do this under File | Options | Customize Ribbon, where you need to check the Developer ribbon tab:</p>
-
-<p><img src="http://bezensek.com/img/enableDeveloperRibbon.png" title="Enable developer ribbon" alt="Enable developer ribbon"></p>
-
-<p>After enabling the tab you gain access to macro recording and viewing options. You are now ready to record your first macro:</p>
-
-<ol>
-<li>Click on the Record macro button under Developer tab</li>
-<li>Perform the selected task, like changing a color of a Chart Series</li>
-<li>Stop the macro recording</li>
-<li>View the results</li>
-</ol>
-
-
-<p><img src="http://bezensek.com/img/recordMacro.gif" title="Record macro Excel" alt="Record macro Excel"></p>
-
-<p>As you can see at the end of the animation all of the steps that I performed during the recording are saved in the macro. It is now easy to find the object / property you need. I use this extensively, almost every day. It mainly serves as a way of finding the specific object / property to set, after which I use the Intellisense to explore the options a bit further.</p>
-
-<p> <strong>Tip:</strong></p>
-
-<blockquote><p>If you will be using the described technique as much as I do, I even recommend adding it to the Quick Access Toolbar. Click on the arrows in the Toolbar, Select More commands and then add Record macro and View macro commands to your Toolbar:</p></blockquote>
-
-<p> <img src="http://bezensek.com/img/quickAccess.png" title="Quick access toolbar customization" alt="Quick access toolbar customization"></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Using Git with Visual Studio]]></title>
-    <link href="http://bezensek.com/blog/2014/03/06/using-git-with-visual-studio/"/>
-    <updated>2014-03-06T21:30:35+01:00</updated>
-    <id>http://bezensek.com/blog/2014/03/06/using-git-with-visual-studio</id>
-    <content type="html"><![CDATA[<p>Source code needs to be under <a href="http://www.joelonsoftware.com/articles/fog0000000043.html">version control</a>, period. When it comes to deciding which system to use, <a href="http://en.wikipedia.org/wiki/Git_%28software%29">Git</a> is one of the options. There are many <a href="http://stackoverflow.com/questions/871/why-is-git-better-than-subversion/875#875">heated debates</a> which one is the best, but let&rsquo;s not go into that. All of them do their job, so it mostly comes down to personal preference. I like Git.</p>
-
-<p><img src="http://bezensek.com/img/gitflow.png" title="Gitflow" alt="Gitflow">
-</br>
-<sup><a href="http://nvie.com/posts/a-successful-git-branching-model/">Image source</a></sup></p>
-
-<!-- more -->
+<script type="text/javascript">
+      var disqus_shortname = 'mitjabezensek';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://bezensek.com/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround/';
+        var disqus_url = 'http://bezensek.com/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
-<h1>Git in Visual Studio</h1>
 
-<p>In January 2013 the Visual Studio team <a href="http://blogs.msdn.com/b/bharry/archive/2013/01/30/git-init-vs.aspx">announced</a> that Visual Studio will have Git support and you can download it from <a href="http://visualstudiogallery.msdn.microsoft.com/abafc7d6-dcaa-40f4-8a5e-d6724bdb980c">here</a> if you want. You will need Visual Studio 2012 Update 2 at least.</p>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
-<p>I have tried the extension but I don&rsquo;t recommend it just yet. It is still lacking many features and it seems very rushed. In a few iterations it might be worth to install it but for now I would say stay away. This is why I decided to discuss possible alternatives, namely: command line, Git Extensions and Source Tree.</p>
 
-<h1>Command line</h1>
 
-<p>So how can you start using Git? The easiest way in terms of required software is the command line. First of all you need to <a href="http://git-scm.com/downloads">download</a> and install Git. After that you just need to <a href="http://git-scm.com/doc">read the documenation</a> and you can immediately start using it from the command line.</p>
 
-<p>And that is a good way to start using it if you are not familiar with it. Since you have to type in all the commands you will think twice if this is the right thing to do. And you won&rsquo;t get overwhelmed by all the possible commands. You will learn one or two commands and really get to know those. For starters you just need <code>init</code> and <code>commit</code>. Soon after that you will want to save the source code on another computer, not only on your own. That&rsquo;s when <code>remotes</code>, <code>push</code> and <code>pull</code> come into play. And when you start to work in a team, sharing the code, you will need to learn about <code>branches</code> and maybe even about branching models like <a href="http://nvie.com/posts/a-successful-git-branching-model/">GitFlow</a> for example.</p>
 
-<p>Does this work with Visual Studio. Absolutely. That&rsquo;s why I don&rsquo;t understand why so much fuss about Git being incorporated into Visual Studio. Many developers only use git from the command line. Some would even argue that that&rsquo;s the only way to use it. I understand that commiting directly from the IDE is probably faster and that visual representation of the branch tree is nice. However, writting a few additional lines every day sholdn&rsquo;t keep you from using Git!</p>
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
 
-<h1>Git Extensions</h1>
 
-<p>The next option is a Visual Studio extension called <a href="https://code.google.com/p/gitextensions/">Git Extensions</a>. It&rsquo;s the only one of the three alternatives that I mention that is completely integrated into Visual Studio. After installing you get an additional toolbar in your workspace:</p>
 
-<p><img src="http://bezensek.com/img/gitExtensions.png" title="Git Extensions toolbar" alt="Git Extensions toolbar"></p>
 
-<p>The most used commands are directly exposed on the toolbar, but you can open up a window where all git commands are only a click away. You can also see your branch tree and commit messages.</p>
 
-<p><img src="http://bezensek.com/img/gitExtensions2.png" title="Git Extensions window" alt="Git Extensions window"></br>
-<sup><a href="https://code.google.com/p/gitextensions/">Image source</a></sup></p>
-
-<p>If you like the integrated way you might also want to check <a href="http://visualstudiogallery.msdn.microsoft.com/63a7e40d-4d71-4fbb-a23b-d262124b8f4c">Git Source Control Provider</a> which allows you to see the status of your files in the solution explorer. It makes it easy to see which files were newly added, which were changed,&hellip;</p>
-
-<p>I&rsquo;ve had some minor problems with Git Extensions. Sometimes the window crashed if I had it opened for too long. I also ran into some authentication problems when pushing to Bitbucket. This problem was solved by manually running their git-credentials-windstore executable. Apart from that I quite liked it. It is really rich with options and possibilities and also works remarkably well.</p>
-
-<h1>Source Tree</h1>
-
-<p>The last option is a standalone desktop application called <a href="http://www.sourcetreeapp.com/">Source Tree</a> from Atlassian. While the Mac version has been around for quite some while they have released the Windows version not so long ago.</p>
-
-<p><img src="http://www.sourcetreeapp.com/images/sourcetree_hero_win_full_interface_windows.png" title="Source tree UI " alt="Source Tree UI"></br>
-<sup><a href="http://www.sourcetreeapp.com">Image source</a></sup></p>
-
-<p>I must admit that lately I&rsquo;ve been using Source tree the most. I really like the nice user interface, it is also very easy to keep track of multiple projects. And there is another little gem: it has support for Gitflow. So you can easily start new features, hotfixes, releases.</p>
-
-<p><img src="http://bezensek.com/img/sourceTree2.png" title="Gitflow options inside of Source Tree" alt="Gitflow options inside of Source Tree"></p>
-
-<p>So until the Visual Studio team improves their extension I think any of the three proposed options is better. Once again it will come down to personal preference. Do you want visual control or do you like command line? Do you want to have integration with Visual Studio or is a standalone application also ok?</p>
-]]></content>
-  </entry>
-  
-</feed>
+		</div>
+	</div>
+</body>
+</html>

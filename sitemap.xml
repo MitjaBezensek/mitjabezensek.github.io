@@ -3,6 +3,12 @@
   
   
   <url>
+    <loc>http://bezensek.com/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround/</loc>
+    <lastmod>2014-07-23T11:20:04+02:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://bezensek.com/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model/</loc>
     <lastmod>2014-03-24T21:10:04+01:00</lastmod>
     <priority>0.8</priority>
@@ -17,35 +23,35 @@
   
   <url>
     <loc>http://bezensek.com/404.html</loc>
-    <lastmod>2014-07-18T12:00:50+02:00</lastmod>
+    <lastmod>2014-07-23T10:21:04+02:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://bezensek.com/blog/archives/</loc>
-    <lastmod>2014-07-18T12:00:50+02:00</lastmod>
+    <lastmod>2014-07-23T10:21:04+02:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://bezensek.com/</loc>
-    <lastmod>2014-07-18T12:00:50+02:00</lastmod>
+    <lastmod>2014-07-23T10:21:04+02:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
     <loc>http://bezensek.com/blog/categories/</loc>
-    <lastmod>2014-07-18T12:00:50+02:00</lastmod>
+    <lastmod>2014-07-23T10:21:04+02:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://bezensek.com/about/</loc>
-    <lastmod>2014-07-18T12:00:50+02:00</lastmod>
+    <lastmod>2014-07-23T10:21:04+02:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
