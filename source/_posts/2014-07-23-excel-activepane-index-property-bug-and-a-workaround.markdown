@@ -16,7 +16,6 @@ In [Zebra BI][1] we are positioning our custom WPF forms on top of the Excel win
  - serious lack of events on many of Excel's objects
  - ...
 
-
 The last nail in the coffin were the Panes which also need to be considered when a user uses the Freeze Panes option, which basically splits the worksheet into 2 or 4 Panes. At first it seemed like a simple adjustment until I started digging into the object model and ultimately found out that:
 <!-- more -->
 
