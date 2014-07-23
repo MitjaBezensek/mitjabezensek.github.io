@@ -4,7 +4,7 @@
   <title><![CDATA[Mitja Bezenšek]]></title>
   <link href="http://bezensek.com/atom.xml" rel="self"/>
   <link href="http://bezensek.com/"/>
-  <updated>2014-07-23T10:22:52+02:00</updated>
+  <updated>2014-07-23T12:06:51+02:00</updated>
   <id>http://bezensek.com/</id>
   <author>
     <name><![CDATA[Mitja Bezenšek]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Excel's ActivePane Index property bug and a workaround]]></title>
+    <title type="html"><![CDATA[Excel ActivePane Index property bug and a workaround]]></title>
     <link href="http://bezensek.com/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround/"/>
     <updated>2014-07-23T11:20:04+02:00</updated>
     <id>http://bezensek.com/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround</id>
