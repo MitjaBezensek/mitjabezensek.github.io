@@ -33,12 +33,8 @@ titlecase: true       # Converts page and post titles to titlecase
 default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
 
 github_user: mitjabezensek
-github_repo_count: 0
-github_show_profile_link: true
-github_skip_forks: true
 
 twitter_user: mitjabezensek
-twitter_tweet_button: true
 
 disqus_short_name: mitjabezensek
 disqus_show_comment_count: false
@@ -51,4 +47,3 @@ stackoverflow_user_id: 1810018
 linkedin_user: mitjabezensek
 googleplus_user: 110394804035614273200
 googleplus_hidden: false
-facebook_like: true

@@ -11,7 +11,7 @@ keywords: Mitja Bezenšek, blog, about
 # Computers and Gaming
 Computers have always been a big part of my life. It all started with gaming on the C64 and the [Sega Mega Drive][1]. The fantastic world that was offered to anyone that took the joystick in his hand is something I still love to remember to this day. Countless hours went by just by looking at those big pixels. 
 
-{% img /about/tyrian.gif 'Tyrian' 'Tyrian' %}</br>
+{% img /about/tyrian.png 'Tyrian' 'Tyrian' %}</br>
 <sup>[Image source][2]</sup>
 
 But the journey didn't end at gaming. The curiosity led me deeper, I wanted more. I still remember getting a [Pentium 286][3] and asking for help with installing my first OS. At that time there weren't many people who knew how to do it. Before internet and Google the knowledge was spreading between friends. So it was slow. There weren't many books available but we did have an awesome [computer magazine][4]. Which introduced me to programming during the high school years.
