@@ -45,7 +45,7 @@ As you see when there are 2 panes it **always returns 2** and when we have 4 pan
 # The workaround
 
 I needed to determine in which of the Panes is the current selection so I started looking at the Panes members. The only promising one was the `VisibleRange`. I didn't want to use the Excel function `INTERSECT` since is quite costly performance wise. I figured out that just comparing the `Left` property of the `VisibleRange` with the `Left` property of the current selection should be enough (the same for the `Top` property). So I came up with this:
-``` 
+``` csharp
 private int GetPaneIndex(){
     Range selection = Globals.ThisAddIn.Application.Selection;
     var window = Globals.ThisAddIn.Application.ActiveWindow;

@@ -16,9 +16,4 @@ group :development do
   gem 'stringex', '~> 1.4.0'
 end
 
-require 'rbconfig'
-if RbConfig::CONFIG['target_os'] =~ /mswin|mingw|cygwin/i
-  gem 'wdm', '>= 0.1.0'
-end
-
 gem 'sinatra', '~> 1.4.2'
