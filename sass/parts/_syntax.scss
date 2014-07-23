@@ -43,9 +43,9 @@ $pre-border: $color-gray03;
 
 article{
 	code, pre{
-		background: $pre-bg;
+		background: white;
 		border: 1px solid $pre-border;
-		font-family: $font-mono;
+		font-family: Consolas,Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
 	}
 	code{
 		font-size: 0.9em;
@@ -70,7 +70,6 @@ article{
 figure.code{
 	border: 1px solid $pre-border;
 	margin-top: 10px;
-	padding: 5px 15px;
 	figcaption{
 		font-size: 0.9em;
 		position: relative;
@@ -100,9 +99,10 @@ figure.code{
 	}
 	.line-numbers{
 		border-right: 1px solid $pre-border;
-		font-family: $font-mono;
+		font-family: Consolas,Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
 		padding-right: 15px;
 		text-align: right;
+		display: none;
 	}
 	table{
 		background: white;
@@ -133,7 +133,7 @@ figure.code{
 			background: none;
 			border: none;
 			pre{
-				font: 0.9em $font-mono;
+				font: 0.9em Consolas,Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
 				line-height: 1.5;
 			}
 			table {
@@ -200,11 +200,11 @@ figure.code, .gist-highlight{
 	}
 	/* Error */
 	.k {
-		color: $solar-orange !important;
+		color: #0000ff !important;
 	}
 	/* Keyword */
 	.o {
-		color:$base1 !important;
+		color:0000c0 !important;
 		font-weight: bold !important;
 	}
 	/* Operator */
@@ -279,11 +279,11 @@ figure.code, .gist-highlight{
 	}
 	/* Keyword.Reserved */
 	.kt {
-		color: $solar-cyan !important;
+		color: #0000ff !important;
 	}
 	/* Keyword.Type */
 	.n {
-		color:$solar-blue !important;
+		color: black !important;
 	}
 	.na {
 		color: $solar-blue !important;
@@ -310,8 +310,7 @@ figure.code, .gist-highlight{
 	}
 	/* Name.Exception */
 	.nf {
-		color:$solar-blue !important;
-		font-weight: bold !important;
+		color: #0000ff !important;
 	}
 	/* Name.Function */
 	.nn {
