@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Blog | Mitja Bezenšek]]></title>
+  <link href="http://bezensek.com/blog/categories/blog/atom.xml" rel="self"/>
+  <link href="http://bezensek.com/"/>
+  <updated>2014-07-31T18:02:14+02:00</updated>
+  <id>http://bezensek.com/</id>
+  <author>
+    <name><![CDATA[Mitja Bezenšek]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to Use Add This With Octopress to Add Social Buttons]]></title>
+    <link href="http://bezensek.com/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons/"/>
+    <updated>2014-07-31T14:11:44+02:00</updated>
+    <id>http://bezensek.com/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons</id>
+    <content type="html"><![CDATA[<p><a href="http://octopress.org/">Octopress</a> is a great blogging framework for (mostly) technical people. People that like to have everything about their blog in their control. That includes me.</p>
+
+<p>It&rsquo;s great to:</p>
+
+<ul>
+<li>have your whole blog in version control,</li>
+<li>forget about hosting since it&rsquo;s only a bunch of static pages and you can host them on <a href="https://pages.github.com/">GitHub pages</a> <sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> ,</li>
+<li>style your blog with the help of many <a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">free themes</a>,</li>
+<li>easily customize and extend your blog by plugging in different pieces of functionality.</li>
+</ul>
+
+
+<p>Today I&rsquo;m going to show you how easy it is to add social share buttons below each of your posts. Let&rsquo;s get started.</p>
+
+<!-- more -->
+
+
+<p>Octopress by default supports the <a href="http://www.addthis.com/">Add this</a> social buttons. But it was a bit too limiting for my taste, so I removed it all and started from scratch.</p>
+
+<p>The first thing to do is to create the account at Add This. This will allow you to customize your social buttons just the way you want them. I went for the &ldquo;Original sharing buttons&rdquo; and have set them like this:</p>
+
+<p><img src="/img/OriginalSharingButtons.png" title="&lsquo;Add this social buttons&rsquo; &lsquo;Add this social buttons&rsquo;" ></p>
+
+<p>There&rsquo;s many options to choose from, but not all are available for free.</p>
+
+<p>Below the services selection window you will see the code that you should copy and paste to your blog. But where should you put it? I decided to put the social buttons below each blog post similar to what Octopress offers by default. So I needed to find the post template which is under <code>source/_layouts/post.html</code>. In it we can see that the social share buttons are already rendering beneath the article template:</p>
+
+<p>
+<code>ruby
+    &lt;article class="post" itemscope itemtype="http://schema.org/BlogPosting"&gt;
+        {% include article.html %}
+    &lt;/article&gt;
+    {% unless page.sharing == false %}
+        {% include post/sharing.html %}
+    {% endunless %}
+</code>
+</p>
+
+<p>If you wanted you could have easily displayed the buttons even above the article just by copying the  <code>{% include post/sharing.html %}</code> on the top of the template. Or at any other place of your blog.</p>
+
+<p>Because the sharing template is already rendering we just need to paste our code from Add this to <code>sharing.html</code> which is under <code>source/_includes/posts/sharing.html</code>:
+``` javascript</p>
+
+<script type="text/javascript" 
+    src="//s7.addthis.com/js/300/addthis_widget.js#pubid=yourPubId">
+</script>
+
+
+<div class="addthis_native_toolbox"></div>
+
+
+<p>```
+We could have just pasted the code in the unless block, but I think that separating the parts is a better idea. It makes our site more modular and its easy to reuse the modules / partials / templates in different parts of our blog.</p>
+
+<p>If we now regenerate the files we should see the social buttons beneath every blog post. Another nice thing about this is that if we wish to change how our buttons looks or if decide we wish to add some other buttons we only need to update our template at the Add this webpage and our buttons will update all across our site!</p>
+
+<p>If you don&rsquo;t want to use Add This you can use this same logic for any other buttons you wish to add.</p>
+<div class="footnotes">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>GitHub pages run on <a href="http://jekyllrb.com/">Jekyll</a> that is at the core of Octopress.<a href="#fnref:1" rev="footnote">&#8617;</a></p></li>
+</ol>
+</div>
+
+]]></content>
+  </entry>
+  
+</feed>
