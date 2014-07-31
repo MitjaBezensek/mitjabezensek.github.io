@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "How to use Add This with Octopress to add social buttons"
-date: 2014-07-23 14:11:44 +0200
+date: 2014-07-23 18:04:44 +0200
 comments: true
 description: Octopress is a great blogging framework with easy customizations. In this post I'll take you through adding some social buttons at the bottom of your posts.
 keywords: octopress, blog, social
@@ -26,7 +26,7 @@ The first thing to do is to create the account at Add This. This will allow you 
 
 {% img /img/OriginalSharingButtons.png 'Add this social buttons' 'Add this social buttons' %}
 
-Below the services selection window you will see the code that you should copy and paste to your blog. But where should you put it? I decided to put the social buttons below each blog post, similar to what Octopress offers by default. So I needed to find post template which is under `source/_layouts/post.html`. In it we can see that the social share buttons are already rendering beneath the article template:
+Below the services selection window you will see the code that you should copy and paste to your blog. But where should you put it? I decided to put the social buttons below each blog post, similar to what Octopress offers by default. So I needed to find the post template which is under `source/_layouts/post.html`. In it we can see that the social share buttons are already rendering beneath the article template:
 
 {% raw %}
 ``` ruby
