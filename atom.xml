@@ -4,7 +4,7 @@
   <title><![CDATA[Mitja Bezenšek]]></title>
   <link href="http://bezensek.com/atom.xml" rel="self"/>
   <link href="http://bezensek.com/"/>
-  <updated>2014-07-31T18:08:06+02:00</updated>
+  <updated>2014-07-31T18:09:31+02:00</updated>
   <id>http://bezensek.com/</id>
   <author>
     <name><![CDATA[Mitja Bezenšek]]></name>
@@ -18,7 +18,7 @@
     <link href="http://bezensek.com/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons/"/>
     <updated>2014-07-31T18:04:44+02:00</updated>
     <id>http://bezensek.com/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons</id>
-    <content type="html"><![CDATA[<p><a href="http://octopress.org/">Octopress</a> is a great blogging framework for (mostly) technical people. People that like to have everything about their blog in their control. People likep me.</p>
+    <content type="html"><![CDATA[<p><a href="http://octopress.org/">Octopress</a> is a great blogging framework for (mostly) technical people. People that like to have everything about their blog in their control. People like me.</p>
 
 <p>It&rsquo;s great to:</p>
 
