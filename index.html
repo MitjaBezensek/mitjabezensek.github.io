@@ -29,7 +29,7 @@
 <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>  
 </head>
 
-
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 <body>
 	<div class="container">
 		<div class="left-col">
@@ -85,6 +85,53 @@
 
    
 	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">	
+	<h1 class="title" itemprop="name"><a href="/blog/2014/08/05/excel-rgb-color-bug/" itemprop="url">Excel VSTO RGB Color Bug</a></h1>
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-05T10:45:04+02:00" data-updated="true" itemprop="datePublished">Aug 5<sup>th</sup>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/color/'>color</a>, <a class='category' href='/blog/categories/excel/'>excel</a>, <a class='category' href='/blog/categories/excel-bug/'>excel bug</a>
+
+
+</div>
+		
+	</div>
+	<div class="entry-content" itemprop="articleBody">
+		<p>One of the strangest bugs I found in VSTO for Excel is the one that deals with assigning colors to the RGB property of the ChartFormat object. The ChartFormat object is used in multiple places of Excel. Let&rsquo;s look at an example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">Series</span> <span class="n">series</span> <span class="p">=</span> <span class="n">Globals</span><span class="p">.</span><span class="n">ThisAddIn</span><span class="p">.</span><span class="n">Application</span><span class="p">.</span><span class="n">Selection</span><span class="p">;</span>
+</span><span class='line'><span class="n">series</span><span class="p">.</span><span class="n">Format</span><span class="p">.</span><span class="n">Fill</span><span class="p">.</span><span class="n">ForeColor</span><span class="p">.</span><span class="n">RGB</span> <span class="p">=</span> <span class="n">Color</span><span class="p">.</span><span class="n">Red</span><span class="p">.</span><span class="n">ToArgb</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For brevity&rsquo;s sake let&rsquo;s suppose that we have a series of a chart selected and we run the code above. One would expect that the color of the selected series would be set to red, but what happens is this:</p>
+
+<p><img src="/img/chart.png" title="Chart" alt="Chart"></p>
+
+
+		
+		<a href="/blog/2014/08/05/excel-rgb-color-bug/" class="more-link">Continue reading</a>
+	</div>
+
+</article>
+
+   
+	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">	
 	<h1 class="title" itemprop="name"><a href="/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons/" itemprop="url">How to Use Add This With Octopress to Add Social Buttons</a></h1>
 	<div class="meta">
 		<div class="date">
@@ -126,7 +173,7 @@
 
 
 		
-		<a href="/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons/" class="more-link">[ Continue reading&#8230; ]</a>
+		<a href="/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons/" class="more-link">Continue reading</a>
 	</div>
 
 </article>
@@ -174,7 +221,7 @@
 
 
 		
-		<a href="/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround/" class="more-link">[ Continue reading&#8230; ]</a>
+		<a href="/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround/" class="more-link">Continue reading</a>
 	</div>
 
 </article>
@@ -218,7 +265,7 @@
 
 
 		
-		<a href="/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model/" class="more-link">[ Continue reading&#8230; ]</a>
+		<a href="/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model/" class="more-link">Continue reading</a>
 	</div>
 
 </article>
@@ -258,7 +305,7 @@
 
 
 		
-		<a href="/blog/2014/03/06/using-git-with-visual-studio/" class="more-link">[ Continue reading&#8230; ]</a>
+		<a href="/blog/2014/03/06/using-git-with-visual-studio/" class="more-link">Continue reading</a>
 	</div>
 
 </article>
