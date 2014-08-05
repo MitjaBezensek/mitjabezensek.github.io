@@ -27,6 +27,7 @@ And if we try to color the series blue then the result is red!
 Since I intentionally used the red color that resulted in a blue series on the chart, some of you might have figured out the bug. But imagine yourself trying to apply some color from the middle of the RGB color range and consitently getting the wrong results.
 
 Well the workaround is easy: just use a wrapper function that swaps the red and blue components of the color:
+
 ``` csharp
 private void ApplyColorToSeries(){
     Series series = Globals.ThisAddIn.Application.Selection;

@@ -29,6 +29,7 @@ and you can:
 
 Here is a simple code that is used to display the index of the current ActivePane:
 
+
 ``` csharp
 var window = Globals.ThisAddIn.Application.ActiveWindow;
 var activePane = window.ActivePane;

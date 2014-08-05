@@ -26,7 +26,7 @@ So how can you start using Git? The easiest way in terms of required software is
 
 And that is a good way to start using it if you are not familiar with it. Since you have to type in all the commands you will think twice if this is the right thing to do. And you won't get overwhelmed by all the possible commands. You will learn one or two commands and really get to know those. For starters you just need `init` and `commit`. Soon after that you will want to save the source code on another computer, not only on your own. That's when `remotes`, `push` and `pull` come into play. And when you start to work in a team, sharing the code, you will need to learn about `branches` and maybe even about branching models like [GitFlow][9] for example. 
 
-Does this work with Visual Studio. Absolutely. That's why I don't understand why so much fuss about Git being incorporated into Visual Studio. Many developers only use git from the command line. Some would even argue that that's the only way to use it. I understand that commiting directly from the IDE is probably faster and that visual representation of the branch tree is nice. However, writting a few additional lines every day sholdn't keep you from using Git!
+Does this work with Visual Studio. Absolutely. That's why I don't understand why so much fuss about Git being incorporated into Visual Studio. Many developers only use git from the command line. Some would even argue that that's the only way to use it. I understand that commiting directly from the IDE is probably faster and that visual representation of the branch tree is nice. However, writing a few additional lines every day sholdn't keep you from using Git!
 
 
 # Git Extensions

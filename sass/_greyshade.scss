@@ -119,7 +119,7 @@ body {
 					}
 					.entry-content {
 						margin-left: 0px;
-						line-height: 1.4em;
+						line-height: 1.5em;
 						font-size: 1.5em;
 						p {
 							margin-top: 30px;
@@ -157,6 +157,7 @@ body {
 							margin-top: 30px;
 							margin-bottom: -20px;
 							font-weight: bold;
+							line-height: 2em;
 						}
 						h2::before {
 							border-bottom: none;
@@ -298,11 +299,11 @@ body {
 	}
 }
 
-.postIndexMargin{
+.postIndexPadding{
 	padding-bottom: 95px;
 }
 
-.postDetailMargin{
+.postDetailPadding{
 	padding-bottom: 45px;
 }
 
