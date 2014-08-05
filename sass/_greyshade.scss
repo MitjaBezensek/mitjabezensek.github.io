@@ -201,6 +201,11 @@ body {
 							position: relative;
 							margin-right: 10px;
 						}
+						.comments::before {
+							color: #999;
+							position: relative;
+							margin-right: 10px;
+						}
 					}
 					h1.title{
 							color: #333;

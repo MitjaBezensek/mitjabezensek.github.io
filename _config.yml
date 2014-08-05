@@ -30,14 +30,14 @@ excerpt_link: "Continue reading"  # "Continue reading" link text at the bottom o
 
 titlecase: true       # Converts page and post titles to titlecase
 
-default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
+#default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
 
 github_user: mitjabezensek
 
 twitter_user: mitjabezensek
 
 disqus_short_name: mitjabezensek
-disqus_show_comment_count: false
+disqus_show_comment_count: true
 
 google_analytics_tracking_id: UA-48337858-1
 
