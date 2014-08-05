@@ -8,7 +8,6 @@ keywords: software development, C#, Excel, startup
 <div itemscope itemtype="http://schema.org/Blog">
 {% for post in paginator.posts %}
 	{% assign content = post.content %}
-	{{ first: forloop.first  last: forloop.last }}
 	{% if forloop.last %}  
 		<article class="post topBorder postIndexPadding" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">{% include article.html %}</article>
 	{% elsif forloop.first %}
