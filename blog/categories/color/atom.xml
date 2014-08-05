@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Color | Mitja Bezenšek]]></title>
   <link href="http://bezensek.com/blog/categories/color/atom.xml" rel="self"/>
   <link href="http://bezensek.com/"/>
-  <updated>2014-08-05T13:00:32+02:00</updated>
+  <updated>2014-08-05T14:54:27+02:00</updated>
   <id>http://bezensek.com/</id>
   <author>
     <name><![CDATA[Mitja Bezenšek]]></name>
@@ -36,17 +36,17 @@ For brevity&rsquo;s sake let&rsquo;s suppose that we have a series of a chart se
 
 <p>Since I intentionally used the red color that resulted in a blue series on the chart, some of you might have figured out the bug. But imagine yourself trying to apply some color from the middle of the RGB color range and consitently getting the wrong results.</p>
 
-<p>Well the workaround is easy: just use a wrapper function that swaps the red and blue components of the color:
-``` csharp
-private void ApplyColorToSeries(){
+<p>Well the workaround is easy: just use a wrapper function that swaps the red and blue components of the color:</p>
+
+<pre><code class="csharp">private void ApplyColorToSeries(){
     Series series = Globals.ThisAddIn.Application.Selection;
     series.Format.Fill.ForeColor.RGB = InteropColor(255, 0, 0);
-}</p>
+}
 
-<p>public int InteropColor(int red, int green, int blue){
+public int InteropColor(int red, int green, int blue){
     return Color.FromArgb(blue, green, red).ToArgb();
 }
-```</p>
+</code></pre>
 
 <p>After searching the web I found that this bug has already been mentioned on the <a href="http://stackoverflow.com/questions/7423456/changing-an-excel-cells-backcolor-using-hex-results-in-excel-displaying-complet">StackOverflow</a>. It is interesting that this has not yet been fixed in the newer versions of Excel. I have first stumbled upon this issue with the Excel 2007 interop library but it is still present in the current one. The only reason that comes to my mind is backwards compatibility with the numerous Excel solutions out there. So it seems we should just get used to it.</p>
 ]]></content>
