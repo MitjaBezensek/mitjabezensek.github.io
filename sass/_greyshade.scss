@@ -106,8 +106,9 @@ body {
 			#content {
 				width: 100%;
 				article {
-					border-top: none;
-					padding: 30px 0px;
+					padding-top: 30px;
+					padding-left: 0;
+					padding-right: 0;				
 					.title {
 						margin-left: 0px;
 						font-size: 3em;
@@ -140,6 +141,7 @@ body {
 						    padding: 10px;
 						    color: lightgray;
 						    text-decoration: none;
+						    float: right;
 						}
 						.gist .gist-file .gist-data {
 							.line_numbers {
@@ -294,6 +296,30 @@ body {
 			}
 		}
 	}
+}
+
+.postIndexMargin{
+	padding-bottom: 95px;
+}
+
+.postDetailMargin{
+	padding-bottom: 45px;
+}
+
+
+.topBorder{
+	border-top: 1px solid #fff;
+	border-bottom: none;
+}
+
+.bottomBorder{
+	border-top: none;
+	border-bottom: 1px solid #bbb;
+}
+
+.border{
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #bbb;
 }
 
 a {

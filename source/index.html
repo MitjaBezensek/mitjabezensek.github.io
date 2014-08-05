@@ -7,8 +7,15 @@ keywords: software development, C#, Excel, startup
 {% assign index = true %}
 <div itemscope itemtype="http://schema.org/Blog">
 {% for post in paginator.posts %}
-{% assign content = post.content %}   
-	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">{% include article.html %}</article>
+	{% assign content = post.content %}
+	{{ first: forloop.first  last: forloop.last }}
+	{% if forloop.last %}  
+		<article class="post topBorder postIndexMargin" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">{% include article.html %}</article>
+	{% elsif forloop.first %}
+		<article class="post bottomBorder postIndexMargin" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">{% include article.html %}</article>
+	{% else %}
+		<article class="post border postIndexMargin" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">{% include article.html %}</article>
+	{% endif %}
 {% endfor %}
 </div>
 <nav id="pagenavi">

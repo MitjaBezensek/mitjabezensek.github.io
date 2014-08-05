@@ -4,6 +4,8 @@ title: "Excel VSTO RGB Color bug"
 comments: true
 published: true
 date: 2014-08-05 09:45:04 +0100
+description: One of the strangest bugs I found in VSTO for Excel is the one that deals with assigning colors to the RGB property of the ChartFormat object.
+keywords: Excel, VSTO, Office
 categories: [excel, excel bug, color]
 ---
 
