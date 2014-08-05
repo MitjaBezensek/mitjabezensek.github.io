@@ -129,8 +129,17 @@ body {
 						.more-link:before {
 							line-height: 1.2em;
 						}
+						.more-link:hover{
+							background: #247648;
+							color: white;
+						}
 						.more-link {
-							padding-left: 0px;
+						    background: #267F4D;
+						    width: 180px;
+						    text-align: center;
+						    padding: 10px;
+						    color: lightgray;
+						    text-decoration: none;
 						}
 						.gist .gist-file .gist-data {
 							.line_numbers {
@@ -250,7 +259,6 @@ body {
 				}
 			}
 			a {
-				font-family: Lato;
 				color: #f6f7f9;
 				font-size: 30pt;
 				font-weight: 900;

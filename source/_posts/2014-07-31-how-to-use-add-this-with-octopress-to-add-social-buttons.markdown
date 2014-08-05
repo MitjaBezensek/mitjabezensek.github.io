@@ -8,7 +8,7 @@ keywords: octopress, blog, social
 categories: [octopress, blog, social]
 ---
 
-[Octopress][1] is a great blogging framework for (mostly) technical people. People that like to have everything about their blog in their control. People like me. 
+[Octopress][1] is a great blogging framework for (mostly) technical people. People that like to have everything about their blog in their control. People like me.
 
 It's great to:
 
