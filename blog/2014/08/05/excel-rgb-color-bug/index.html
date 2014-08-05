@@ -79,7 +79,7 @@
 				<div id="content" class="inner"><article class="post postDetailPadding" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">Excel VSTO RGB Color Bug</h1>
 	<div class="meta">
-		<div class="date">
+	<span class="date">
 
 
 
@@ -91,16 +91,22 @@
   
 
 
-<time datetime="2014-08-05T10:45:04+02:00" data-updated="true" itemprop="datePublished">Aug 5<sup>th</sup>, 2014</time></div>
-		<div class="tags">
+<time datetime="2014-08-05T10:45:04+02:00" data-updated="true" itemprop="datePublished">Aug 5<sup>th</sup>, 2014</time></span>
+	<span class="tags">
 
 
 	<a class='category' href='/blog/categories/color/'>color</a>, <a class='category' href='/blog/categories/excel/'>excel</a>, <a class='category' href='/blog/categories/excel-bug/'>excel bug</a>
 
 
-</div>		
+</span>
+	
 		
-	</div> 
+	  		
+		
+	<span class="comments"><a href="#disqus_thread">comments</a></span>
+
+	
+</div>
 	<div class="entry-content" itemprop="articleBody"><p>One of the strangest bugs I found in VSTO for Excel is the one that deals with assigning colors to the RGB property of the ChartFormat object. The ChartFormat object is used in multiple places of Excel. Let&rsquo;s look at an example:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -204,6 +210,7 @@
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
     ga('create', 'UA-48337858-1', 'auto');
+    ga('require', 'displayfeatures');
     ga('send', 'pageview');
 
   </script>

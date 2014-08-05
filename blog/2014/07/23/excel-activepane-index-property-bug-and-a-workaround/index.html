@@ -79,7 +79,7 @@
 				<div id="content" class="inner"><article class="post postDetailPadding" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">Excel's ActivePane Index Property Bug and a Workaround</h1>
 	<div class="meta">
-		<div class="date">
+	<span class="date">
 
 
 
@@ -91,16 +91,22 @@
   
 
 
-<time datetime="2014-07-23T11:20:04+02:00" data-updated="true" itemprop="datePublished">Jul 23<sup>rd</sup>, 2014</time></div>
-		<div class="tags">
+<time datetime="2014-07-23T11:20:04+02:00" data-updated="true" itemprop="datePublished">Jul 23<sup>rd</sup>, 2014</time></span>
+	<span class="tags">
 
 
 	<a class='category' href='/blog/categories/excel/'>excel</a>, <a class='category' href='/blog/categories/excel-bug/'>excel bug</a>, <a class='category' href='/blog/categories/vsto/'>vsto</a>
 
 
-</div>		
+</span>
+	
 		
-	</div> 
+	  		
+		
+	<span class="comments"><a href="#disqus_thread">comments</a></span>
+
+	
+</div>
 	<div class="entry-content" itemprop="articleBody"><p>In <a href="http://zebra.bi/">Zebra BI</a> we are positioning our custom WPF forms on top of the Excel window in order to offer a richer and more contextual UI. Calculating the exact position for the forms is quite complex and painful, due to things like:</p>
 
 <ul>
@@ -280,6 +286,7 @@
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
     ga('create', 'UA-48337858-1', 'auto');
+    ga('require', 'displayfeatures');
     ga('send', 'pageview');
 
   </script>
