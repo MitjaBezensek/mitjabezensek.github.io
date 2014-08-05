@@ -325,6 +325,9 @@ body {
 	border-bottom: 1px solid #bbb;
 }
 
+::-moz-selection{ background: #247648; color:#fff;}
+::selection { background:#247648; color:#fff; }
+
 a {
 	color: #247648;
 }
