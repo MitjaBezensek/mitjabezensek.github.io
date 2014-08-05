@@ -151,13 +151,15 @@ body {
 								line-height: inherit;
 							}
 						}
+						h1 {
+							line-height: 1.1em;
+						}
 						h2 {
 							font-size: 1.3em;
 							color: #333;
 							margin-top: 30px;
 							margin-bottom: -20px;
 							font-weight: bold;
-							line-height: 2em;
 						}
 						h2::before {
 							border-bottom: none;
