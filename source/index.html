@@ -9,11 +9,9 @@ keywords: software development, C#, Excel, startup
 {% for post in paginator.posts %}
 	{% assign content = post.content %}
 	{% if forloop.last %} 
-		<article class="post topBorder postIndexPadding" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">{% include article.html %}</article>
-	{% elsif forloop.first %}
-		<article class="post bottomBorder postIndexPadding" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">{% include article.html %}</article>
+		<article class="post postIndexPadding" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">{% include article.html %}</article>	
 	{% else %}
-		<article class="post border postIndexPadding" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">{% include article.html %}</article>
+		<article class="post bottomBorder postIndexPadding" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">{% include article.html %}</article>
 	{% endif %}
 {% endfor %}
 </div>

@@ -138,7 +138,7 @@ body {
 						    background: #267F4D;
 						    width: 180px;
 						    text-align: center;
-						    padding: 10px;
+						    padding: 8px;
 						    color: lightgray;
 						    text-decoration: none;
 						    float: right;
@@ -330,20 +330,10 @@ body {
 	margin-bottom: 30px;
 }
 
-.topBorder{
-	border-top: 1px solid #fff;
-	border-bottom: none;
-}
-
 .bottomBorder{
-	border-top: none;
-	border-bottom: 1px solid #bbb;
+	border-bottom: 1px dotted #bbb;
 }
 
-.border{
-	border-top: 1px solid #fff;
-	border-bottom: 1px solid #bbb;
-}
 
 ::-moz-selection{ background: #247648; color:#fff;}
 ::selection { background:#247648; color:#fff; }
