@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Dotnet | Mitja Bezenšek]]></title>
   <link href="http://bezensek.com/blog/categories/dotnet/atom.xml" rel="self"/>
   <link href="http://bezensek.com/"/>
-  <updated>2014-08-13T21:34:27+02:00</updated>
+  <updated>2014-08-13T21:36:37+02:00</updated>
   <id>http://bezensek.com/</id>
   <author>
     <name><![CDATA[Mitja Bezenšek]]></name>
@@ -27,7 +27,7 @@
 
 <h1>Programming by wishful thinking</h1>
 
-<p>I will not bore you with the theory, since you can read all about it in the <a href="http://en.wikipedia.org/wiki/Automata_theory">wikipedia article</a> above, which explains the logic behind FSM better than I ever could. So I will just start with <a href="http://dsoguy.blogspot.com/2007/01/programming-by-wishful-thinking.html">programming by wishful thinking</a>. This is how I would like to consume an implementation of a deterministic FSM (DFSM):</p>
+<p>I will not bore you with the theory, since you can read all about it in the <a href="http://en.wikipedia.org/wiki/Automata_theory">wikipedia article</a>, which explains the logic behind FSM better than I ever could. So I will just start with <a href="http://dsoguy.blogspot.com/2007/01/programming-by-wishful-thinking.html">programming by wishful thinking</a>. This is how I would like to consume an implementation of a deterministic FSM (DFSM):</p>
 
 <pre><code class="csharp">    // Declaration
     var Q = new List&lt;string&gt;{"q0", "q1", "q2"};
