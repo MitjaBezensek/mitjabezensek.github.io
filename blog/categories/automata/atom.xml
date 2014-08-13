@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Automata | Mitja Bezenšek]]></title>
+  <link href="http://bezensek.com/blog/categories/automata/atom.xml" rel="self"/>
+  <link href="http://bezensek.com/"/>
+  <updated>2014-08-13T21:34:27+02:00</updated>
+  <id>http://bezensek.com/</id>
+  <author>
+    <name><![CDATA[Mitja Bezenšek]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Deterministic Finite State Machine Implementation in C#]]></title>
+    <link href="http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/"/>
+    <updated>2014-08-13T21:36:58+02:00</updated>
+    <id>http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number</id>
+    <content type="html"><![CDATA[<p>While I was working at the <a href="http://www.fri.uni-lj.si/en/">Faculty of Computer and Information Science</a> I have implemented many of the standard algorithms from the famous Cormen&rsquo;s <a href="http://www.amazon.com/gp/product/0262033844/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0262033844&amp;linkCode=as2&amp;tag=bezensek-20&amp;linkId=EL57QKBNM5BB373B">Introduction to Algorithms</a>. Since I was a part of the Laboratory for algorithms and data structures that is to be expected. However, I have never implemented many of the great results from the Theory of Computation.</p>
+
+<p>This is why I decided to implement the finite state machine and the Turing machine in C# as an exercise. In this blog post I will start with the easier of the two, the <a href="http://en.wikipedia.org/wiki/Automata_theory">finite state machine (FSM)</a>.</p>
+
+<!-- more -->
+
+
+<h1>Programming by wishful thinking</h1>
+
+<p>I will not bore you with the theory, since you can read all about it in the <a href="http://en.wikipedia.org/wiki/Automata_theory">wikipedia article</a> above, which explains the logic behind FSM better than I ever could. So I will just start with <a href="http://dsoguy.blogspot.com/2007/01/programming-by-wishful-thinking.html">programming by wishful thinking</a>. This is how I would like to consume an implementation of a deterministic FSM (DFSM):</p>
+
+<pre><code class="csharp">    // Declaration
+    var Q = new List&lt;string&gt;{"q0", "q1", "q2"};
+    var Sigma = new List&lt;char&gt;{'a'};
+    var Delta = new List&lt;Transition&gt;{
+        new Transition("q0", 'a', "q1"),
+        new Transition("q1", 'a', "q2"),
+        new Transition("q2", 'a', "q1")
+    };
+    var Q0 = "q0";
+    var F = new List&lt;string&gt;{"q0", "q2"};
+    var dFSM = new DeterministicFSM(Q, Sigma, Delta, Q0, F);
+</code></pre>
+
+<p>As you can see I define the five components that make a DFSM: the states of the machine <code>Q</code>, the alphabet <code>Sigma</code>, the list of transitions <code>Delta</code>, the start state <code>Q0</code>, and the set of finish states <code>F</code>. I then construct the machine by passing the components to the constructor.</p>
+
+<p>I expect the upper definition to construct the FSM that is visible on the image below. As you can see the machine accepts all the words with an even number of &ldquo;a&rdquo; characters.</p>
+
+<p><img src="/img/FSM.png" title="&lsquo;Finite state machine&rsquo; &lsquo;Finite state machine&rsquo;" ></p>
+
+<p>After constructing the machine we wish to test if some input is a part of the machine&rsquo;s language:</p>
+
+<pre><code class="csharp">    // Asking the machine if certain inputs are a part of it's language
+    dFSM.Accepts("");
+    dFSM.Accepts("a");
+    dFSM.Accepts("aa");
+</code></pre>
+
+<p>I want the <code>Accept</code> method to print out if the machine accepted the input or not. Also I would like to see the steps that led to the finish state if the input was accepted.</p>
+
+<h1>Transitions</h1>
+
+<p>With that, I had all the specification I needed, so I started by implementing the first thing the compiler complained about: the  <code>Transition</code> object.</p>
+
+<p>The transitions define how we can move between the states. So the <code>Transition</code> class needs to hold the information about the <code>StartState</code>, the <code>Symbol</code> and the <code>EndState</code> of the transition. Appart from that I added a <code>ToString()</code> method that will be used later on.</p>
+
+<pre><code class="csharp">    public class Transition{
+        public string StartState { get; private set; }
+        public char Token { get; private set; }
+        public string EndState { get; private set; }
+
+        public Transition(string startState, char token, string endState){
+            StartState = startState;
+            Token = token;
+            EndState = endState;
+        }
+
+        public override string ToString(){
+            return string.Format("({0}, {1}) -&gt; {2}", StartState, Symbol, EndState);
+        }
+    }
+</code></pre>
+
+<h1>Deterministic finite state machine</h1>
+
+<p>Now that we have the <code>Transition</code>, we can start implementing the machine. Here is how the constructor might look like:</p>
+
+<pre><code class="csharp">    public class DeterministicFSM{
+        private readonly List&lt;string&gt; Q = new List&lt;string&gt;();
+        private readonly List&lt;char&gt; Sigma = new List&lt;char&gt;();
+        private readonly List&lt;Transition&gt; Delta = new List&lt;Transition&gt;();
+        private string Q0;
+        private readonly List&lt;string&gt; F = new List&lt;string&gt;();
+
+        public DeterministicFSM(IEnumerable&lt;string&gt; q, IEnumerable&lt;char&gt; sigma, 
+                                IEnumerable&lt;Transition&gt; delta, string q0, 
+                                IEnumerable&lt;string&gt; f){
+            Q = q.ToList();
+            Sigma = sigma.ToList();
+            AddTransitions(delta);
+            AddInitialState(q0);
+            AddFinalStates(f);
+        }
+    }
+</code></pre>
+
+<p>I just copied the list of states and the alphabet to the internal properties, but for the other three components we need some basic validation. For the transitions we want to verify that:</p>
+
+<ul>
+<li>they connect the states that are defined in <code>Q</code>,</li>
+<li>they use only symbols from <code>Sigma</code>.</li>
+</ul>
+
+
+<p>There is an additional constraint with deterministic machine and that is: each state can only have one transition for a given symbol.</p>
+
+<p>Considering all the requirements this is how the <code>AddTransitions</code> method might look like:</p>
+
+<pre><code class="csharp">    private void AddTransitions(IEnumerable&lt;Transition&gt; transitions){
+        foreach (var transition in transitions.Where(ValidTransition)){
+            Delta.Add(transition);
+        }
+    }
+
+    private bool ValidTransition(Transition transition){
+        return  Q.Contains(transition.StartState) &amp;&amp;
+                Q.Contains(transition.EndState)   &amp;&amp;
+                Sigma.Contains(transition.Symbol) &amp;&amp;
+                !TransitionAlreadyDefined(transition);
+      }
+
+     private bool TransitionAlreadyDefined(Transition transition){
+        return Delta.Any(t =&gt; t.StartState == transition.StartState &amp;&amp;
+                              t.Symbol == transition.Symbol);
+     }
+</code></pre>
+
+<p>The validations for the start state and the finish states are much simpler. We only need to check if they are defined in Q:</p>
+
+<pre><code class="csharp">    private void AddInitialState(string q0){
+        if (Q.Contains(q0)){
+            Q0 = q0;
+        }
+    }
+
+    private void AddFinalStates(IEnumerable&lt;string&gt; finalStates){
+        foreach (var finalState in finalStates.Where(
+                     finalState =&gt; Q.Contains(finalState))){
+            F.Add(finalState);
+        }
+    }
+</code></pre>
+
+<h1>Accepting the inputs</h1>
+
+<p>That brings us to the meat of our DFSM implementation: the <code>Accepts</code> method. We will need to do the following:</p>
+
+<ul>
+<li>read the input symbol by symbol,</li>
+<li>try to find a transition from the current state that uses the current symbol,</li>
+<li>move to the next state defined by the found transition,</li>
+<li>if we have read all the symbols and have ended up in one of the finish states we can accept the input,</li>
+<li>in all other cases (no transition possible, ending up in non finish states) we don&rsquo;t accept the input.</li>
+</ul>
+
+
+<p>The upper pseudo algorithm is implemented below. The main logic is in the foreach loop that reads the next symbol and tries to transition to the next state. If the transition is successful it records the current step in the steps variable. I have also added a simple <code>ConsoleWriter</code> class that deals with simple print outs to the console.</p>
+
+<pre><code class="csharp">    public void Accepts(string input) {
+        var currentState = Q0;
+        var steps = new StringBuilder();
+        foreach (var symbol in input.ToCharArray()) {
+            var transition = Delta.Find(t =&gt; t.StartState == currentState &amp;&amp;
+                                             t.Symbol == symbol);
+            if (transition == null) {
+                ConsoleWriter.Failure("No transitions for current state and symbol");
+                ConsoleWriter.Failure(steps);
+               return;
+            }
+            currentState = transition.EndState;
+            steps.Append(transition + "\n");
+        }
+        if (F.Contains(currentState)) {
+            ConsoleWriter.Success("Accepted the input with steps:\n" + steps);
+            return;
+        }
+        ConsoleWriter.Failure("Stopped in state " + currentState + 
+                               " which is not a final state.");
+        ConsoleWriter.Failure(steps);        
+    }
+</code></pre>
+
+<h1>Conclusion</h1>
+
+<p>I have omitted some additional validations and the code behind the <code>ConsoleWriter</code> for the sake of brevity, but the full source code can be found at <a href="https://github.com/MitjaBezensek/DFSM">GitHub</a>.</p>
+
+<p>Building the DFSM was quite fun! I have already implemented the non-deterministic one as well and will present it in one of the coming posts, and for sure I&rsquo;ll do the Turing machine as well.</p>
+
+<p>Before I say goodbye let me show you a test run of the DFSM on the following inputs:
+<code>csharp
+    dFSM.Accepts("");
+    dFSM.Accepts("a");
+    dFSM.Accepts("aa");
+    dFSM.Accepts("aaa");
+    dFSM.Accepts("aaaa");
+</code>
+<img src="/img/Output.png" title="&lsquo;Finite state machine output&rsquo; &lsquo;Finite state machine output&rsquo;" ></p>
+]]></content>
+  </entry>
+  
+</feed>

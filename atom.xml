@@ -4,7 +4,7 @@
   <title><![CDATA[Mitja Bezenšek]]></title>
   <link href="http://bezensek.com/atom.xml" rel="self"/>
   <link href="http://bezensek.com/"/>
-  <updated>2014-08-06T13:54:27+02:00</updated>
+  <updated>2014-08-13T21:34:27+02:00</updated>
   <id>http://bezensek.com/</id>
   <author>
     <name><![CDATA[Mitja Bezenšek]]></name>
@@ -12,6 +12,313 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Deterministic finite state machine implementation in C#]]></title>
+    <link href="http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/"/>
+    <updated>2014-08-13T21:36:58+02:00</updated>
+    <id>http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number</id>
+    <content type="html"><![CDATA[<p>While I was working at the <a href="http://www.fri.uni-lj.si/en/">Faculty of Computer and Information Science</a> I have implemented many of the standard algorithms from the famous Cormen&rsquo;s <a href="http://www.amazon.com/gp/product/0262033844/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0262033844&amp;linkCode=as2&amp;tag=bezensek-20&amp;linkId=EL57QKBNM5BB373B">Introduction to Algorithms</a>. Since I was a part of the Laboratory for algorithms and data structures that is to be expected. However, I have never implemented many of the great results from the Theory of Computation.</p>
+
+<p>This is why I decided to implement the finite state machine and the Turing machine in C# as an exercise. In this blog post I will start with the easier of the two, the <a href="http://en.wikipedia.org/wiki/Automata_theory">finite state machine (FSM)</a>.</p>
+
+<!-- more -->
+
+
+<h1>Programming by wishful thinking</h1>
+
+<p>I will not bore you with the theory, since you can read all about it in the <a href="http://en.wikipedia.org/wiki/Automata_theory">wikipedia article</a> above, which explains the logic behind FSM better than I ever could. So I will just start with <a href="http://dsoguy.blogspot.com/2007/01/programming-by-wishful-thinking.html">programming by wishful thinking</a>. This is how I would like to consume an implementation of a deterministic FSM (DFSM):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="c1">// Declaration</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">Q</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;{</span><span class="s">&quot;q0&quot;</span><span class="p">,</span> <span class="s">&quot;q1&quot;</span><span class="p">,</span> <span class="s">&quot;q2&quot;</span><span class="p">};</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">Sigma</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">char</span><span class="p">&gt;{</span><span class="sc">&#39;a&#39;</span><span class="p">};</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">Delta</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Transition</span><span class="p">&gt;{</span>
+</span><span class='line'>    <span class="k">new</span> <span class="nf">Transition</span><span class="p">(</span><span class="s">&quot;q0&quot;</span><span class="p">,</span> <span class="sc">&#39;a&#39;</span><span class="p">,</span> <span class="s">&quot;q1&quot;</span><span class="p">),</span>
+</span><span class='line'>    <span class="k">new</span> <span class="nf">Transition</span><span class="p">(</span><span class="s">&quot;q1&quot;</span><span class="p">,</span> <span class="sc">&#39;a&#39;</span><span class="p">,</span> <span class="s">&quot;q2&quot;</span><span class="p">),</span>
+</span><span class='line'>    <span class="k">new</span> <span class="nf">Transition</span><span class="p">(</span><span class="s">&quot;q2&quot;</span><span class="p">,</span> <span class="sc">&#39;a&#39;</span><span class="p">,</span> <span class="s">&quot;q1&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">Q0</span> <span class="p">=</span> <span class="s">&quot;q0&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">F</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;{</span><span class="s">&quot;q0&quot;</span><span class="p">,</span> <span class="s">&quot;q2&quot;</span><span class="p">};</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">dFSM</span> <span class="p">=</span> <span class="k">new</span> <span class="n">DeterministicFSM</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">Sigma</span><span class="p">,</span> <span class="n">Delta</span><span class="p">,</span> <span class="n">Q0</span><span class="p">,</span> <span class="n">F</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see I define the five components that make a DFSM: the states of the machine <code>Q</code>, the alphabet <code>Sigma</code>, the list of transitions <code>Delta</code>, the start state <code>Q0</code>, and the set of finish states <code>F</code>. I then construct the machine by passing the components to the constructor.</p>
+
+<p>I expect the upper definition to construct the FSM that is visible on the image below. As you can see the machine accepts all the words with an even number of &ldquo;a&rdquo; characters.</p>
+
+<p><img src="http://bezensek.com/img/FSM.png" title="Finite state machine" alt="Finite state machine"></p>
+
+<p>After constructing the machine we wish to test if some input is a part of the machine&rsquo;s language:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="c1">// Asking the machine if certain inputs are a part of it&#39;s language</span>
+</span><span class='line'><span class="n">dFSM</span><span class="p">.</span><span class="n">Accepts</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">dFSM</span><span class="p">.</span><span class="n">Accepts</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">dFSM</span><span class="p">.</span><span class="n">Accepts</span><span class="p">(</span><span class="s">&quot;aa&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I want the <code>Accept</code> method to print out if the machine accepted the input or not. Also I would like to see the steps that led to the finish state if the input was accepted.</p>
+
+<h1>Transitions</h1>
+
+<p>With that, I had all the specification I needed, so I started by implementing the first thing the compiler complained about: the  <code>Transition</code> object.</p>
+
+<p>The transitions define how we can move between the states. So the <code>Transition</code> class needs to hold the information about the <code>StartState</code>, the <code>Symbol</code> and the <code>EndState</code> of the transition. Appart from that I added a <code>ToString()</code> method that will be used later on.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Transition</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">StartState</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">char</span> <span class="n">Token</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">string</span> <span class="n">EndState</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="nf">Transition</span><span class="p">(</span><span class="kt">string</span> <span class="n">startState</span><span class="p">,</span> <span class="kt">char</span> <span class="n">token</span><span class="p">,</span> <span class="kt">string</span> <span class="n">endState</span><span class="p">){</span>
+</span><span class='line'>        <span class="n">StartState</span> <span class="p">=</span> <span class="n">startState</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">Token</span> <span class="p">=</span> <span class="n">token</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">EndState</span> <span class="p">=</span> <span class="n">endState</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">override</span> <span class="kt">string</span> <span class="nf">ToString</span><span class="p">(){</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">&quot;({0}, {1}) -&gt; {2}&quot;</span><span class="p">,</span> <span class="n">StartState</span><span class="p">,</span> <span class="n">Symbol</span><span class="p">,</span> <span class="n">EndState</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Deterministic finite state machine</h1>
+
+<p>Now that we have the <code>Transition</code>, we can start implementing the machine. Here is how the constructor might look like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">DeterministicFSM</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">private</span> <span class="k">readonly</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">Q</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;();</span>
+</span><span class='line'>    <span class="k">private</span> <span class="k">readonly</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">char</span><span class="p">&gt;</span> <span class="n">Sigma</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">char</span><span class="p">&gt;();</span>
+</span><span class='line'>    <span class="k">private</span> <span class="k">readonly</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Transition</span><span class="p">&gt;</span> <span class="n">Delta</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Transition</span><span class="p">&gt;();</span>
+</span><span class='line'>    <span class="k">private</span> <span class="kt">string</span> <span class="n">Q0</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">private</span> <span class="k">readonly</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">F</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="nf">DeterministicFSM</span><span class="p">(</span><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">q</span><span class="p">,</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="kt">char</span><span class="p">&gt;</span> <span class="n">sigma</span><span class="p">,</span>
+</span><span class='line'>                            <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">Transition</span><span class="p">&gt;</span> <span class="n">delta</span><span class="p">,</span> <span class="kt">string</span> <span class="n">q0</span><span class="p">,</span>
+</span><span class='line'>                            <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">f</span><span class="p">){</span>
+</span><span class='line'>        <span class="n">Q</span> <span class="p">=</span> <span class="n">q</span><span class="p">.</span><span class="n">ToList</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">Sigma</span> <span class="p">=</span> <span class="n">sigma</span><span class="p">.</span><span class="n">ToList</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">AddTransitions</span><span class="p">(</span><span class="n">delta</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">AddInitialState</span><span class="p">(</span><span class="n">q0</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">AddFinalStates</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I just copied the list of states and the alphabet to the internal properties, but for the other three components we need some basic validation. For the transitions we want to verify that:</p>
+
+<ul>
+<li>they connect the states that are defined in <code>Q</code>,</li>
+<li>they use only symbols from <code>Sigma</code>.</li>
+</ul>
+
+
+<p>There is an additional constraint with deterministic machine and that is: each state can only have one transition for a given symbol.</p>
+
+<p>Considering all the requirements this is how the <code>AddTransitions</code> method might look like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">AddTransitions</span><span class="p">(</span><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">Transition</span><span class="p">&gt;</span> <span class="n">transitions</span><span class="p">){</span>
+</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">transition</span> <span class="k">in</span> <span class="n">transitions</span><span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">ValidTransition</span><span class="p">)){</span>
+</span><span class='line'>        <span class="n">Delta</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">transition</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">private</span> <span class="kt">bool</span> <span class="nf">ValidTransition</span><span class="p">(</span><span class="n">Transition</span> <span class="n">transition</span><span class="p">){</span>
+</span><span class='line'>    <span class="k">return</span>  <span class="n">Q</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="n">StartState</span><span class="p">)</span> <span class="p">&amp;&amp;</span>
+</span><span class='line'>            <span class="n">Q</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="n">EndState</span><span class="p">)</span>   <span class="p">&amp;&amp;</span>
+</span><span class='line'>            <span class="n">Sigma</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="n">Symbol</span><span class="p">)</span> <span class="p">&amp;&amp;</span>
+</span><span class='line'>            <span class="p">!</span><span class="n">TransitionAlreadyDefined</span><span class="p">(</span><span class="n">transition</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'> <span class="k">private</span> <span class="kt">bool</span> <span class="nf">TransitionAlreadyDefined</span><span class="p">(</span><span class="n">Transition</span> <span class="n">transition</span><span class="p">){</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">Delta</span><span class="p">.</span><span class="n">Any</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">.</span><span class="n">StartState</span> <span class="p">==</span> <span class="n">transition</span><span class="p">.</span><span class="n">StartState</span> <span class="p">&amp;&amp;</span>
+</span><span class='line'>                          <span class="n">t</span><span class="p">.</span><span class="n">Symbol</span> <span class="p">==</span> <span class="n">transition</span><span class="p">.</span><span class="n">Symbol</span><span class="p">);</span>
+</span><span class='line'> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The validations for the start state and the finish states are much simpler. We only need to check if they are defined in Q:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">AddInitialState</span><span class="p">(</span><span class="kt">string</span> <span class="n">q0</span><span class="p">){</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">Q</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">q0</span><span class="p">)){</span>
+</span><span class='line'>        <span class="n">Q0</span> <span class="p">=</span> <span class="n">q0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">AddFinalStates</span><span class="p">(</span><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">finalStates</span><span class="p">){</span>
+</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">finalState</span> <span class="k">in</span> <span class="n">finalStates</span><span class="p">.</span><span class="n">Where</span><span class="p">(</span>
+</span><span class='line'>               <span class="n">finalState</span> <span class="p">=&gt;</span> <span class="n">Q</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">finalState</span><span class="p">))){</span>
+</span><span class='line'>        <span class="n">F</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">finalState</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Accepting the inputs</h1>
+
+<p>That brings us to the meat of our DFSM implementation: the <code>Accepts</code> method. We will need to do the following:</p>
+
+<ul>
+<li>read the input symbol by symbol,</li>
+<li>try to find a transition from the current state that uses the current symbol,</li>
+<li>move to the next state defined by the found transition,</li>
+<li>if we have read all the symbols and have ended up in one of the finish states we can accept the input,</li>
+<li>in all other cases (no transition possible, ending up in non finish states) we don&rsquo;t accept the input.</li>
+</ul>
+
+
+<p>The upper pseudo algorithm is implemented below. The main logic is in the foreach loop that reads the next symbol and tries to transition to the next state. If the transition is successful it records the current step in the steps variable. I have also added a simple <code>ConsoleWriter</code> class that deals with simple print outs to the console.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">void</span> <span class="nf">Accepts</span><span class="p">(</span><span class="kt">string</span> <span class="n">input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">currentState</span> <span class="p">=</span> <span class="n">Q0</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">steps</span> <span class="p">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="p">();</span>
+</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">symbol</span> <span class="k">in</span> <span class="n">input</span><span class="p">.</span><span class="n">ToCharArray</span><span class="p">())</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">transition</span> <span class="p">=</span> <span class="n">Delta</span><span class="p">.</span><span class="n">Find</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">.</span><span class="n">StartState</span> <span class="p">==</span> <span class="n">currentState</span> <span class="p">&amp;&amp;</span>
+</span><span class='line'>                                         <span class="n">t</span><span class="p">.</span><span class="n">Symbol</span> <span class="p">==</span> <span class="n">symbol</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">transition</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">ConsoleWriter</span><span class="p">.</span><span class="n">Failure</span><span class="p">(</span><span class="s">&quot;No transitions for current state and symbol&quot;</span><span class="p">);</span>
+</span><span class='line'>            <span class="n">ConsoleWriter</span><span class="p">.</span><span class="n">Failure</span><span class="p">(</span><span class="n">steps</span><span class="p">);</span>
+</span><span class='line'>           <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="n">currentState</span> <span class="p">=</span> <span class="n">transition</span><span class="p">.</span><span class="n">EndState</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">steps</span><span class="p">.</span><span class="n">Append</span><span class="p">(</span><span class="n">transition</span> <span class="p">+</span> <span class="s">&quot;\n&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">currentState</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">ConsoleWriter</span><span class="p">.</span><span class="n">Success</span><span class="p">(</span><span class="s">&quot;Accepted the input with steps:\n&quot;</span> <span class="p">+</span> <span class="n">steps</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">ConsoleWriter</span><span class="p">.</span><span class="n">Failure</span><span class="p">(</span><span class="s">&quot;Stopped in state &quot;</span> <span class="p">+</span> <span class="n">currentState</span> <span class="p">+</span>
+</span><span class='line'>                         <span class="s">&quot; which is not a final state.&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">ConsoleWriter</span><span class="p">.</span><span class="n">Failure</span><span class="p">(</span><span class="n">steps</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Conclusion</h1>
+
+<p>I have omitted some additional validations and the code behind the <code>ConsoleWriter</code> for the sake of brevity, but the full source code can be found at <a href="https://github.com/MitjaBezensek/DFSM">GitHub</a>.</p>
+
+<p>Building the DFSM was quite fun! I have already implemented the non-deterministic one as well and will present it in one of the coming posts, and for sure I&rsquo;ll do the Turing machine as well.</p>
+
+<p>Before I say goodbye let me show you a test run of the DFSM on the following inputs:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">dFSM</span><span class="p">.</span><span class="n">Accepts</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">dFSM</span><span class="p">.</span><span class="n">Accepts</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">dFSM</span><span class="p">.</span><span class="n">Accepts</span><span class="p">(</span><span class="s">&quot;aa&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">dFSM</span><span class="p">.</span><span class="n">Accepts</span><span class="p">(</span><span class="s">&quot;aaa&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">dFSM</span><span class="p">.</span><span class="n">Accepts</span><span class="p">(</span><span class="s">&quot;aaaa&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://bezensek.com/img/Output.png" title="Finite state machine output" alt="Finite state machine output"></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Excel VSTO RGB Color bug]]></title>
