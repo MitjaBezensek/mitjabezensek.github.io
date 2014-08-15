@@ -3,13 +3,7 @@
 {% include custom/header.html %}
 <nav id="main-nav">{% include navigation.html %}</nav>
 <nav id="sub-nav">
-	<div class="social">
-		{% if site.email %}	
-		<script TYPE="text/javascript">
-			emailE=('mitja.bezensek@' + 'gmail.com')
-			document.write('<a class="email" href="mailto:' + emailE + '" title="Email">' + emailE + '</a>')
-		</script>
-		{% endif %}				
+	<div class="social">		
 		{% if site.googleplus_user and site.googleplus_hidden == false %}
 			<a class="google" href="https://plus.google.com/{{ site.googleplus_user }}" rel="author" title="Google+">Google+</a>
 		{% endif %}
