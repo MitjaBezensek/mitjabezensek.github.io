@@ -1,8 +1,8 @@
+author: Mitja Bezenšek
 url: http://bezensek.com
 title: Mitja Bezenšek
 subtitle: Writing about software development, agile techniques, C#, Excel and occasional random thoughts.
-author: Mitja Bezenšek
-simple_search: http://google.com/search
+
 email_md5: 1675bcdc8b420a0c1a8e7520599fc7b3
 
 subscribe_rss: "http://feeds.feedburner.com/MitjaBezensek"
@@ -21,16 +21,12 @@ rdiscount:
     - footnotes
     - smart
 
-highlighter: false # default python pygments have been replaced by pygments.rb
-
-paginate: 10          # Posts per page on the blog index
-pagination_dir: blog  # Directory base for pagination URLs eg. /blog/page/2/
+paginate: 5          # Posts per page on the blog index
+paginate_path: "page/:num"
 recent_posts: 5       # Posts in the sidebar Recent Posts section
 excerpt_link: "Continue reading"  # "Continue reading" link text at the bottom of excerpted articles
 
 titlecase: true       # Converts page and post titles to titlecase
-
-#default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
 
 github_user: mitjabezensek
 

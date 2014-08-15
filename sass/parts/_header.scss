@@ -355,13 +355,6 @@ $header-height: 30px;
 					border: 1px solid darken(rgb(175,182,202), 10%);
 				}
 			}
-			&.coderwall{
-				background: image-url('social/coderwall.png') center no-repeat #3E8DCC;
-				border: 1px solid #3E8DCC;
-				&:hover{
-					border: 1px solid darken(#3E8DCC, 10%);
-				}
-			}
 			&.stackoverflow{
 				background: image-url('social/stackoverflow.png') center no-repeat #EF7522;
 				border:1px solid #EF7522;
@@ -379,27 +372,6 @@ $header-height: 30px;
 				&:hover{
 					border: 1px solid darken(rgb(190,64,55), 10%);
 				}
-			}
-			&.delicious{
-				background: image-url('social/delicious.png') center no-repeat rgb(50,113,203);
-				border: 1px solid rgb(50,113,203);
-				&:hover{
-					border: 1px solid darken(rgb(50,113,203), 10%);
-				}
-			}
-			&.pinboard{
-			  background: image-url('social/pinboard.png') center no-repeat rgb(0,102,200);
-			  border: 1px solid rgb(58,114,159);
-			  &:hover{
-			    border: 1px solid darken(rgb(0,102,255), 10%);
-			  }
-			}
-			&.douban{
-			  background: image-url('social/douban.png') center no-repeat rgb(0,128,36);
-			  border: 1px solid rgb(0,128,36);
-			  &:hover{
-			    border: 1px solid darken(rgb(0,128,36), 10%);
-			  }
 			}
 			&.rss{
 				background: image-url('social/rss.png') center no-repeat #EF7522;
