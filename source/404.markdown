@@ -1,10 +1,12 @@
 ---
 layout: page
-title: "You are not welcome here. Go away!"
+title: "There is nothing here!"
 date: 2014-02-26 23:39
 comments: false
 sharing: false
 footer: false
 ---
 
-PS: 404 page not found.
+The page you tried to reach was not found. If you think this is an error, please contact me via <a href="http://twitter.com/MitjaBezensek">Twitter</a> and let me know.
+
+Otherwise you might want to go back to the <a href="http://bezensek.com">homepage</a> or check the <a href="http://bezensek.com/blog/archives/">archives</a>.
