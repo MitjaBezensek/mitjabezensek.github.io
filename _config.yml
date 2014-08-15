@@ -31,7 +31,6 @@ excerpt_link: "Continue reading"  # "Continue reading" link text at the bottom o
 titlecase: true       # Converts page and post titles to titlecase
 
 #default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
-email: mitja.bezensek@gmail.com
 
 github_user: mitjabezensek
 

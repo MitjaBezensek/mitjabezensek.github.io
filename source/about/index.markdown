@@ -52,10 +52,10 @@ Until last year I also did a lot of sports, especially cycling and running. But 
   [9]: http://en.wikipedia.org/wiki/Overlay_multicast
   [10]: http://www.fri.uni-lj.si/si/mitja--bezensek/
   [11]: http://zebra.bi/
-  [12]: http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882/ref=sr_1_1?ie=UTF8&qid=1394057332&sr=8-1&keywords=clean%20code
-  [13]: http://www.amazon.com/The-Art-Unit-Testing-examples/dp/1617290890/ref=sr_1_1?ie=UTF8&qid=1394057354&sr=8-1&keywords=art%20of%20unit%20testing
+  [12]: http://www.amazon.com/gp/product/0132350882/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0132350882&linkCode=as2&tag=bezensek-20&linkId=HJ7AG6O5IAHTC457
+  [13]: http://www.amazon.com/gp/product/1617290890/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1617290890&linkCode=as2&tag=bezensek-20&linkId=4DWL6VKAHR7SSTDP
   [14]: http://www.fastcompany.com/3026201/lessons-learned/how-pandoras-40-engineers-nabbed-70-million-monthly-users
   [15]: http://zebra.bi
-  [16]: http://www.amazon.com/Running-Lean-Iterate-Plan-Works-ebook/dp/B006UKFFE0/ref=sr_1_1?ie=UTF8&qid=1394055194&sr=8-1&keywords=running%20lean
+  [16]: http://www.amazon.com/gp/product/1449305172/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1449305172&linkCode=as2&tag=bezensek-20&linkId=IBKF6R67I5GFWYL5 
   [17]: http://en.wikipedia.org/wiki/Scrum_%28software_development%29
   [18]: http://poevropi.blogspot.com/
