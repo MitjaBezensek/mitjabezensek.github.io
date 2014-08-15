@@ -306,8 +306,13 @@ body {
 	}
 }
 
-.postIndexPadding{
+.postIndex{
 	padding-bottom: 95px;
+	border-bottom: 1px dotted #bbb;
+}
+
+.topBorder{
+	border-top: 1px solid white;
 }
 
 .postDetailPadding{
@@ -329,11 +334,6 @@ body {
 	font-size: 1.5em;
 	margin-bottom: 30px;
 }
-
-.bottomBorder{
-	border-bottom: 1px dotted #bbb;
-}
-
 
 ::-moz-selection{ background: #247648; color:#fff;}
 ::selection { background:#247648; color:#fff; }

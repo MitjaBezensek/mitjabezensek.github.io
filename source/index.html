@@ -8,11 +8,11 @@ keywords: software development, C#, Excel, startup
 <div itemscope itemtype="http://schema.org/Blog">
 {% for post in paginator.posts %}
 	{% assign content = post.content %}
-	{% if forloop.last %} 
-		<article class="post postIndexPadding" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">{% include article.html %}</article>	
-	{% else %}
-		<article class="post bottomBorder postIndexPadding" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">{% include article.html %}</article>
-	{% endif %}
+	{% if forloop.first %}
+    	<article class="post postIndex" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">{% include article.html %}</article>
+    {% else %}
+    	<article class="post postIndex topBorder" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">{% include article.html %}</article>
+    {% endif %}
 {% endfor %}
 </div>
 <nav id="pagenavi">
