@@ -426,6 +426,10 @@ body {
 						.title {
 							margin-left: 0px;						
 						}
+						.archives, .categories{}
+							li{
+								line-height: 1.2em;
+							}
 						.meta {
 							float: none;
 						}
