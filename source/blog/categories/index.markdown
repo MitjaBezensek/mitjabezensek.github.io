@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: page
 title: "Categories"
 date: 2013-07-28 23:11
 comments: false
@@ -9,7 +9,6 @@ description: The categories of Mitja Bezenšek's blog.
 keywords: Mitja Bezenšek, blog, categories
 ---
 <section class="categories">
-<h1>Categories</h1>
 <ul>
 {% for item in site.categories %}
     <li><a href="/blog/categories/{{ item[0] | replace:" ","-" }}/">{{ item[0] | capitalize }}</a> ({{ item[1].size }})</li>

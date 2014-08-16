@@ -6,10 +6,7 @@
 		</ul>
 		</section>
 	{% endunless %}
-	<section class="archives">
-	{% if forloop.first %}
-		<h1>Blog archives</h1>
-	{% endif %}
+	<section class="archives">	
 	<h2 class="year">{{ date | date: "%Y" }}</h2>
 	<ul>
 {% endunless %}<li>
