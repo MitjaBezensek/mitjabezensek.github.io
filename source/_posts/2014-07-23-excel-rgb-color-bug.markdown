@@ -22,7 +22,7 @@ For brevity's sake let's suppose that we have a series of a chart selected and w
 
 And if we try to color the series blue then the result is red! 
 
-# Red and Blue components of the RGB property are reversed
+## Red and Blue components of the RGB property are reversed
 
 Since I intentionally used the red color that resulted in a blue series on the chart, some of you might have figured out the bug. But imagine yourself trying to apply some color from the middle of the RGB color range and consitently getting the wrong results.
 
@@ -41,7 +41,7 @@ public int InteropColor(int red, int green, int blue){
 
 After searching the web I found that this bug has already been mentioned on the [StackOverflow][1]. It is interesting that this has not yet been fixed in the newer versions of Excel. I have first stumbled upon this issue with the Excel 2007 interop library but it is still present in the current one. The only reason that comes to my mind is backwards compatibility with the numerous Excel solutions out there. So it seems we should just get used to it.
 
-### Update:
+## Update:
 
 It seems that this is not an Excel interop bug. Apparently the reason for this strange behavior is that VBA has a different representation of colors. For more see the comments.
 

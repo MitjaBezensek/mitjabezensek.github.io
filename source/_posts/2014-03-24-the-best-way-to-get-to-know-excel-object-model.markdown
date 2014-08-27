@@ -9,7 +9,7 @@ categories: [Excel, excel Excel]
 ---
 I am starting a category called "excel Excel" which will contain useful tips and tricks for Excel. It will be mostly directed towards Excel developers and power users.
 
-# How do I [blank] in Excel?
+## How do I [blank] in Excel?
 [StackOverflow][1] is full of questions like: 
 >"How do I change the color of a Chart Series in Excel in VBA / C#?"
  
@@ -20,7 +20,7 @@ After learning about it you will be able to do all the tasks you already know ho
 
 The primary use of macro recording is to **automate repetitive tasks**. You just start the recording, perform the task and stop the recording. After that you can replay the recorded macro as many times as you wish. And not only that, you can also **see all the steps** that were performed in code! 
 
-#How to record a macro
+## How to record a macro
 First of all I recommend that you show the Developer ribbon tab. You can do this under File | Options | Customize Ribbon, where you need to check the Developer ribbon tab:
 
 

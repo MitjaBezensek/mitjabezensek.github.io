@@ -14,7 +14,7 @@ This is why I decided to implement the finite state machine and the Turing machi
 
 <!-- more -->
 
-# Programming by wishful thinking
+## Programming by wishful thinking
 
 I will not bore you with the theory, since you can read all about it in the [wikipedia article][3], which explains the logic behind FSM better than I ever could. So I will just start with [programming by wishful thinking][4]. This is how I would like to consume an implementation of a deterministic FSM (DFSM):
 
@@ -49,7 +49,7 @@ After constructing the machine we wish to test if some input is a part of the ma
 
 I want the `Accept` method to print out if the machine accepted the input or not. Also I would like to see the steps that led to the finish state if the input was accepted.
 
-# Transitions
+## Transitions
 
 With that, I had all the specification I needed, so I started by implementing the first thing the compiler complained about: the  `Transition` object.
 
@@ -72,7 +72,7 @@ The transitions define how we can move between the states. So the `Transition` c
         }
     }
 ```
-# Deterministic finite state machine
+## Deterministic finite state machine
 Now that we have the `Transition`, we can start implementing the machine. Here is how the constructor might look like:
 
 ``` csharp
@@ -140,7 +140,7 @@ The validations for the start state and the finish states are much simpler. We o
         }
     }
 ```
-# Accepting the inputs
+## Accepting the inputs
 
 That brings us to the meat of our DFSM implementation: the `Accepts` method. We will need to do the following:
 
@@ -177,7 +177,7 @@ The upper pseudo algorithm is implemented below. The main logic is in the foreac
     }
 ```
 
-# Conclusion
+## Conclusion
 I have omitted some additional validations and the code behind the `ConsoleWriter` for the sake of brevity, but the full source code can be found at [GitHub][5].
 
 Building the DFSM was quite fun! I have already implemented the non-deterministic one as well and will present it in one of the coming posts, and for sure I'll do the Turing machine as well.

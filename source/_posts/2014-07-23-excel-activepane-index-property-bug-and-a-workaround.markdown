@@ -19,7 +19,7 @@ In [Zebra BI][1] we are positioning our custom WPF forms on top of the Excel win
 The last nail in the coffin were the Panes which also need to be considered when a user uses the Freeze Panes option, which basically splits the worksheet into 2 or 4 Panes. At first it seemed like a simple adjustment until I started digging into the object model and ultimately found out that:
 <!-- more -->
 
-# ActivePane's Index property doesn't work correctly
+## ActivePane's Index property doesn't work correctly
 According to the [Excel Object Model][2] specification the ActivePane property:
 >Returns a **Pane** object that represents the **active pane** in the **window**.
 
@@ -42,7 +42,7 @@ Let's see it in action.
 
 As you see when there are 2 panes it **always returns 2** and when we have 4 panes it **always returns 4**. I'm guessing it is just returning the number of the panes :)
 
-# The workaround
+## The workaround
 
 I needed to determine in which of the Panes is the current selection so I started looking at the Panes members. The only promising one was the `VisibleRange`. I didn't want to use the Excel function `INTERSECT` since is quite costly performance wise. I figured out that just comparing the `Left` property of the `VisibleRange` with the `Left` property of the current selection should be enough (the same for the `Top` property). So I came up with this:
 ``` csharp
