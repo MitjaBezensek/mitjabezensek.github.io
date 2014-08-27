@@ -128,7 +128,7 @@
 
 <p>And if we try to color the series blue then the result is red!</p>
 
-<h1>Red and Blue components of the RGB property are reversed</h1>
+<h2>Red and Blue components of the RGB property are reversed</h2>
 
 <p>Since I intentionally used the red color that resulted in a blue series on the chart, some of you might have figured out the bug. But imagine yourself trying to apply some color from the middle of the RGB color range and consitently getting the wrong results.</p>
 
@@ -155,7 +155,7 @@
 
 <p>After searching the web I found that this bug has already been mentioned on the <a href="http://stackoverflow.com/questions/7423456/changing-an-excel-cells-backcolor-using-hex-results-in-excel-displaying-complet">StackOverflow</a>. It is interesting that this has not yet been fixed in the newer versions of Excel. I have first stumbled upon this issue with the Excel 2007 interop library but it is still present in the current one. The only reason that comes to my mind is backwards compatibility with the numerous Excel solutions out there. So it seems we should just get used to it.</p>
 
-<h3>Update:</h3>
+<h2>Update:</h2>
 
 <p>It seems that this is not an Excel interop bug. Apparently the reason for this strange behavior is that VBA has a different representation of colors. For more see the comments.</p>
 </div>	

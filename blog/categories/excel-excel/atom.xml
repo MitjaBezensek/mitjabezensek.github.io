@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Excel Excel | Mitja Bezenšek]]></title>
   <link href="http://bezensek.com/blog/categories/excel-excel/atom.xml" rel="self"/>
   <link href="http://bezensek.com/"/>
-  <updated>2014-08-21T19:58:08+02:00</updated>
+  <updated>2014-08-27T11:48:05+02:00</updated>
   <id>http://bezensek.com/</id>
   <author>
     <name><![CDATA[Mitja Bezenšek]]></name>
@@ -20,7 +20,7 @@
     <id>http://bezensek.com/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model</id>
     <content type="html"><![CDATA[<p>I am starting a category called &ldquo;excel Excel&rdquo; which will contain useful tips and tricks for Excel. It will be mostly directed towards Excel developers and power users.</p>
 
-<h1>How do I [blank] in Excel?</h1>
+<h2>How do I [blank] in Excel?</h2>
 
 <p><a href="http://stackoverflow.com/">StackOverflow</a> is full of questions like:</p>
 
@@ -35,7 +35,7 @@
 
 <p>The primary use of macro recording is to <strong>automate repetitive tasks</strong>. You just start the recording, perform the task and stop the recording. After that you can replay the recorded macro as many times as you wish. And not only that, you can also <strong>see all the steps</strong> that were performed in code!</p>
 
-<h1>How to record a macro</h1>
+<h2>How to record a macro</h2>
 
 <p>First of all I recommend that you show the Developer ribbon tab. You can do this under File | Options | Customize Ribbon, where you need to check the Developer ribbon tab:</p>
 

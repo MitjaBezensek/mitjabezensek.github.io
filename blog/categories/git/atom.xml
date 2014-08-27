@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Mitja Bezenšek]]></title>
   <link href="http://bezensek.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://bezensek.com/"/>
-  <updated>2014-08-21T19:58:08+02:00</updated>
+  <updated>2014-08-27T11:48:05+02:00</updated>
   <id>http://bezensek.com/</id>
   <author>
     <name><![CDATA[Mitja Bezenšek]]></name>
@@ -27,13 +27,13 @@
 <!-- more -->
 
 
-<h1>Git in Visual Studio</h1>
+<h2>Git in Visual Studio</h2>
 
 <p>In January 2013 the Visual Studio team <a href="http://blogs.msdn.com/b/bharry/archive/2013/01/30/git-init-vs.aspx">announced</a> that Visual Studio will have Git support and you can download it from <a href="http://visualstudiogallery.msdn.microsoft.com/abafc7d6-dcaa-40f4-8a5e-d6724bdb980c">here</a> if you want. You will need Visual Studio 2012 Update 2 at least.</p>
 
 <p>I have tried the extension but I don&rsquo;t recommend it just yet. It is still lacking many features and it seems very rushed. In a few iterations it might be worth to install it but for now I would say stay away. This is why I decided to discuss possible alternatives, namely: command line, Git Extensions and Source Tree.</p>
 
-<h1>Command line</h1>
+<h2>Command line</h2>
 
 <p>So how can you start using Git? The easiest way in terms of required software is the command line. First of all you need to <a href="http://git-scm.com/downloads">download</a> and install Git. After that you just need to <a href="http://git-scm.com/doc">read the documenation</a> and you can immediately start using it from the command line.</p>
 
@@ -41,7 +41,7 @@
 
 <p>Does this work with Visual Studio. Absolutely. That&rsquo;s why I don&rsquo;t understand why so much fuss about Git being incorporated into Visual Studio. Many developers only use git from the command line. Some would even argue that that&rsquo;s the only way to use it. I understand that commiting directly from the IDE is probably faster and that visual representation of the branch tree is nice. However, writing a few additional lines every day sholdn&rsquo;t keep you from using Git!</p>
 
-<h1>Git Extensions</h1>
+<h2>Git Extensions</h2>
 
 <p>The next option is a Visual Studio extension called <a href="https://code.google.com/p/gitextensions/">Git Extensions</a>. It&rsquo;s the only one of the three alternatives that I mention that is completely integrated into Visual Studio. After installing you get an additional toolbar in your workspace:</p>
 
@@ -56,7 +56,7 @@
 
 <p>I&rsquo;ve had some minor problems with Git Extensions. Sometimes the window crashed if I had it opened for too long. I also ran into some authentication problems when pushing to Bitbucket. This problem was solved by manually running their git-credentials-windstore executable. Apart from that I quite liked it. It is really rich with options and possibilities and also works remarkably well.</p>
 
-<h1>Source Tree</h1>
+<h2>Source Tree</h2>
 
 <p>The last option is a standalone desktop application called <a href="http://www.sourcetreeapp.com/">Source Tree</a> from Atlassian. While the Mac version has been around for quite some while they have released the Windows version not so long ago.</p>
 

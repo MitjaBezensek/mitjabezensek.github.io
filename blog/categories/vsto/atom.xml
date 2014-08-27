@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Vsto | Mitja Bezenšek]]></title>
   <link href="http://bezensek.com/blog/categories/vsto/atom.xml" rel="self"/>
   <link href="http://bezensek.com/"/>
-  <updated>2014-08-21T19:58:08+02:00</updated>
+  <updated>2014-08-27T11:48:05+02:00</updated>
   <id>http://bezensek.com/</id>
   <author>
     <name><![CDATA[Mitja Bezenšek]]></name>
@@ -35,7 +35,7 @@
 <!-- more -->
 
 
-<h1>ActivePane&rsquo;s Index property doesn&rsquo;t work correctly</h1>
+<h2>ActivePane&rsquo;s Index property doesn&rsquo;t work correctly</h2>
 
 <p>According to the <a href="http://msdn.microsoft.com/en-us/library/office/microsoft.office.interop.excel.window.activepane%28v=office.15%29.aspx">Excel Object Model</a> specification the ActivePane property:</p>
 
@@ -58,7 +58,7 @@ MessageBox.Show(activePane.Index.ToString());
 
 <p>As you see when there are 2 panes it <strong>always returns 2</strong> and when we have 4 panes it <strong>always returns 4</strong>. I&rsquo;m guessing it is just returning the number of the panes :)</p>
 
-<h1>The workaround</h1>
+<h2>The workaround</h2>
 
 <p>I needed to determine in which of the Panes is the current selection so I started looking at the Panes members. The only promising one was the <code>VisibleRange</code>. I didn&rsquo;t want to use the Excel function <code>INTERSECT</code> since is quite costly performance wise. I figured out that just comparing the <code>Left</code> property of the <code>VisibleRange</code> with the <code>Left</code> property of the current selection should be enough (the same for the <code>Top</code> property). So I came up with this:
 <code>csharp

@@ -4,7 +4,7 @@
   <title><![CDATA[Mitja Bezenšek]]></title>
   <link href="http://bezensek.com/atom.xml" rel="self"/>
   <link href="http://bezensek.com/"/>
-  <updated>2014-08-21T19:58:08+02:00</updated>
+  <updated>2014-08-27T11:48:05+02:00</updated>
   <id>http://bezensek.com/</id>
   <author>
     <name><![CDATA[Mitja Bezenšek]]></name>
@@ -25,7 +25,7 @@
 <!-- more -->
 
 
-<h1>Programming by wishful thinking</h1>
+<h2>Programming by wishful thinking</h2>
 
 <p>I will not bore you with the theory, since you can read all about it in the <a href="http://en.wikipedia.org/wiki/Automata_theory">wikipedia article</a>, which explains the logic behind FSM better than I ever could. So I will just start with <a href="http://dsoguy.blogspot.com/2007/01/programming-by-wishful-thinking.html">programming by wishful thinking</a>. This is how I would like to consume an implementation of a deterministic FSM (DFSM):</p>
 
@@ -75,7 +75,7 @@
 
 <p>I want the <code>Accept</code> method to print out if the machine accepted the input or not. Also I would like to see the steps that led to the finish state if the input was accepted.</p>
 
-<h1>Transitions</h1>
+<h2>Transitions</h2>
 
 <p>With that, I had all the specification I needed, so I started by implementing the first thing the compiler complained about: the  <code>Transition</code> object.</p>
 
@@ -114,7 +114,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h1>Deterministic finite state machine</h1>
+<h2>Deterministic finite state machine</h2>
 
 <p>Now that we have the <code>Transition</code>, we can start implementing the machine. Here is how the constructor might look like:</p>
 
@@ -233,7 +233,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h1>Accepting the inputs</h1>
+<h2>Accepting the inputs</h2>
 
 <p>That brings us to the meat of our DFSM implementation: the <code>Accepts</code> method. We will need to do the following:</p>
 
@@ -295,7 +295,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h1>Conclusion</h1>
+<h2>Conclusion</h2>
 
 <p>I have omitted some additional validations and the code behind the <code>ConsoleWriter</code> for the sake of brevity, but the full source code can be found at <a href="https://github.com/MitjaBezensek/DFSM">GitHub</a>.</p>
 
@@ -343,7 +343,7 @@
 
 <p>And if we try to color the series blue then the result is red!</p>
 
-<h1>Red and Blue components of the RGB property are reversed</h1>
+<h2>Red and Blue components of the RGB property are reversed</h2>
 
 <p>Since I intentionally used the red color that resulted in a blue series on the chart, some of you might have figured out the bug. But imagine yourself trying to apply some color from the middle of the RGB color range and consitently getting the wrong results.</p>
 
@@ -370,7 +370,7 @@
 
 <p>After searching the web I found that this bug has already been mentioned on the <a href="http://stackoverflow.com/questions/7423456/changing-an-excel-cells-backcolor-using-hex-results-in-excel-displaying-complet">StackOverflow</a>. It is interesting that this has not yet been fixed in the newer versions of Excel. I have first stumbled upon this issue with the Excel 2007 interop library but it is still present in the current one. The only reason that comes to my mind is backwards compatibility with the numerous Excel solutions out there. So it seems we should just get used to it.</p>
 
-<h3>Update:</h3>
+<h2>Update:</h2>
 
 <p>It seems that this is not an Excel interop bug. Apparently the reason for this strange behavior is that VBA has a different representation of colors. For more see the comments.</p>
 ]]></content>
@@ -476,7 +476,7 @@
 <!-- more -->
 
 
-<h1>ActivePane&rsquo;s Index property doesn&rsquo;t work correctly</h1>
+<h2>ActivePane&rsquo;s Index property doesn&rsquo;t work correctly</h2>
 
 <p>According to the <a href="http://msdn.microsoft.com/en-us/library/office/microsoft.office.interop.excel.window.activepane%28v=office.15%29.aspx">Excel Object Model</a> specification the ActivePane property:</p>
 
@@ -503,7 +503,7 @@
 
 <p>As you see when there are 2 panes it <strong>always returns 2</strong> and when we have 4 panes it <strong>always returns 4</strong>. I&rsquo;m guessing it is just returning the number of the panes :)</p>
 
-<h1>The workaround</h1>
+<h2>The workaround</h2>
 
 <p>I needed to determine in which of the Panes is the current selection so I started looking at the Panes members. The only promising one was the <code>VisibleRange</code>. I didn&rsquo;t want to use the Excel function <code>INTERSECT</code> since is quite costly performance wise. I figured out that just comparing the <code>Left</code> property of the <code>VisibleRange</code> with the <code>Left</code> property of the current selection should be enough (the same for the <code>Top</code> property). So I came up with this:</p>
 
@@ -587,7 +587,7 @@
     <id>http://bezensek.com/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model</id>
     <content type="html"><![CDATA[<p>I am starting a category called &ldquo;excel Excel&rdquo; which will contain useful tips and tricks for Excel. It will be mostly directed towards Excel developers and power users.</p>
 
-<h1>How do I [blank] in Excel?</h1>
+<h2>How do I [blank] in Excel?</h2>
 
 <p><a href="http://stackoverflow.com/">StackOverflow</a> is full of questions like:</p>
 
@@ -602,7 +602,7 @@
 
 <p>The primary use of macro recording is to <strong>automate repetitive tasks</strong>. You just start the recording, perform the task and stop the recording. After that you can replay the recorded macro as many times as you wish. And not only that, you can also <strong>see all the steps</strong> that were performed in code!</p>
 
-<h1>How to record a macro</h1>
+<h2>How to record a macro</h2>
 
 <p>First of all I recommend that you show the Developer ribbon tab. You can do this under File | Options | Customize Ribbon, where you need to check the Developer ribbon tab:</p>
 
@@ -644,13 +644,13 @@
 <!-- more -->
 
 
-<h1>Git in Visual Studio</h1>
+<h2>Git in Visual Studio</h2>
 
 <p>In January 2013 the Visual Studio team <a href="http://blogs.msdn.com/b/bharry/archive/2013/01/30/git-init-vs.aspx">announced</a> that Visual Studio will have Git support and you can download it from <a href="http://visualstudiogallery.msdn.microsoft.com/abafc7d6-dcaa-40f4-8a5e-d6724bdb980c">here</a> if you want. You will need Visual Studio 2012 Update 2 at least.</p>
 
 <p>I have tried the extension but I don&rsquo;t recommend it just yet. It is still lacking many features and it seems very rushed. In a few iterations it might be worth to install it but for now I would say stay away. This is why I decided to discuss possible alternatives, namely: command line, Git Extensions and Source Tree.</p>
 
-<h1>Command line</h1>
+<h2>Command line</h2>
 
 <p>So how can you start using Git? The easiest way in terms of required software is the command line. First of all you need to <a href="http://git-scm.com/downloads">download</a> and install Git. After that you just need to <a href="http://git-scm.com/doc">read the documenation</a> and you can immediately start using it from the command line.</p>
 
@@ -658,7 +658,7 @@
 
 <p>Does this work with Visual Studio. Absolutely. That&rsquo;s why I don&rsquo;t understand why so much fuss about Git being incorporated into Visual Studio. Many developers only use git from the command line. Some would even argue that that&rsquo;s the only way to use it. I understand that commiting directly from the IDE is probably faster and that visual representation of the branch tree is nice. However, writing a few additional lines every day sholdn&rsquo;t keep you from using Git!</p>
 
-<h1>Git Extensions</h1>
+<h2>Git Extensions</h2>
 
 <p>The next option is a Visual Studio extension called <a href="https://code.google.com/p/gitextensions/">Git Extensions</a>. It&rsquo;s the only one of the three alternatives that I mention that is completely integrated into Visual Studio. After installing you get an additional toolbar in your workspace:</p>
 
@@ -673,7 +673,7 @@
 
 <p>I&rsquo;ve had some minor problems with Git Extensions. Sometimes the window crashed if I had it opened for too long. I also ran into some authentication problems when pushing to Bitbucket. This problem was solved by manually running their git-credentials-windstore executable. Apart from that I quite liked it. It is really rich with options and possibilities and also works remarkably well.</p>
 
-<h1>Source Tree</h1>
+<h2>Source Tree</h2>
 
 <p>The last option is a standalone desktop application called <a href="http://www.sourcetreeapp.com/">Source Tree</a> from Atlassian. While the Mac version has been around for quite some while they have released the Windows version not so long ago.</p>
 

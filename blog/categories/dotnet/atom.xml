@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Dotnet | Mitja Bezenšek]]></title>
   <link href="http://bezensek.com/blog/categories/dotnet/atom.xml" rel="self"/>
   <link href="http://bezensek.com/"/>
-  <updated>2014-08-21T19:58:08+02:00</updated>
+  <updated>2014-08-27T11:48:05+02:00</updated>
   <id>http://bezensek.com/</id>
   <author>
     <name><![CDATA[Mitja Bezenšek]]></name>
@@ -25,7 +25,7 @@
 <!-- more -->
 
 
-<h1>Programming by wishful thinking</h1>
+<h2>Programming by wishful thinking</h2>
 
 <p>I will not bore you with the theory, since you can read all about it in the <a href="http://en.wikipedia.org/wiki/Automata_theory">wikipedia article</a>, which explains the logic behind FSM better than I ever could. So I will just start with <a href="http://dsoguy.blogspot.com/2007/01/programming-by-wishful-thinking.html">programming by wishful thinking</a>. This is how I would like to consume an implementation of a deterministic FSM (DFSM):</p>
 
@@ -58,7 +58,7 @@
 
 <p>I want the <code>Accept</code> method to print out if the machine accepted the input or not. Also I would like to see the steps that led to the finish state if the input was accepted.</p>
 
-<h1>Transitions</h1>
+<h2>Transitions</h2>
 
 <p>With that, I had all the specification I needed, so I started by implementing the first thing the compiler complained about: the  <code>Transition</code> object.</p>
 
@@ -81,7 +81,7 @@
     }
 </code></pre>
 
-<h1>Deterministic finite state machine</h1>
+<h2>Deterministic finite state machine</h2>
 
 <p>Now that we have the <code>Transition</code>, we can start implementing the machine. Here is how the constructor might look like:</p>
 
@@ -151,7 +151,7 @@
     }
 </code></pre>
 
-<h1>Accepting the inputs</h1>
+<h2>Accepting the inputs</h2>
 
 <p>That brings us to the meat of our DFSM implementation: the <code>Accepts</code> method. We will need to do the following:</p>
 
@@ -190,7 +190,7 @@
     }
 </code></pre>
 
-<h1>Conclusion</h1>
+<h2>Conclusion</h2>
 
 <p>I have omitted some additional validations and the code behind the <code>ConsoleWriter</code> for the sake of brevity, but the full source code can be found at <a href="https://github.com/MitjaBezensek/DFSM">GitHub</a>.</p>
 
