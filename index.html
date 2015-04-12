@@ -85,6 +85,53 @@
 	
 	
     	<article class="post postIndex" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name"><a href="/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/" itemprop="url">
+	Non-deterministic Finite State Machine Implementation in C#</a></h1>
+	<div class="meta">
+	<span class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-12T22:35:00+02:00" data-updated="true" itemprop="datePublished">Apr 12<sup>th</sup>, 2015</time></span>
+	<span class="tags">
+
+
+	<a class='category' href='/blog/categories/automata/'>automata</a>, <a class='category' href='/blog/categories/c-number/'>c#</a>, <a class='category' href='/blog/categories/dotnet/'>dotnet</a>, <a class='category' href='/blog/categories/theory-of-computation/'>theory of computation</a>
+
+
+</span>
+	
+		
+	  		
+		
+	<span class="comments"><a href="/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/#disqus_thread">Comments</a></span>
+
+	
+</div>
+	<div class="entry-content" itemprop="articleBody">
+		<p><a href="http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/">Last time</a> I implemented the deterministic finite state machine (DFSM). This time I will do the same for the non-deterministic (NDFSM) one. I chose the variation without the <code>epsilon</code> transitions and will leave that for exercise if someone might find it intriguing.</p>
+
+<p>The only difference between the DFSM and NDFSM is that while the DFSM can only have a single transition for a given state and input symbol the NDFSM is not limited in that regard. It can have multiple transitions for a given state and input symbol.</p>
+
+
+		
+		<a href="/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/" class="more-link">Continue reading</a>
+	</div>
+
+</article>
+    
+
+	
+	
+    	<article class="post postIndex topBorder" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name"><a href="/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/" itemprop="url">
 	Deterministic Finite State Machine Implementation in C#</a></h1>
 	<div class="meta">
@@ -299,59 +346,6 @@
 </article>
     
 
-	
-	
-    	<article class="post postIndex topBorder" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name"><a href="/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model/" itemprop="url">
-	The Best Way to Get to Know Excel Object Model</a></h1>
-	<div class="meta">
-	<span class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-24T21:10:04+01:00" data-updated="true" itemprop="datePublished">Mar 24<sup>th</sup>, 2014</time></span>
-	<span class="tags">
-
-
-	<a class='category' href='/blog/categories/excel/'>excel</a>, <a class='category' href='/blog/categories/excel-excel/'>excel excel</a>
-
-
-</span>
-	
-		
-	  		
-		
-	<span class="comments"><a href="/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model/#disqus_thread">Comments</a></span>
-
-	
-</div>
-	<div class="entry-content" itemprop="articleBody">
-		<p>I am starting a category called &ldquo;excel Excel&rdquo; which will contain useful tips and tricks for Excel. It will be mostly directed towards Excel developers and power users.</p>
-
-<h2>How do I [blank] in Excel?</h2>
-
-<p><a href="http://stackoverflow.com/">StackOverflow</a> is full of questions like:</p>
-
-<blockquote><p>&ldquo;How do I change the color of a Chart Series in Excel in VBA / C#?&rdquo;</p></blockquote>
-
-<p>While doing it manually is easy, the problem occurs when you wish to start talking to Excel from the code. This is not surprising, considering the number of different objects present in the <a href="http://msdn.microsoft.com/en-us/library/wss56bz7.aspx">Excel Object Model</a>. One can spend an insane amount of time trying to figure out the exact five steps to reach the desired effect. It is easy to get lost in all the objects, and their methods and properties. Which is why I love the <strong>macro recording option</strong>.</p>
-
-
-		
-		<a href="/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model/" class="more-link">Continue reading</a>
-	</div>
-
-</article>
-    
-
 </div>
 <nav id="pagenavi">
     
@@ -362,7 +356,7 @@
 </nav></div>
 			</div>
 			<footer id="footer" class="inner"><p>
-  Copyright &copy; 2014 - Mitja Bezenšek 
+  Copyright &copy; 2015 - Mitja Bezenšek 
 </p></footer>
 			
 

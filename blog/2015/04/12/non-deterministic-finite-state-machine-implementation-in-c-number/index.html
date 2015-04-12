@@ -1,0 +1,330 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Non-deterministic Finite State Machine implementation in C#</title>
+	<meta name="author" content="Mitja Bezenšek">
+
+	
+	<meta name="description" content="A simple implementation of non-deterministic finite state machine in C#.">
+	<meta name="keywords" content="c#, finite state machine, theory of computation">
+	<meta name="language" content="english">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="google-site-verification" content="IoRAIgmvWrU1BAKCkUMb_NmFPnvpGGyAAdQRnz7OXzI" />
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="http://feeds.feedburner.com/MitjaBezensek" rel="alternate" title="Mitja Bezenšek" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>  
+</head>
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<a href="http://bezensek.com">
+		<img src="/images/MitjaBezensek.jpeg" alt="Mitja Bezenšek" />	
+	</a>
+<hgroup>
+  <h1><a href="/">Mitja Bezenšek</a></h1>
+  
+    <h2>Writing about software development, agile techniques, C#, Excel and occasional random thoughts.</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/about/">About</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/categories">Categories</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">		
+		
+			<a class="google" href="https://plus.google.com/110394804035614273200" rel="author" title="Google+">Google+</a>
+		
+		
+			<a class="twitter" href="http://twitter.com/mitjabezensek" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/mitjabezensek" title="GitHub">GitHub</a>
+				
+		
+		  <a class="stackoverflow" href="http://stackoverflow.com/users/1810018/mitja-bezensek" title="StackOverflow"></a>
+		
+				
+		
+			<a class="rss" href="http://feeds.feedburner.com/MitjaBezensek" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post postDetailPadding" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Non-deterministic Finite State Machine Implementation in C#</h1>
+	<div class="meta">
+	<span class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-12T22:35:00+02:00" data-updated="true" itemprop="datePublished">Apr 12<sup>th</sup>, 2015</time></span>
+	<span class="tags">
+
+
+	<a class='category' href='/blog/categories/automata/'>automata</a>, <a class='category' href='/blog/categories/c-number/'>c#</a>, <a class='category' href='/blog/categories/dotnet/'>dotnet</a>, <a class='category' href='/blog/categories/theory-of-computation/'>theory of computation</a>
+
+
+</span>
+	
+		
+	  		
+		
+	<span class="comments"><a href="#disqus_thread">Comments</a></span>
+
+	
+</div>
+	<div class="entry-content" itemprop="articleBody"><p><a href="http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/">Last time</a> I implemented the deterministic finite state machine (DFSM). This time I will do the same for the non-deterministic (NDFSM) one. I chose the variation without the <code>epsilon</code> transitions and will leave that for exercise if someone might find it intriguing.</p>
+
+<p>The only difference between the DFSM and NDFSM is that while the DFSM can only have a single transition for a given state and input symbol the NDFSM is not limited in that regard. It can have multiple transitions for a given state and input symbol.</p>
+
+<!-- more -->
+
+
+<p>With multiple possible next moves we get the non-deterministic way of operating. This is usualy depicted as a &ldquo;magic wand&rdquo; that correctly decides which transition to choose when multiple options are available. Unfortunatelly for us programmers we don&rsquo;t have that magic wand. We need to try all the possible options before we can answer wheater the NDFSM accepts the input or not. My first thought when seeing something like this is <a href="https://en.wikipedia.org/wiki/Backtracking">backtracking</a>:</p>
+
+<ul>
+<li>pick one of the possible transitions,</li>
+<li>if it leads to the solution great,</li>
+<li>if not backtrack and try something else.</li>
+</ul>
+
+
+<p>But let us not get ahead of ourselves. Let us start with something simpler.</p>
+
+<h1>Valid transitions</h1>
+
+<p>With the before discussed difference in mind I looked at the DFSM implementation to see what will I need to change (If you didn&rsquo;t read the <a href="http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/">previous article</a> this would be a good time, since I will mostly skip the parts that will remain the same and only focus on the differences. And even if you have already read it, it might help to have another window opened with the <a href="https://github.com/MitjaBezensek/DFSM/blob/master/FSM_Simple/DeterministicFSM.cs">source code</a> of the solution.).</p>
+
+<p>One of the first things I noticed was the logic that checks the validity of transitions. We no longer need to check if a similar transition has already been defined, so we can remove that part:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">private</span> <span class="kt">bool</span> <span class="nf">ValidTransition</span><span class="p">(</span><span class="n">Transition</span> <span class="n">transition</span><span class="p">){</span>
+</span><span class='line'>    <span class="k">return</span>  <span class="n">Q</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="n">StartState</span><span class="p">)</span> <span class="p">&amp;&amp;</span>
+</span><span class='line'>            <span class="n">Q</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="n">EndState</span><span class="p">)</span> <span class="p">&amp;&amp;</span>
+</span><span class='line'>            <span class="n">Sigma</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="n">Symbol</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>All the other validation logic can remain the same. Which brings us to the biggest change: the <code>Accepts</code> method.</p>
+
+<h1>Non-deterministic Accept</h1>
+
+<p>Like I already mentioned above the non-determinism often looks like magic. This kind of behavior is usually implemented by recursive backtracking. Let us look at a high level overview of the method:</p>
+
+<ul>
+<li>find all the posible transitions from the current state using the current symbol,</li>
+<li>recursively select one transition and try to accept the remaining input,</li>
+<li>if we managed to read the whole input and ended up in a final state, accept the input,</li>
+<li>if the state is not final or no transitions are possible, backtrack and select a different transition.</li>
+</ul>
+
+
+<p>First, we need a method that will start our recursive calls. The logic here is a bit different than in the deterministic case where we could easily determine if the input is not accepted:</p>
+
+<ul>
+<li>there was no valid transition for current state and symbol symbol or</li>
+<li>we read all the input and ended up in a non finite state.</li>
+</ul>
+
+
+<p>For the non-deterministic case we need to do that for all the possible transitions from a given state and symbol. And we should start this from the starting state and the whole input:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">void</span> <span class="nf">Accepts</span><span class="p">(</span><span class="kt">string</span> <span class="n">input</span><span class="p">){</span>
+</span><span class='line'>    <span class="n">ConsoleWriter</span><span class="p">.</span><span class="n">Success</span><span class="p">(</span><span class="s">&quot;Trying to accept: &quot;</span> <span class="p">+</span> <span class="n">input</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">Accepts</span><span class="p">(</span><span class="n">Q0</span><span class="p">,</span> <span class="n">input</span><span class="p">,</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="p">())){</span>
+</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">ConsoleWriter</span><span class="p">.</span><span class="n">Failure</span><span class="p">(</span><span class="s">&quot;Could not accept the input: &quot;</span> <span class="p">+</span> <span class="n">input</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next we need to write the recursive function that checks if there is any sequence of steps that leads from the current state to the final state using the specified input:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">private</span> <span class="kt">bool</span> <span class="nf">Accepts</span><span class="p">(</span><span class="kt">string</span> <span class="n">currentState</span><span class="p">,</span> <span class="kt">string</span> <span class="n">input</span><span class="p">,</span> <span class="n">StringBuilder</span> <span class="n">steps</span><span class="p">){</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">Length</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">){</span>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">transitions</span> <span class="p">=</span> <span class="n">GetAllTransitions</span><span class="p">(</span><span class="n">currentState</span><span class="p">,</span> <span class="n">input</span><span class="p">[</span><span class="m">0</span><span class="p">]);</span>
+</span><span class='line'>        <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">transition</span> <span class="k">in</span> <span class="n">transitions</span><span class="p">){</span>
+</span><span class='line'>            <span class="kt">var</span> <span class="n">currentSteps</span> <span class="p">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="p">(</span><span class="n">steps</span><span class="p">.</span><span class="n">ToString</span><span class="p">()</span> <span class="p">+</span> <span class="n">transition</span><span class="p">);</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">Accepts</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="n">EndState</span><span class="p">,</span> <span class="n">input</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="m">1</span><span class="p">),</span> <span class="n">currentSteps</span><span class="p">)){</span>
+</span><span class='line'>                <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">currentState</span><span class="p">)){</span>
+</span><span class='line'>        <span class="n">ConsoleWriter</span><span class="p">.</span><span class="n">Success</span><span class="p">(</span><span class="s">&quot;Successfully accepted the input &quot;</span> <span class="p">+</span> <span class="n">input</span> <span class="p">+</span> <span class="s">&quot; &quot;</span> <span class="p">+</span>
+</span><span class='line'>                               <span class="s">&quot;in the final state &quot;</span> <span class="p">+</span> <span class="n">currentState</span> <span class="p">+</span>
+</span><span class='line'>                               <span class="s">&quot; with steps:\n&quot;</span> <span class="p">+</span> <span class="n">steps</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If there are more symbols to read we find all the possible transitions for the current state and current symbol. We then recursively try each of these transitions by calling the <code>Acecepts</code> method on the <code>EndState</code> of the transition with the remaining input. The remaining input here is the current input except for the first symbol which we used in the transition. We also need to add the current transition to the steps. For that I created a new <code>StringBuilder</code> or we would add some transitions that did not lead to the solution in the <code>foreach</code> loop.</p>
+
+<p>The recursion stops when we either tried all the transitions and none of them worked. Or if we came to the end of the input in which case we accept the input only if we stoped in a finish state.</p>
+
+<p>The only thing remaining is the <code>GetAllTransitions</code> method which simply goes through all transitions and finds the ones with the specified start state and symbol:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">private</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">Transition</span><span class="p">&gt;</span> <span class="n">GetAllTransitions</span><span class="p">(</span><span class="kt">string</span> <span class="n">currentState</span><span class="p">,</span> <span class="kt">char</span> <span class="n">symbol</span><span class="p">){</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">Delta</span><span class="p">.</span><span class="n">FindAll</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">.</span><span class="n">StartState</span> <span class="p">==</span> <span class="n">currentState</span> <span class="p">&amp;&amp;</span>
+</span><span class='line'>                         <span class="n">t</span><span class="p">.</span><span class="n">Symbol</span> <span class="p">==</span> <span class="n">symbol</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Conclusion</h1>
+
+<p>While the difference between the DFSM and NDFSM is quite small on paper their algorithms are quite different. Reading the input in the case of DFSM proceeds in linear fashion, we are always reducing the number of symbols we still need to read. But for NDFSM this is not the case. We might read all the input but not finish in the end state and then backtrack back to the begining with whole input left to read. This also makes the NDFSM algorithm perform much slower.</p>
+
+<p>Also the implementation above is not really the best when it comes to performance. We are calling the <code>GetAllTransitions</code> method over and over again. A better way would be to store the possible transitions so that we don&rsquo;t have go through all the transitions every time. But I&rsquo;ll leave this to the readers (as well as implementing <a href="http://en.wikipedia.org/wiki/Nondeterministic_finite_automaton_with_%CE%B5-moves"><code>epsilon</code> transitions</a>).</p>
+
+<p>You can find the <a href="https://github.com/MitjaBezensek/NDFSM">source code</a> for NDFSM on github.</p>
+</div>	
+
+</article>
+<div id="post-nav" class="clearfix">
+       
+    <a class="prev" href="/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/"><i class="fa fa-arrow-left"></i>Deterministic finite state machine implementation in C#</a> 
+   
+   
+</div>
+<div id="twitterFollow">
+<p><span>Keep up with the updates: </span> <a href="https://twitter.com/MitjaBezensek" class="twitter-follow-button" data-show-count="false">Follow @MitjaBezensek</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+</script></p></div>
+
+	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53cf7e5d2a976f50"></script>
+<div class="addthis_native_toolbox"></div>
+
+
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2015 - Mitja Bezenšek 
+</p></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'mitjabezensek';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/';
+        var disqus_url = 'http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+	<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-48337858-1', 'auto');
+    ga('require', 'displayfeatures');
+    ga('send', 'pageview');
+
+  </script>
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

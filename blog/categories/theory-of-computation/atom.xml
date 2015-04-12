@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Theory of Computation | Mitja Bezenšek]]></title>
   <link href="http://bezensek.com/blog/categories/theory-of-computation/atom.xml" rel="self"/>
   <link href="http://bezensek.com/"/>
-  <updated>2014-08-27T11:48:05+02:00</updated>
+  <updated>2015-04-12T23:40:31+02:00</updated>
   <id>http://bezensek.com/</id>
   <author>
     <name><![CDATA[Mitja Bezenšek]]></name>
@@ -12,6 +12,122 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Non-deterministic Finite State Machine Implementation in C#]]></title>
+    <link href="http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/"/>
+    <updated>2015-04-12T22:35:00+02:00</updated>
+    <id>http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number</id>
+    <content type="html"><![CDATA[<p><a href="http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/">Last time</a> I implemented the deterministic finite state machine (DFSM). This time I will do the same for the non-deterministic (NDFSM) one. I chose the variation without the <code>epsilon</code> transitions and will leave that for exercise if someone might find it intriguing.</p>
+
+<p>The only difference between the DFSM and NDFSM is that while the DFSM can only have a single transition for a given state and input symbol the NDFSM is not limited in that regard. It can have multiple transitions for a given state and input symbol.</p>
+
+<!-- more -->
+
+
+<p>With multiple possible next moves we get the non-deterministic way of operating. This is usualy depicted as a &ldquo;magic wand&rdquo; that correctly decides which transition to choose when multiple options are available. Unfortunatelly for us programmers we don&rsquo;t have that magic wand. We need to try all the possible options before we can answer wheater the NDFSM accepts the input or not. My first thought when seeing something like this is <a href="https://en.wikipedia.org/wiki/Backtracking">backtracking</a>:</p>
+
+<ul>
+<li>pick one of the possible transitions,</li>
+<li>if it leads to the solution great,</li>
+<li>if not backtrack and try something else.</li>
+</ul>
+
+
+<p>But let us not get ahead of ourselves. Let us start with something simpler.</p>
+
+<h1>Valid transitions</h1>
+
+<p>With the before discussed difference in mind I looked at the DFSM implementation to see what will I need to change (If you didn&rsquo;t read the <a href="http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/">previous article</a> this would be a good time, since I will mostly skip the parts that will remain the same and only focus on the differences. And even if you have already read it, it might help to have another window opened with the <a href="https://github.com/MitjaBezensek/DFSM/blob/master/FSM_Simple/DeterministicFSM.cs">source code</a> of the solution.).</p>
+
+<p>One of the first things I noticed was the logic that checks the validity of transitions. We no longer need to check if a similar transition has already been defined, so we can remove that part:
+``` csharp</p>
+
+<p>private bool ValidTransition(Transition transition){
+    return  Q.Contains(transition.StartState) &amp;&amp;
+            Q.Contains(transition.EndState) &amp;&amp;
+            Sigma.Contains(transition.Symbol);
+}
+<code>``
+All the other validation logic can remain the same. Which brings us to the biggest change: the</code>Accepts` method.</p>
+
+<h1>Non-deterministic Accept</h1>
+
+<p>Like I already mentioned above the non-determinism often looks like magic. This kind of behavior is usually implemented by recursive backtracking. Let us look at a high level overview of the method:</p>
+
+<ul>
+<li>find all the posible transitions from the current state using the current symbol,</li>
+<li>recursively select one transition and try to accept the remaining input,</li>
+<li>if we managed to read the whole input and ended up in a final state, accept the input,</li>
+<li>if the state is not final or no transitions are possible, backtrack and select a different transition.</li>
+</ul>
+
+
+<p>First, we need a method that will start our recursive calls. The logic here is a bit different than in the deterministic case where we could easily determine if the input is not accepted:</p>
+
+<ul>
+<li>there was no valid transition for current state and symbol symbol or</li>
+<li>we read all the input and ended up in a non finite state.</li>
+</ul>
+
+
+<p>For the non-deterministic case we need to do that for all the possible transitions from a given state and symbol. And we should start this from the starting state and the whole input:
+``` csharp
+public void Accepts(string input){
+    ConsoleWriter.Success(&ldquo;Trying to accept: &rdquo; + input);</p>
+
+<pre><code>if (Accepts(Q0, input, new StringBuilder())){
+    return;
+}
+ConsoleWriter.Failure("Could not accept the input: " + input);
+</code></pre>
+
+<p>}
+<code>
+Next we need to write the recursive function that checks if there is any sequence of steps that leads from the current state to the final state using the specified input:
+</code> csharp
+private bool Accepts(string currentState, string input, StringBuilder steps){
+    if (input.Length > 0){
+        var transitions = GetAllTransitions(currentState, input[0]);
+        foreach (var transition in transitions){
+            var currentSteps = new StringBuilder(steps.ToString() + transition);
+            if (Accepts(transition.EndState, input.Substring(1), currentSteps)){
+                return true;
+            }
+        }
+        return false;
+    }
+    if (F.Contains(currentState)){
+        ConsoleWriter.Success(&ldquo;Successfully accepted the input &rdquo; + input + &ldquo; &rdquo; +
+                               &ldquo;in the final state &rdquo; + currentState +
+                               &ldquo; with steps:\n&rdquo; + steps);
+        return true;
+    }
+    return false;
+}
+```</p>
+
+<p>If there are more symbols to read we find all the possible transitions for the current state and current symbol. We then recursively try each of these transitions by calling the <code>Acecepts</code> method on the <code>EndState</code> of the transition with the remaining input. The remaining input here is the current input except for the first symbol which we used in the transition. We also need to add the current transition to the steps. For that I created a new <code>StringBuilder</code> or we would add some transitions that did not lead to the solution in the <code>foreach</code> loop.</p>
+
+<p>The recursion stops when we either tried all the transitions and none of them worked. Or if we came to the end of the input in which case we accept the input only if we stoped in a finish state.</p>
+
+<p>The only thing remaining is the <code>GetAllTransitions</code> method which simply goes through all transitions and finds the ones with the specified start state and symbol:</p>
+
+<pre><code class="csharp">private IEnumerable&lt;Transition&gt; GetAllTransitions(string currentState, char symbol){
+    return Delta.FindAll(t =&gt; t.StartState == currentState &amp;&amp;
+                         t.Symbol == symbol);
+}
+</code></pre>
+
+<h1>Conclusion</h1>
+
+<p>While the difference between the DFSM and NDFSM is quite small on paper their algorithms are quite different. Reading the input in the case of DFSM proceeds in linear fashion, we are always reducing the number of symbols we still need to read. But for NDFSM this is not the case. We might read all the input but not finish in the end state and then backtrack back to the begining with whole input left to read. This also makes the NDFSM algorithm perform much slower.</p>
+
+<p>Also the implementation above is not really the best when it comes to performance. We are calling the <code>GetAllTransitions</code> method over and over again. A better way would be to store the possible transitions so that we don&rsquo;t have go through all the transitions every time. But I&rsquo;ll leave this to the readers (as well as implementing <a href="http://en.wikipedia.org/wiki/Nondeterministic_finite_automaton_with_%CE%B5-moves"><code>epsilon</code> transitions</a>).</p>
+
+<p>You can find the <a href="https://github.com/MitjaBezensek/NDFSM">source code</a> for NDFSM on github.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Deterministic Finite State Machine Implementation in C#]]></title>
