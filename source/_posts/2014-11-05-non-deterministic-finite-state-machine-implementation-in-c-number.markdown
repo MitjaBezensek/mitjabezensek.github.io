@@ -41,7 +41,7 @@ All the other validation logic can remain the same. Which brings us to the bigge
 Like I already mentioned above the non-determinism often looks like magic. This kind of behavior is usually implemented by recursive backtracking. Let us look at a high level overview of the method:
 
 - find all the posible transitions from the current state using the current symbol,
-- recursively select one transition and try to accept the remaining input,
+- recursively select one transition and try to accept the remaining input by using that transition,
 - if we managed to read the whole input and ended up in a final state, accept the input,
 - if the state is not final or no transitions are possible, backtrack and select a different transition.
 
