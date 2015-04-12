@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Dotnet | Mitja Bezenšek]]></title>
   <link href="http://bezensek.com/blog/categories/dotnet/atom.xml" rel="self"/>
   <link href="http://bezensek.com/"/>
-  <updated>2015-04-12T23:40:31+02:00</updated>
+  <updated>2015-04-12T23:44:19+02:00</updated>
   <id>http://bezensek.com/</id>
   <author>
     <name><![CDATA[Mitja Bezenšek]]></name>
@@ -57,7 +57,7 @@ All the other validation logic can remain the same. Which brings us to the bigge
 
 <ul>
 <li>find all the posible transitions from the current state using the current symbol,</li>
-<li>recursively select one transition and try to accept the remaining input,</li>
+<li>recursively select one transition and try to accept the remaining input by using that transition,</li>
 <li>if we managed to read the whole input and ended up in a final state, accept the input,</li>
 <li>if the state is not final or no transitions are possible, backtrack and select a different transition.</li>
 </ul>
