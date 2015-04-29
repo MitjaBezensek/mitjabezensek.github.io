@@ -5,7 +5,7 @@ date: 2014-08-13 21:36:58 +0200
 comments: true
 description: A simple implementation of deterministic finite state machine in C#.
 keywords: c#, finite state machine, theory of computation
-categories: [automata, theory of computation, c#, dotnet]
+categories: [automata, theory of computation, csharp, dotnet]
 ---
 
 While I was working at the [Faculty of Computer and Information Science][1] I have implemented many of the standard algorithms from the famous Cormen's [Introduction to Algorithms][2]. Since I was a part of the Laboratory for algorithms and data structures that is to be expected. However, I have never implemented many of the great results from the Theory of Computation. 

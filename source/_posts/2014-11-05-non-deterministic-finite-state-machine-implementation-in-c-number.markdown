@@ -5,7 +5,7 @@ date: 2015-04-12 22:35
 comments: true
 description: A simple implementation of non-deterministic finite state machine in C#.
 keywords: c#, finite state machine, theory of computation
-categories: [automata, theory of computation, c#, dotnet]
+categories: [automata, theory of computation, csharp, dotnet]
 ---
 
 [Last time][1] I implemented the deterministic finite state machine (DFSM). This time I will do the same for the non-deterministic (NDFSM) one. I chose the variation without the `epsilon` transitions and will leave that for exercise if someone might find it intriguing.
