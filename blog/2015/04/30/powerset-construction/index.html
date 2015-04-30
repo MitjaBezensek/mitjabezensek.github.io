@@ -112,6 +112,9 @@
 </div>
 	<div class="entry-content" itemprop="articleBody"><p>In the last two articles I have implemented the <a href="http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/">deterministic finite state machine</a> (DFSM) and the <a href="http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/">non-deterministic finite state machine</a> (NDFSM). As you probably all know the two variants are equivalent in terms of power; that is everything that can be expressed with one can also be expressed with the other. This may come as a surprise when you first hear about it, but you are soon presented with the <strong><a href="http://en.wikipedia.org/wiki/Powerset_construction">powerset construction</a></strong> which converts a NDFSM into a DFSM and thus proves one part of the equivalence. The other part is trivial since DFSM is only a limited NDFSM.</p>
 
+<!-- more -->
+
+
 <h2>Powerset construction algorithm</h2>
 
 <p>Like I discussed in my <a href="http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/">previous blog post</a>, the only difference between the DFSM and the NDFSM is that the DFSM does not allow multiple transitions for a given state and symbol. If we wish to transform a NDFSM into a DFSM we need to remove these multiple transitions. We can achieve this by combining all the states that we can reach with a given symbol from a given state into a new state which is a set of all the reachable states.</p>
