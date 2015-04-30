@@ -85,6 +85,63 @@
 	
 	
     	<article class="post postIndex" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name"><a href="/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround/" itemprop="url">
+	Excel&#8217;s ActivePane Index Property Bug and a Workaround</a></h1>
+	<div class="meta">
+	<span class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-23T11:20:04+02:00" data-updated="true" itemprop="datePublished">Jul 23<sup>rd</sup>, 2014</time></span>
+	<span class="tags">
+
+
+	<a class='category' href='/blog/categories/excel/'>excel</a>, <a class='category' href='/blog/categories/excel-bug/'>excel bug</a>, <a class='category' href='/blog/categories/vsto/'>vsto</a>
+
+
+</span>
+	
+		
+	  		
+		
+	<span class="comments"><a href="/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround/#disqus_thread">Comments</a></span>
+
+	
+</div>
+	<div class="entry-content" itemprop="articleBody">
+		<p>In <a href="http://zebra.bi/">Zebra BI</a> we are positioning our custom WPF forms on top of the Excel window in order to offer a richer and more contextual UI. Calculating the exact position for the forms is quite complex and painful, due to things like:</p>
+
+<ul>
+<li>detecting the Excel window state and left edge position</li>
+<li>calculating from points to pixels <sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup></li>
+<li>coping with the Windows DPI</li>
+<li>taking Ribbon / Formula Bar / Excel version into consideration</li>
+<li>serious lack of events on many of Excel&rsquo;s objects</li>
+<li>&hellip;</li>
+</ul>
+
+
+<p>The last nail in the coffin were the Panes which also need to be considered when a user uses the Freeze Panes option, which basically splits the worksheet into 2 or 4 Panes. At first it seemed like a simple adjustment until I started digging into the object model and ultimately found out that:</p>
+
+
+		
+		<a href="/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround/" class="more-link">Continue reading</a>
+	</div>
+
+</article>
+    
+
+	
+	
+    	<article class="post postIndex topBorder" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name"><a href="/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model/" itemprop="url">
 	The Best Way to Get to Know Excel Object Model</a></h1>
 	<div class="meta">

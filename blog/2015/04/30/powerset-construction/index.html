@@ -5,12 +5,12 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Writing about software development, agile techniques, C#, Excel and occasional random thoughts.</title>
+	<title>Powerset construction in C#</title>
 	<meta name="author" content="Mitja Bezenšek">
 
 	
-	<meta name="description" content="Mitja Bezenšek's personal blog. Writting about software development, agile techniques, C#, Excel and occasional random thoughts.">
-	<meta name="keywords" content="software development, C#, Excel, startup">
+	<meta name="description" content="An implementation of the powerset construction which converts NDFSM to DFSM">
+	<meta name="keywords" content="c#, finite state machine, theory of computation">
 	<meta name="language" content="english">
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +21,7 @@
 
 	<link href="http://feeds.feedburner.com/MitjaBezensek" rel="alternate" title="Mitja Bezenšek" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://bezensek.com/">
+	<link rel="canonical" href="http://bezensek.com/blog/2015/04/30/powerset-construction/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
@@ -79,14 +79,8 @@
 				
 			
 			<div class="mid-col-container">
-				<div id="content" class="inner">
-<div itemscope itemtype="http://schema.org/Blog">
-
-	
-	
-    	<article class="post postIndex" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name"><a href="/blog/2015/04/30/powerset-construction/" itemprop="url">
-	Powerset Construction in C#</a></h1>
+				<div id="content" class="inner"><article class="post postDetailPadding" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Powerset Construction in C#</h1>
 	<div class="meta">
 	<span class="date">
 
@@ -112,12 +106,11 @@
 		
 	  		
 		
-	<span class="comments"><a href="/blog/2015/04/30/powerset-construction/#disqus_thread">Comments</a></span>
+	<span class="comments"><a href="#disqus_thread">Comments</a></span>
 
 	
 </div>
-	<div class="entry-content" itemprop="articleBody">
-		<p>In the last two articles I have implemented the <a href="http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/">deterministic finite state machine</a> (DFSM) and the <a href="http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/">non-deterministic finite state machine</a> (NDFSM). As you probably all know the two variants are equivalent in terms of power; that is everything that can be expressed with one can also be expressed with the other. This may come as a surprise when you first hear about it, but you are soon presented with the <strong><a href="http://en.wikipedia.org/wiki/Powerset_construction">powerset construction</a></strong> which converts a NDFSM into a DFSM and thus proves one part of the equivalence. The other part is trivial since DFSM is only a limited NDFSM.</p>
+	<div class="entry-content" itemprop="articleBody"><p>In the last two articles I have implemented the <a href="http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/">deterministic finite state machine</a> (DFSM) and the <a href="http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/">non-deterministic finite state machine</a> (NDFSM). As you probably all know the two variants are equivalent in terms of power; that is everything that can be expressed with one can also be expressed with the other. This may come as a surprise when you first hear about it, but you are soon presented with the <strong><a href="http://en.wikipedia.org/wiki/Powerset_construction">powerset construction</a></strong> which converts a NDFSM into a DFSM and thus proves one part of the equivalence. The other part is trivial since DFSM is only a limited NDFSM.</p>
 
 <h2>Powerset construction algorithm</h2>
 
@@ -233,229 +226,33 @@
 <p>This algorithm was actually easier to implement than I thought. I thought that I would need to generate the powerset and then all the possible transitions between all the states. I took a different approach which only goes through the reachable states and only generates the states of the powerset that are actually needed. The algorithm turned out much simpler and on top of that it also produces a better results since the unreachable states are pruned away!</p>
 
 <p>The source code is available at <a href="https://github.com/MitjaBezensek/PowersetConstruction">Github</a>.</p>
-
-		
-		
-	</div>
+</div>	
 
 </article>
-    
-
-	
-	
-    	<article class="post postIndex topBorder" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name"><a href="/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/" itemprop="url">
-	Non-deterministic Finite State Machine Implementation in C#</a></h1>
-	<div class="meta">
-	<span class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-04-12T22:35:00+02:00" data-updated="true" itemprop="datePublished">Apr 12<sup>th</sup>, 2015</time></span>
-	<span class="tags">
-
-
-	<a class='category' href='/blog/categories/automata/'>automata</a>, <a class='category' href='/blog/categories/csharp/'>csharp</a>, <a class='category' href='/blog/categories/dotnet/'>dotnet</a>, <a class='category' href='/blog/categories/theory-of-computation/'>theory of computation</a>
-
-
-</span>
-	
-		
-	  		
-		
-	<span class="comments"><a href="/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/#disqus_thread">Comments</a></span>
-
-	
+<div id="post-nav" class="clearfix">
+       
+    <a class="prev" href="/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/"><i class="fa fa-arrow-left"></i>Non-deterministic Finite State Machine implementation in C#</a> 
+   
+   
 </div>
-	<div class="entry-content" itemprop="articleBody">
-		<p><a href="http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/">Last time</a> I implemented the deterministic finite state machine (DFSM). This time I will do the same for the non-deterministic (NDFSM) one. I chose the variation without the <code>epsilon</code> transitions and will leave that for exercise if someone might find it intriguing.</p>
+<div id="twitterFollow">
+<p><span>Keep up with the updates: </span> <a href="https://twitter.com/MitjaBezensek" class="twitter-follow-button" data-show-count="false">Follow @MitjaBezensek</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+</script></p></div>
 
-<p>The only difference between the DFSM and NDFSM is that while the DFSM can only have a single transition for a given state and input symbol the NDFSM is not limited in that regard. It can have multiple transitions for a given state and input symbol.</p>
-
-
-		
-		<a href="/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/" class="more-link">Continue reading</a>
-	</div>
-
-</article>
-    
-
-	
-	
-    	<article class="post postIndex topBorder" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name"><a href="/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/" itemprop="url">
-	Deterministic Finite State Machine Implementation in C#</a></h1>
-	<div class="meta">
-	<span class="date">
+	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53cf7e5d2a976f50"></script>
+<div class="addthis_native_toolbox"></div>
 
 
 
 
 
-
-
-
-  
-
-
-<time datetime="2014-08-13T21:36:58+02:00" data-updated="true" itemprop="datePublished">Aug 13<sup>th</sup>, 2014</time></span>
-	<span class="tags">
-
-
-	<a class='category' href='/blog/categories/automata/'>automata</a>, <a class='category' href='/blog/categories/csharp/'>csharp</a>, <a class='category' href='/blog/categories/dotnet/'>dotnet</a>, <a class='category' href='/blog/categories/theory-of-computation/'>theory of computation</a>
-
-
-</span>
-	
-		
-	  		
-		
-	<span class="comments"><a href="/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/#disqus_thread">Comments</a></span>
-
-	
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-	<div class="entry-content" itemprop="articleBody">
-		<p>While I was working at the <a href="http://www.fri.uni-lj.si/en/">Faculty of Computer and Information Science</a> I have implemented many of the standard algorithms from the famous Cormen&rsquo;s <a href="http://www.amazon.com/gp/product/0262033844/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0262033844&amp;linkCode=as2&amp;tag=bezensek-20&amp;linkId=EL57QKBNM5BB373B">Introduction to Algorithms</a>. Since I was a part of the Laboratory for algorithms and data structures that is to be expected. However, I have never implemented many of the great results from the Theory of Computation.</p>
-
-<p>This is why I decided to implement the finite state machine and the Turing machine in C# as an exercise. In this blog post I will start with the easier of the two, the <a href="http://en.wikipedia.org/wiki/Automata_theory">finite state machine (FSM)</a>.</p>
-
-
-		
-		<a href="/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/" class="more-link">Continue reading</a>
-	</div>
-
-</article>
-    
-
-	
-	
-    	<article class="post postIndex topBorder" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name"><a href="/blog/2014/08/05/excel-rgb-color-bug/" itemprop="url">
-	Excel VSTO RGB Color Bug</a></h1>
-	<div class="meta">
-	<span class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-05T10:45:04+02:00" data-updated="true" itemprop="datePublished">Aug 5<sup>th</sup>, 2014</time></span>
-	<span class="tags">
-
-
-	<a class='category' href='/blog/categories/color/'>color</a>, <a class='category' href='/blog/categories/excel/'>excel</a>, <a class='category' href='/blog/categories/excel-bug/'>excel bug</a>
-
-
-</span>
-	
-		
-	  		
-		
-	<span class="comments"><a href="/blog/2014/08/05/excel-rgb-color-bug/#disqus_thread">Comments</a></span>
-
-	
+</section>
 </div>
-	<div class="entry-content" itemprop="articleBody">
-		<p>One of the strangest bugs I found in VSTO for Excel is the one that deals with assigning colors to the RGB property of the ChartFormat object. The ChartFormat object is used in multiple places of Excel. Let&rsquo;s look at an example:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">Series</span> <span class="n">series</span> <span class="p">=</span> <span class="n">Globals</span><span class="p">.</span><span class="n">ThisAddIn</span><span class="p">.</span><span class="n">Application</span><span class="p">.</span><span class="n">Selection</span><span class="p">;</span>
-</span><span class='line'><span class="n">series</span><span class="p">.</span><span class="n">Format</span><span class="p">.</span><span class="n">Fill</span><span class="p">.</span><span class="n">ForeColor</span><span class="p">.</span><span class="n">RGB</span> <span class="p">=</span> <span class="n">Color</span><span class="p">.</span><span class="n">Red</span><span class="p">.</span><span class="n">ToArgb</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>For brevity&rsquo;s sake let&rsquo;s suppose that we have a series of a chart selected and we run the code above. One would expect that the color of the selected series would be set to red, but what happens is this:</p>
-
-<p><img src="/img/chart.png" title="Chart" alt="Chart"></p>
-
-
-		
-		<a href="/blog/2014/08/05/excel-rgb-color-bug/" class="more-link">Continue reading</a>
-	</div>
-
-</article>
-    
-
-	
-	
-    	<article class="post postIndex topBorder" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons/" itemprop="url">
-	How to Use Add This With Octopress to Add Social Buttons</a></h1>
-	<div class="meta">
-	<span class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-31T18:04:44+02:00" data-updated="true" itemprop="datePublished">Jul 31<sup>st</sup>, 2014</time></span>
-	<span class="tags">
-
-
-	<a class='category' href='/blog/categories/blog/'>blog</a>, <a class='category' href='/blog/categories/octopress/'>octopress</a>, <a class='category' href='/blog/categories/social/'>social</a>
-
-
-</span>
-	
-		
-	  		
-		
-	<span class="comments"><a href="/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons/#disqus_thread">Comments</a></span>
-
-	
-</div>
-	<div class="entry-content" itemprop="articleBody">
-		<p><a href="http://octopress.org/">Octopress</a> is a great blogging framework for (mostly) technical people. People that like to have everything about their blog in their control. People like me.</p>
-
-<p>It&rsquo;s great to:</p>
-
-<ul>
-<li>have your whole blog in version control,</li>
-<li>forget about hosting since it&rsquo;s only a bunch of static pages and you can host them on <a href="https://pages.github.com/">GitHub pages</a> <sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> ,</li>
-<li>style your blog with the help of many <a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">free themes</a>,</li>
-<li>easily customize and extend your blog by plugging in different pieces of functionality.</li>
-</ul>
-
-
-<p>Today I&rsquo;m going to show you how easy it is to add social share buttons below each of your posts. Let&rsquo;s get started.</p>
-
-
-		
-		<a href="/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons/" class="more-link">Continue reading</a>
-	</div>
-
-</article>
-    
-
-</div>
-<nav id="pagenavi">
-    
-    
-        <a href="/page/2" class="next">Older posts </a>
-    
-    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
-</nav></div>
 			</div>
 			<footer id="footer" class="inner"><p>
   Copyright &copy; 2015 - Mitja Bezenšek 
@@ -466,7 +263,10 @@
       var disqus_shortname = 'mitjabezensek';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://bezensek.com/blog/2015/04/30/powerset-construction/';
+        var disqus_url = 'http://bezensek.com/blog/2015/04/30/powerset-construction/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

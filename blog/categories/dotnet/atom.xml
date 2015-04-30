@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Dotnet | Mitja Bezenšek]]></title>
   <link href="http://bezensek.com/blog/categories/dotnet/atom.xml" rel="self"/>
   <link href="http://bezensek.com/"/>
-  <updated>2015-04-12T23:44:19+02:00</updated>
+  <updated>2015-04-30T15:58:21+02:00</updated>
   <id>http://bezensek.com/</id>
   <author>
     <name><![CDATA[Mitja Bezenšek]]></name>
@@ -12,6 +12,86 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Powerset Construction in C#]]></title>
+    <link href="http://bezensek.com/blog/2015/04/30/powerset-construction/"/>
+    <updated>2015-04-30T15:58:59+02:00</updated>
+    <id>http://bezensek.com/blog/2015/04/30/powerset-construction</id>
+    <content type="html"><![CDATA[<p>In the last two articles I have implemented the <a href="http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/">deterministic finite state machine</a> (DFSM) and the <a href="http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/">non-deterministic finite state machine</a> (NDFSM). As you probably all know the two variants are equivalent in terms of power; that is everything that can be expressed with one can also be expressed with the other. This may come as a surprise when you first hear about it, but you are soon presented with the <strong><a href="http://en.wikipedia.org/wiki/Powerset_construction">powerset construction</a></strong> which converts a NDFSM into a DFSM and thus proves one part of the equivalence. The other part is trivial since DFSM is only a limited NDFSM.</p>
+
+<h2>Powerset construction algorithm</h2>
+
+<p>Like I discussed in my <a href="http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/">previous blog post</a>, the only difference between the DFSM and the NDFSM is that the DFSM does not allow multiple transitions for a given state and symbol. If we wish to transform a NDFSM into a DFSM we need to remove these multiple transitions. We can achieve this by combining all the states that we can reach with a given symbol from a given state into a new state which is a set of all the reachable states.</p>
+
+<p><img src="/img/PowersetConstruction.png" title="&lsquo;Powerset construction&rsquo; &lsquo;Powerset construction&rsquo;" ></br></p>
+
+<p>As you can see on the left side of the above picture we can reach states <code>q1</code> and <code>q2</code> from the state <code>q0</code> using the symbol <code>a</code>. This means that the state <code>q0</code> has multiple transitions defined for the symbol <code>a</code> and we wish to get rid of these multiple transitions. The powerset construction combines states <code>q1</code> and <code>q2</code> into a new state that is the set of these two states as can be seen on the right side of the picture. The new state is denoted as <code>{q1, q2}</code>. When we do this transformation for the combined states, like the <code>{q1, q2}</code>, we need to look at the transitions for all the states that make this combined state, in this case <code>q1</code> and <code>q2</code>.</p>
+
+<p>The good news is that this does exactly what we need: it gets rid of the multiple transitions. The bad news though is that in the worst case the number of states explodes and we end up with the states that are all the possible subsets of our original set of states.</p>
+
+<p>Ouch.</p>
+
+<p>So how would we approach this constructions programmatically? Probably the easiest way would be to keep a queue of states that we wish to process. The initial queue would only contain the starting states. We would then add all the possible states that are reachable from the starting states. If there are multiple transitions from a state with a given symbol we would create a new <strong>combined state</strong> like described in the previous paragraph and add it to the queue. For the symbols that only have one transition we would just add the ending state of the transition to the queue. We would then remove a state from the queue and repeat the described algorithm until we empty the queue.</p>
+
+<p>Determining the finish states of the DFSM machine is easy. The finish states will be all the finish states of the original NDFSM plus the combined states that have a least one of the finish states as one of their elements.</p>
+
+<p>During the execution of the algorithm we would of course need to keep track of the already processed states and the transitions between them so that we can construct our NDFSM.</p>
+
+<p>Here is one possible implementation:</p>
+
+<pre><code class="csharp">public static DFSM Convert(NDFSM nd){
+    var Q = new List&lt;string&gt;();
+    var Sigma = nd.Sigma.ToList();
+    var Delta = new List&lt;Transition&gt;();
+    var Q0 = nd.Q0.ToList();
+    var F = new List&lt;string&gt;();
+
+    var processed = new List&lt;string&gt;();
+    var queue = new Queue&lt;string&gt;(Q0);
+    while (queue.Count &gt; 0){
+       var setState = queue.Dequeue();
+       processed.Add(setState);
+       Q.Add(setState);
+
+        var statesInCurrentSetState = setState.Split(',').ToList();
+        foreach (var state in statesInCurrentSetState){
+            if (nd.F.Contains(state)){
+                F.Add(setState);
+                break;
+           }
+        }
+        var symbols = nd.Delta
+           .Where(t =&gt; statesInCurrentSetState.Contains(t.StartState))
+           .Select(t =&gt; t.Symbol)
+           .Distinct();
+        foreach (var symbol in symbols){
+           var reachableStates =
+              nd.Delta
+                 .Where(t =&gt; t.Symbol == symbol &amp;&amp;
+                             statesInCurrentSetState.Contains(t.StartState))
+                 .OrderBy(t =&gt; t.EndState)
+                 .Select(t =&gt; t.EndState);
+           var reachableSetState = string.Join(",", reachableStates);
+
+           Delta.Add(new Transition(setState, symbol, reachableSetState));
+
+           if (!processed.Contains(reachableSetState)){
+              queue.Enqueue(reachableSetState);
+           }
+        }
+    }
+    return new DFSM(Q, Sigma, Delta, Q0, F);
+}
+</code></pre>
+
+<h2>Conclusion</h2>
+
+<p>This algorithm was actually easier to implement than I thought. I thought that I would need to generate the powerset and then all the possible transitions between all the states. I took a different approach which only goes through the reachable states and only generates the states of the powerset that are actually needed. The algorithm turned out much simpler and on top of that it also produces a better results since the unreachable states are pruned away!</p>
+
+<p>The source code is available at <a href="https://github.com/MitjaBezensek/PowersetConstruction">Github</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Non-deterministic Finite State Machine Implementation in C#]]></title>

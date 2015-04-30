@@ -4,7 +4,7 @@
   <title><![CDATA[Mitja Bezenšek]]></title>
   <link href="http://bezensek.com/atom.xml" rel="self"/>
   <link href="http://bezensek.com/"/>
-  <updated>2015-04-12T23:44:19+02:00</updated>
+  <updated>2015-04-30T15:58:21+02:00</updated>
   <id>http://bezensek.com/</id>
   <author>
     <name><![CDATA[Mitja Bezenšek]]></name>
@@ -12,6 +12,130 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Powerset construction in C#]]></title>
+    <link href="http://bezensek.com/blog/2015/04/30/powerset-construction/"/>
+    <updated>2015-04-30T15:58:59+02:00</updated>
+    <id>http://bezensek.com/blog/2015/04/30/powerset-construction</id>
+    <content type="html"><![CDATA[<p>In the last two articles I have implemented the <a href="http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/">deterministic finite state machine</a> (DFSM) and the <a href="http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/">non-deterministic finite state machine</a> (NDFSM). As you probably all know the two variants are equivalent in terms of power; that is everything that can be expressed with one can also be expressed with the other. This may come as a surprise when you first hear about it, but you are soon presented with the <strong><a href="http://en.wikipedia.org/wiki/Powerset_construction">powerset construction</a></strong> which converts a NDFSM into a DFSM and thus proves one part of the equivalence. The other part is trivial since DFSM is only a limited NDFSM.</p>
+
+<h2>Powerset construction algorithm</h2>
+
+<p>Like I discussed in my <a href="http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/">previous blog post</a>, the only difference between the DFSM and the NDFSM is that the DFSM does not allow multiple transitions for a given state and symbol. If we wish to transform a NDFSM into a DFSM we need to remove these multiple transitions. We can achieve this by combining all the states that we can reach with a given symbol from a given state into a new state which is a set of all the reachable states.</p>
+
+<p><img src="http://bezensek.com/img/PowersetConstruction.png" title="Powerset construction" alt="Powerset construction"></br></p>
+
+<p>As you can see on the left side of the above picture we can reach states <code>q1</code> and <code>q2</code> from the state <code>q0</code> using the symbol <code>a</code>. This means that the state <code>q0</code> has multiple transitions defined for the symbol <code>a</code> and we wish to get rid of these multiple transitions. The powerset construction combines states <code>q1</code> and <code>q2</code> into a new state that is the set of these two states as can be seen on the right side of the picture. The new state is denoted as <code>{q1, q2}</code>. When we do this transformation for the combined states, like the <code>{q1, q2}</code>, we need to look at the transitions for all the states that make this combined state, in this case <code>q1</code> and <code>q2</code>.</p>
+
+<p>The good news is that this does exactly what we need: it gets rid of the multiple transitions. The bad news though is that in the worst case the number of states explodes and we end up with the states that are all the possible subsets of our original set of states.</p>
+
+<p>Ouch.</p>
+
+<p>So how would we approach this constructions programmatically? Probably the easiest way would be to keep a queue of states that we wish to process. The initial queue would only contain the starting states. We would then add all the possible states that are reachable from the starting states. If there are multiple transitions from a state with a given symbol we would create a new <strong>combined state</strong> like described in the previous paragraph and add it to the queue. For the symbols that only have one transition we would just add the ending state of the transition to the queue. We would then remove a state from the queue and repeat the described algorithm until we empty the queue.</p>
+
+<p>Determining the finish states of the DFSM machine is easy. The finish states will be all the finish states of the original NDFSM plus the combined states that have a least one of the finish states as one of their elements.</p>
+
+<p>During the execution of the algorithm we would of course need to keep track of the already processed states and the transitions between them so that we can construct our NDFSM.</p>
+
+<p>Here is one possible implementation:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">static</span> <span class="n">DFSM</span> <span class="nf">Convert</span><span class="p">(</span><span class="n">NDFSM</span> <span class="n">nd</span><span class="p">){</span>
+</span><span class='line'>  <span class="kt">var</span> <span class="n">Q</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;();</span>
+</span><span class='line'>  <span class="kt">var</span> <span class="n">Sigma</span> <span class="p">=</span> <span class="n">nd</span><span class="p">.</span><span class="n">Sigma</span><span class="p">.</span><span class="n">ToList</span><span class="p">();</span>
+</span><span class='line'>  <span class="kt">var</span> <span class="n">Delta</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Transition</span><span class="p">&gt;();</span>
+</span><span class='line'>  <span class="kt">var</span> <span class="n">Q0</span> <span class="p">=</span> <span class="n">nd</span><span class="p">.</span><span class="n">Q0</span><span class="p">.</span><span class="n">ToList</span><span class="p">();</span>
+</span><span class='line'>  <span class="kt">var</span> <span class="n">F</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;();</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="kt">var</span> <span class="n">processed</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;();</span>
+</span><span class='line'>  <span class="kt">var</span> <span class="n">queue</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Queue</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;(</span><span class="n">Q0</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">while</span> <span class="p">(</span><span class="n">queue</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">){</span>
+</span><span class='line'>     <span class="kt">var</span> <span class="n">setState</span> <span class="p">=</span> <span class="n">queue</span><span class="p">.</span><span class="n">Dequeue</span><span class="p">();</span>
+</span><span class='line'>     <span class="n">processed</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">setState</span><span class="p">);</span>
+</span><span class='line'>     <span class="n">Q</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">setState</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kt">var</span> <span class="n">statesInCurrentSetState</span> <span class="p">=</span> <span class="n">setState</span><span class="p">.</span><span class="n">Split</span><span class="p">(</span><span class="sc">&#39;,&#39;</span><span class="p">).</span><span class="n">ToList</span><span class="p">();</span>
+</span><span class='line'>      <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">state</span> <span class="k">in</span> <span class="n">statesInCurrentSetState</span><span class="p">){</span>
+</span><span class='line'>          <span class="k">if</span> <span class="p">(</span><span class="n">nd</span><span class="p">.</span><span class="n">F</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">state</span><span class="p">)){</span>
+</span><span class='line'>              <span class="n">F</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">setState</span><span class="p">);</span>
+</span><span class='line'>              <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>         <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="kt">var</span> <span class="n">symbols</span> <span class="p">=</span> <span class="n">nd</span><span class="p">.</span><span class="n">Delta</span>
+</span><span class='line'>         <span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">statesInCurrentSetState</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">StartState</span><span class="p">))</span>
+</span><span class='line'>         <span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">.</span><span class="n">Symbol</span><span class="p">)</span>
+</span><span class='line'>         <span class="p">.</span><span class="n">Distinct</span><span class="p">();</span>
+</span><span class='line'>      <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">symbol</span> <span class="k">in</span> <span class="n">symbols</span><span class="p">){</span>
+</span><span class='line'>         <span class="kt">var</span> <span class="n">reachableStates</span> <span class="p">=</span>
+</span><span class='line'>            <span class="n">nd</span><span class="p">.</span><span class="n">Delta</span>
+</span><span class='line'>               <span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">.</span><span class="n">Symbol</span> <span class="p">==</span> <span class="n">symbol</span> <span class="p">&amp;&amp;</span>
+</span><span class='line'>                           <span class="n">statesInCurrentSetState</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">StartState</span><span class="p">))</span>
+</span><span class='line'>               <span class="p">.</span><span class="n">OrderBy</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">.</span><span class="n">EndState</span><span class="p">)</span>
+</span><span class='line'>               <span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">.</span><span class="n">EndState</span><span class="p">);</span>
+</span><span class='line'>         <span class="kt">var</span> <span class="n">reachableSetState</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Join</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">,</span> <span class="n">reachableStates</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>         <span class="n">Delta</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">Transition</span><span class="p">(</span><span class="n">setState</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">reachableSetState</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>         <span class="k">if</span> <span class="p">(!</span><span class="n">processed</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">reachableSetState</span><span class="p">)){</span>
+</span><span class='line'>            <span class="n">queue</span><span class="p">.</span><span class="n">Enqueue</span><span class="p">(</span><span class="n">reachableSetState</span><span class="p">);</span>
+</span><span class='line'>         <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="k">new</span> <span class="nf">DFSM</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">Sigma</span><span class="p">,</span> <span class="n">Delta</span><span class="p">,</span> <span class="n">Q0</span><span class="p">,</span> <span class="n">F</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Conclusion</h2>
+
+<p>This algorithm was actually easier to implement than I thought. I thought that I would need to generate the powerset and then all the possible transitions between all the states. I took a different approach which only goes through the reachable states and only generates the states of the powerset that are actually needed. The algorithm turned out much simpler and on top of that it also produces a better results since the unreachable states are pruned away!</p>
+
+<p>The source code is available at <a href="https://github.com/MitjaBezensek/PowersetConstruction">Github</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Non-deterministic Finite State Machine implementation in C#]]></title>
