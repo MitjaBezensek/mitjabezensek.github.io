@@ -10,6 +10,8 @@ categories: [automata, theory of computation, csharp, dotnet]
 
 In the last two articles I have implemented the [deterministic finite state machine](http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/) (DFSM) and the [non-deterministic finite state machine](http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/) (NDFSM). As you probably all know the two variants are equivalent in terms of power; that is everything that can be expressed with one can also be expressed with the other. This may come as a surprise when you first hear about it, but you are soon presented with the **[powerset construction](http://en.wikipedia.org/wiki/Powerset_construction)** which converts a NDFSM into a DFSM and thus proves one part of the equivalence. The other part is trivial since DFSM is only a limited NDFSM.
 
+<!-- more -->
+
 ## Powerset construction algorithm
 
 Like I discussed in my [previous blog post](http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/), the only difference between the DFSM and the NDFSM is that the DFSM does not allow multiple transitions for a given state and symbol. If we wish to transform a NDFSM into a DFSM we need to remove these multiple transitions. We can achieve this by combining all the states that we can reach with a given symbol from a given state into a new state which is a set of all the reachable states. 
