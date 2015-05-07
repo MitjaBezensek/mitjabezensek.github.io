@@ -1,0 +1,519 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Deterministic finite state machine minimization</title>
+	<meta name="author" content="Mitja Bezenšek">
+
+	
+	<meta name="description" content="Deterministic Finite State Machine Minimization May 8th, 2015 automata, csharp, dotnet, theory of computation Comments I have received a question &hellip;">
+	<meta name="keywords" content="c#, finite state machine, theory of computation">
+	<meta name="language" content="english">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="google-site-verification" content="IoRAIgmvWrU1BAKCkUMb_NmFPnvpGGyAAdQRnz7OXzI" />
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="http://feeds.feedburner.com/MitjaBezensek" rel="alternate" title="Mitja Bezenšek" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://bezensek.com/blog/2015/05/08/deterministic-finite-state-machine-minimization/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>  
+</head>
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<a href="http://bezensek.com">
+		<img src="/images/MitjaBezensek.jpeg" alt="Mitja Bezenšek" />	
+	</a>
+<hgroup>
+  <h1><a href="/">Mitja Bezenšek</a></h1>
+  
+    <h2>Writing about software development, agile techniques, C#, Excel and occasional random thoughts.</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/about/">About</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/categories">Categories</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">		
+		
+			<a class="google" href="https://plus.google.com/110394804035614273200" rel="author" title="Google+">Google+</a>
+		
+		
+			<a class="twitter" href="http://twitter.com/mitjabezensek" title="Twitter">Twitter</a>
+		
+		
+			<a class="github" href="https://github.com/mitjabezensek" title="GitHub">GitHub</a>
+				
+		
+		  <a class="stackoverflow" href="http://stackoverflow.com/users/1810018/mitja-bezensek" title="StackOverflow"></a>
+		
+				
+		
+			<a class="rss" href="http://feeds.feedburner.com/MitjaBezensek" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post postDetailPadding" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Deterministic Finite State Machine Minimization</h1>
+	<div class="meta">
+	<span class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-08T00:48:59+02:00" data-updated="true" itemprop="datePublished">May 8<sup>th</sup>, 2015</time></span>
+	<span class="tags">
+
+
+	<a class='category' href='/blog/categories/automata/'>automata</a>, <a class='category' href='/blog/categories/csharp/'>csharp</a>, <a class='category' href='/blog/categories/dotnet/'>dotnet</a>, <a class='category' href='/blog/categories/theory-of-computation/'>theory of computation</a>
+
+
+</span>
+	
+		
+	  		
+		
+	<span class="comments"><a href="#disqus_thread">Comments</a></span>
+
+	
+</div>
+	<div class="entry-content" itemprop="articleBody"><p>I have received a question about how to approach DFSM minimization in <a href="http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/">one of the previous posts</a>. This is an attempt to answer that question.</p>
+
+<h2>What is DFSM minimization?</h2>
+
+<p>First, let us consider what does it mean for two DFSM to be <strong>equivalent</strong>? Imagine having two DFSM that both accept the same input symbols. You then pass all the possible inputs to those two machines. If and only if the answers are the same for all the inputs then the two machines are equivalent. That is: they accept exactly the same inputs, even though their inner workings might not be the same.</p>
+
+<p>This means that there are many equivalent DFSM. For example all three DFSM in the below picture accept the same input which can be written as a regular expression (0+1)<sup>*</sup>.</p>
+
+<p><img src="/img/Equivalence.png" title="Deterministic finite state machine equivalence" alt="Deterministic finite state machine equivalence"></br></p>
+
+<p>The three DFSM vary in the number of states and also in the number of the transitions. Nonetheless, I hope you will agree with me that they all accept the same input.</p>
+
+<!-- more -->
+
+
+<p>In this example case the machines are simple. But what would happen if the machines were complex - how would we determine if they are equivalent?</p>
+
+<p>The answer is minimization. Minimization <strong>transforms</strong> a machine <strong>into an equivalent machine</strong> that has <strong>minimum number of states</strong>.  We can then easily check if two DFSM are are equivalent. We just need to check if they have the same number of states and if all the transitions are the same.</p>
+
+<h2>Why minimization</h2>
+
+<p>Like I described in the previous paragraph you can use minimization to check the equivalence of the DFSM. Two other benefits (when using DFSM in programming) are:</p>
+
+<ul>
+<li>performance increase due to less states and transitions (faster input checking, less memory consumed),</li>
+<li>easier reasoning about the minimized machine since it has fewer moving parts.</li>
+</ul>
+
+
+<h2>Two types of states to remove</h2>
+
+<p>When minimizing there are <a href="http://en.wikipedia.org/wiki/DFA_minimization">two types of states</a> that we can either completly remove or merge with other states of the machine:</p>
+
+<blockquote><ul>
+<li><strong>unreachable states</strong> are those states that are not reachable from the initial state of the DFA, for any input string,</li>
+<li><strong>nondistinguishable states</strong> are those that cannot be distinguished from one another for any input string.</li>
+</ul>
+</blockquote>
+
+<h2>Unreachable states</h2>
+
+<p>First, let us look at an algorithm for finding the <a href="http://en.wikipedia.org/wiki/DFA_minimization#Unreachable_states">unreachable states</a>. The algorithm starts from the known reachable states which are the start states - the start states are always reachable. It then expands the list of reachable states by adding all the states that can be reached from the start states. It continues this expansion using the newly added states until it cannot add any new states to the list of reachable states. The states of the DFSM that did not end up in the list of reachable states are unreachable.</p>
+
+<p>To me this algorithm feels like flooding the pipes: we have a system of pipes some of which are connected and some of which are not. We open the water and check which pipes did the water reach and which it did not reach.</p>
+
+<p>Below is the algorithm in C#<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="kt">var</span> <span class="n">reachableStates</span> <span class="p">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;{</span><span class="n">Q0</span><span class="p">};</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">newStates</span> <span class="p">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;{</span><span class="n">Q0</span><span class="p">};</span>
+</span><span class='line'><span class="k">do</span><span class="p">{</span>
+</span><span class='line'>  <span class="kt">var</span> <span class="n">temp</span> <span class="p">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;();</span>
+</span><span class='line'>  <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">q</span> <span class="k">in</span> <span class="n">newStates</span><span class="p">){</span>
+</span><span class='line'>      <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">c</span> <span class="k">in</span> <span class="n">Sigma</span><span class="p">){</span>
+</span><span class='line'>          <span class="kt">var</span> <span class="n">transition</span> <span class="p">=</span> <span class="n">Delta</span><span class="p">.</span><span class="n">Find</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">.</span><span class="n">StartState</span> <span class="p">==</span> <span class="n">q</span> <span class="p">&amp;&amp;</span>
+</span><span class='line'>                                             <span class="n">t</span><span class="p">.</span><span class="n">Symbol</span> <span class="p">==</span> <span class="n">c</span><span class="p">);</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">transition</span> <span class="p">!=</span> <span class="k">null</span><span class="p">){</span>
+</span><span class='line'>              <span class="n">temp</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="n">EndState</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">temp</span><span class="p">.</span><span class="n">ExceptWith</span><span class="p">(</span><span class="n">reachableStates</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">newStates</span> <span class="p">=</span> <span class="n">temp</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">reachableStates</span><span class="p">.</span><span class="n">UnionWith</span><span class="p">(</span><span class="n">newStates</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">newStates</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">);</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">unreachableStates</span> <span class="p">=</span> <span class="n">Q</span><span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">q</span> <span class="p">=&gt;</span> <span class="p">!</span><span class="n">reachableStates</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">q</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The part of the algorithm that finds the possible transitions from the new states is quite inefficient. For each new state it tries all the symbols from <code>sigma</code>. This causes us to loop over all the transitions for every symbol and every new state. A better solution is shown below. In it we are just selecting all the states that are reachable from the current state:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">q</span> <span class="k">in</span> <span class="n">newStates</span><span class="p">){</span>
+</span><span class='line'>  <span class="kt">var</span> <span class="n">reachableFromQ</span> <span class="p">=</span> <span class="n">Delta</span><span class="p">.</span><span class="n">FindAll</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">.</span><span class="n">StartState</span> <span class="p">==</span> <span class="n">q</span><span class="p">)</span>
+</span><span class='line'>                            <span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">.</span><span class="n">EndState</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">temp</span><span class="p">.</span><span class="n">UnionWith</span><span class="p">(</span><span class="n">reachableFromQ</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now that we have found all the unreachable states we can remove them (along with transitions to and from them):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="n">Delta</span><span class="p">.</span><span class="n">Count</span> <span class="p">-</span> <span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span><span class="p">--){</span>
+</span><span class='line'>  <span class="kt">var</span> <span class="n">transition</span> <span class="p">=</span> <span class="n">Delta</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">unreachableStates</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="n">EndState</span><span class="p">)</span> <span class="p">||</span>
+</span><span class='line'>      <span class="n">unreachableStates</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="n">StartState</span><span class="p">)){</span>
+</span><span class='line'>      <span class="n">Delta</span><span class="p">.</span><span class="n">Remove</span><span class="p">(</span><span class="n">transition</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">unreachableState</span> <span class="k">in</span> <span class="n">unreachableStates</span><span class="p">){</span>
+</span><span class='line'>  <span class="n">Q</span><span class="p">.</span><span class="n">Remove</span><span class="p">(</span><span class="n">unreachableState</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Nondistinguishable states</h2>
+
+<p>And now for the hard part - the nondistinguishable states. Here, we will use <a href="http://en.wikipedia.org/wiki/DFA_minimization#Brzozowski.27s_algorithm">Brzozowski&rsquo;s algorithm for minimization</a>, which works like this:</p>
+
+<blockquote><p>Reversing the edges of a DFA produces a non-deterministic finite automaton (NFA) for the reversal of the original language, and converting this NFA to a DFA using the standard powerset construction (constructing only the reachable states of the converted DFA) leads to a minimal DFA for the same reversed language. Repeating this reversal operation a second time produces a minimal DFA for the original language.</p></blockquote>
+
+<p>To implement the described algorithm we will need the following:</p>
+
+<ol>
+<li>an algorithm that reverses a DFSM and produces a corresponding NDFSM,</li>
+<li>an algorithm for powerset construction (this algorithm converts a given NDFSM into an equivalent DFSM)</li>
+<li>an algorithm for detecting and removing unreachable states (see above).</li>
+</ol>
+
+
+<h3>Reversing a DFSM</h3>
+
+<p>The algorithm for reversing a DFSM is quite easy to implement and is presented below <sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">private</span> <span class="n">NDFSM</span> <span class="nf">Reverse</span><span class="p">(</span><span class="n">DFSM</span> <span class="n">d</span><span class="p">){</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">delta</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Transition</span><span class="p">&gt;();</span>
+</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">transition</span> <span class="k">in</span> <span class="n">d</span><span class="p">.</span><span class="n">Delta</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">delta</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">Transition</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="n">EndState</span><span class="p">,</span>
+</span><span class='line'>                                 <span class="n">transition</span><span class="p">.</span><span class="n">Symbol</span><span class="p">,</span>
+</span><span class='line'>                                 <span class="n">transition</span><span class="p">.</span><span class="n">StartState</span><span class="p">));</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">new</span> <span class="nf">NDFSM</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">Q</span><span class="p">,</span> <span class="n">d</span><span class="p">.</span><span class="n">Sigma</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">d</span><span class="p">.</span><span class="n">F</span><span class="p">,</span> <span class="n">d</span><span class="p">.</span><span class="n">Q0</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Powerset construction</h3>
+
+<p>Here is <a href="http://bezensek.com/blog/2015/04/30/powerset-construction/">how I implemented the powerset constructions</a> algorithm in my previous post<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'> <span class="k">private</span> <span class="k">static</span> <span class="n">DFSM</span> <span class="nf">PowersetConstruction</span><span class="p">(</span><span class="n">NDFSM</span> <span class="n">ndfsm</span><span class="p">){</span>
+</span><span class='line'>     <span class="kt">var</span> <span class="n">Q</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;();</span>
+</span><span class='line'>     <span class="kt">var</span> <span class="n">Sigma</span> <span class="p">=</span> <span class="n">ndfsm</span><span class="p">.</span><span class="n">Sigma</span><span class="p">.</span><span class="n">ToList</span><span class="p">();</span>
+</span><span class='line'>     <span class="kt">var</span> <span class="n">Delta</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Transition</span><span class="p">&gt;();</span>
+</span><span class='line'>     <span class="kt">var</span> <span class="n">Q0</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="p">{</span> <span class="kt">string</span><span class="p">.</span><span class="n">Join</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">,</span> <span class="n">ndfsm</span><span class="p">.</span><span class="n">Q0</span><span class="p">)</span> <span class="p">};</span>
+</span><span class='line'>     <span class="kt">var</span> <span class="n">F</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;();</span>
+</span><span class='line'>
+</span><span class='line'>     <span class="kt">var</span> <span class="n">processed</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;();</span>
+</span><span class='line'>     <span class="kt">var</span> <span class="n">queue</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Queue</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;();</span>
+</span><span class='line'>     <span class="n">queue</span><span class="p">.</span><span class="n">Enqueue</span><span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">Join</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">,</span> <span class="n">ndfsm</span><span class="p">.</span><span class="n">Q0</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>     <span class="k">while</span> <span class="p">(</span><span class="n">queue</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">){</span>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">setState</span> <span class="p">=</span> <span class="n">queue</span><span class="p">.</span><span class="n">Dequeue</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">processed</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">setState</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">Q</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">CleanupState</span><span class="p">(</span><span class="n">setState</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">statesInCurrentSetState</span> <span class="p">=</span> <span class="n">setState</span><span class="p">.</span><span class="n">Split</span><span class="p">(</span><span class="sc">&#39;,&#39;</span><span class="p">).</span><span class="n">ToList</span><span class="p">();</span>
+</span><span class='line'>        <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">state</span> <span class="k">in</span> <span class="n">statesInCurrentSetState</span><span class="p">){</span>
+</span><span class='line'>           <span class="k">if</span> <span class="p">(</span><span class="n">ndfsm</span><span class="p">.</span><span class="n">F</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">state</span><span class="p">)){</span>
+</span><span class='line'>              <span class="n">F</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">CleanupState</span><span class="p">(</span><span class="n">setState</span><span class="p">));</span>
+</span><span class='line'>              <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>           <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">symbols</span> <span class="p">=</span> <span class="n">ndfsm</span><span class="p">.</span><span class="n">Delta</span>
+</span><span class='line'>           <span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">statesInCurrentSetState</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">StartState</span><span class="p">))</span>
+</span><span class='line'>           <span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">.</span><span class="n">Symbol</span><span class="p">)</span>
+</span><span class='line'>           <span class="p">.</span><span class="n">Distinct</span><span class="p">();</span>
+</span><span class='line'>        <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">symbol</span> <span class="k">in</span> <span class="n">symbols</span><span class="p">){</span>
+</span><span class='line'>           <span class="kt">var</span> <span class="n">reachableStates</span> <span class="p">=</span>
+</span><span class='line'>              <span class="n">ndfsm</span><span class="p">.</span><span class="n">Delta</span>
+</span><span class='line'>                 <span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">.</span><span class="n">Symbol</span> <span class="p">==</span> <span class="n">symbol</span> <span class="p">&amp;&amp;</span>
+</span><span class='line'>                             <span class="n">statesInCurrentSetState</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">StartState</span><span class="p">))</span>
+</span><span class='line'>                 <span class="p">.</span><span class="n">OrderBy</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">.</span><span class="n">EndState</span><span class="p">).</span>
+</span><span class='line'>                 <span class="n">Select</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">t</span><span class="p">.</span><span class="n">EndState</span><span class="p">);</span>
+</span><span class='line'>           <span class="kt">var</span> <span class="n">reachableSetState</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Join</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">,</span> <span class="n">reachableStates</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>           <span class="n">Delta</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">Transition</span><span class="p">(</span>
+</span><span class='line'>                                    <span class="n">CleanupState</span><span class="p">(</span><span class="n">setState</span><span class="p">),</span>
+</span><span class='line'>                                    <span class="n">symbol</span><span class="p">,</span>
+</span><span class='line'>                                    <span class="n">CleanupState</span><span class="p">(</span><span class="n">reachableSetState</span><span class="p">)));</span>
+</span><span class='line'>
+</span><span class='line'>           <span class="k">if</span> <span class="p">(!</span><span class="n">processed</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">reachableSetState</span><span class="p">)){</span>
+</span><span class='line'>              <span class="n">queue</span><span class="p">.</span><span class="n">Enqueue</span><span class="p">(</span><span class="n">reachableSetState</span><span class="p">);</span>
+</span><span class='line'>           <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>     <span class="p">}</span>
+</span><span class='line'>     <span class="k">return</span> <span class="k">new</span> <span class="nf">DFSM</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">Sigma</span><span class="p">,</span> <span class="n">Delta</span><span class="p">,</span> <span class="n">Q0</span><span class="p">,</span> <span class="n">F</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">private</span> <span class="k">static</span> <span class="kt">string</span> <span class="nf">CleanupState</span><span class="p">(</span><span class="kt">string</span> <span class="n">state</span><span class="p">){</span>
+</span><span class='line'>     <span class="k">return</span> <span class="n">state</span><span class="p">.</span><span class="n">Replace</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">,</span> <span class="s">&quot; &quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Putting it all together</h3>
+
+<p>Now that we have all the pieces we can combine them into Brzozowski&rsquo;s  algorithm:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'> <span class="k">public</span> <span class="k">static</span> <span class="n">DFSM</span> <span class="nf">MinimizeDFSM</span><span class="p">(</span><span class="n">DFSM</span> <span class="n">fsm</span><span class="p">){</span>
+</span><span class='line'>   <span class="kt">var</span> <span class="n">reversedNDFSM</span> <span class="p">=</span> <span class="n">Reverse</span><span class="p">(</span><span class="n">fsm</span><span class="p">);</span>
+</span><span class='line'>   <span class="kt">var</span> <span class="n">reversedDFSM</span> <span class="p">=</span> <span class="n">PowersetConstruction</span><span class="p">(</span><span class="n">reversedNDFSM</span><span class="p">);</span>
+</span><span class='line'>   <span class="n">reversedDFSM</span><span class="p">.</span><span class="n">RemoveUnreachableStates</span><span class="p">();</span>
+</span><span class='line'>   <span class="kt">var</span> <span class="n">NDFSM</span> <span class="p">=</span> <span class="n">Reverse</span><span class="p">(</span><span class="n">reversedDFSM</span><span class="p">);</span>
+</span><span class='line'>   <span class="kt">var</span> <span class="n">DFSM</span> <span class="p">=</span> <span class="n">PowersetConstruction</span><span class="p">(</span><span class="n">NDFSM</span><span class="p">);</span>
+</span><span class='line'>   <span class="n">DFSM</span><span class="p">.</span><span class="n">RemoveUnreachableStates</span><span class="p">();</span>
+</span><span class='line'>   <span class="k">return</span> <span class="n">DFSM</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you check the powerset construction algorithm (or read my previous post) you can see that the implementation has the nice property that it constructs a DFSM with only reachable states. Which is why we can remove the two calls to <code>RemoveUnreachableStates</code> method. The final algorithm:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">static</span> <span class="n">DFSM</span> <span class="nf">MinimizeDFSM</span><span class="p">(</span><span class="n">DFSM</span> <span class="n">fsm</span><span class="p">){</span>
+</span><span class='line'>   <span class="kt">var</span> <span class="n">reversedNDFSM</span> <span class="p">=</span> <span class="n">Reverse</span><span class="p">(</span><span class="n">fsm</span><span class="p">);</span>
+</span><span class='line'>   <span class="kt">var</span> <span class="n">reversedDFSM</span> <span class="p">=</span> <span class="n">PowersetConstruction</span><span class="p">(</span><span class="n">reversedNDFSM</span><span class="p">);</span>
+</span><span class='line'>   <span class="kt">var</span> <span class="n">NDFSM</span> <span class="p">=</span> <span class="n">Reverse</span><span class="p">(</span><span class="n">reversedDFSM</span><span class="p">);</span>
+</span><span class='line'>   <span class="k">return</span> <span class="nf">PowersetConstruction</span><span class="p">(</span><span class="n">NDFSM</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And lets see how the minimization works on an example. This is how the four steps of the above minimization look like on the third DFSM from the beginning .</p>
+
+<p><img src="/img/Minimization.png" title="'Deterministic finite state minimization 'Deterministic finite state machine minimization'" ></br></p>
+
+<p>So this is it for minimization. The source code can be found at <a href="https://github.com/MitjaBezensek/DFSM_Minimization">github</a>.</p>
+<div class="footnotes">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>You might want to check <a href="http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/">one of my previous articles</a> to check the DFSM implementation.<a href="#fnref:1" rev="footnote">&#8617;</a></p></li>
+<li id="fn:2">
+<p>If you read my previous article you might be wondering if those implementations will work with this reversal. The answer is no. The problem is that when we reverse a DFSM we are basically converting starting state to finish state and finish states to starting states. Which means there can be many starting states - a variant of the DFSM that my implementation does not cover. <a href="#fnref:2" rev="footnote">&#8617;</a></p></li>
+<li id="fn:3">
+<p>With a few minor adjustements.<a href="#fnref:3" rev="footnote">&#8617;</a></p></li>
+</ol>
+</div>
+
+</div>	
+
+</article>
+<div id="post-nav" class="clearfix">
+       
+    <a class="prev" href="/blog/2015/04/30/powerset-construction/"><i class="fa fa-arrow-left"></i>Powerset construction in C#</a> 
+   
+   
+</div>
+<div id="twitterFollow">
+<p><span>Keep up with the updates: </span> <a href="https://twitter.com/MitjaBezensek" class="twitter-follow-button" data-show-count="false">Follow @MitjaBezensek</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+</script></p></div>
+
+	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53cf7e5d2a976f50"></script>
+<div class="addthis_native_toolbox"></div>
+
+
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2015 - Mitja Bezenšek 
+</p></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'mitjabezensek';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://bezensek.com/blog/2015/05/08/deterministic-finite-state-machine-minimization/';
+        var disqus_url = 'http://bezensek.com/blog/2015/05/08/deterministic-finite-state-machine-minimization/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+	<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-48337858-1', 'auto');
+    ga('require', 'displayfeatures');
+    ga('send', 'pageview');
+
+  </script>
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

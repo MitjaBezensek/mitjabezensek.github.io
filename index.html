@@ -85,6 +85,61 @@
 	
 	
     	<article class="post postIndex" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name"><a href="/blog/2015/05/08/deterministic-finite-state-machine-minimization/" itemprop="url">
+	Deterministic Finite State Machine Minimization</a></h1>
+	<div class="meta">
+	<span class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-08T00:48:59+02:00" data-updated="true" itemprop="datePublished">May 8<sup>th</sup>, 2015</time></span>
+	<span class="tags">
+
+
+	<a class='category' href='/blog/categories/automata/'>automata</a>, <a class='category' href='/blog/categories/csharp/'>csharp</a>, <a class='category' href='/blog/categories/dotnet/'>dotnet</a>, <a class='category' href='/blog/categories/theory-of-computation/'>theory of computation</a>
+
+
+</span>
+	
+		
+	  		
+		
+	<span class="comments"><a href="/blog/2015/05/08/deterministic-finite-state-machine-minimization/#disqus_thread">Comments</a></span>
+
+	
+</div>
+	<div class="entry-content" itemprop="articleBody">
+		<p>I have received a question about how to approach DFSM minimization in <a href="http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/">one of the previous posts</a>. This is an attempt to answer that question.</p>
+
+<h2>What is DFSM minimization?</h2>
+
+<p>First, let us consider what does it mean for two DFSM to be <strong>equivalent</strong>? Imagine having two DFSM that both accept the same input symbols. You then pass all the possible inputs to those two machines. If and only if the answers are the same for all the inputs then the two machines are equivalent. That is: they accept exactly the same inputs, even though their inner workings might not be the same.</p>
+
+<p>This means that there are many equivalent DFSM. For example all three DFSM in the below picture accept the same input which can be written as a regular expression (0+1)<sup>*</sup>.</p>
+
+<p><img src="/img/Equivalence.png" title="Deterministic finite state machine equivalence" alt="Deterministic finite state machine equivalence"></br></p>
+
+<p>The three DFSM vary in the number of states and also in the number of the transitions. Nonetheless, I hope you will agree with me that they all accept the same input.</p>
+
+
+		
+		<a href="/blog/2015/05/08/deterministic-finite-state-machine-minimization/" class="more-link">Continue reading</a>
+	</div>
+
+</article>
+    
+
+	
+	
+    	<article class="post postIndex topBorder" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name"><a href="/blog/2015/04/30/powerset-construction/" itemprop="url">
 	Powerset Construction in C#</a></h1>
 	<div class="meta">
@@ -272,63 +327,6 @@
 
 		
 		<a href="/blog/2014/08/05/excel-rgb-color-bug/" class="more-link">Continue reading</a>
-	</div>
-
-</article>
-    
-
-	
-	
-    	<article class="post postIndex topBorder" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name"><a href="/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons/" itemprop="url">
-	How to Use Add This With Octopress to Add Social Buttons</a></h1>
-	<div class="meta">
-	<span class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-31T18:04:44+02:00" data-updated="true" itemprop="datePublished">Jul 31<sup>st</sup>, 2014</time></span>
-	<span class="tags">
-
-
-	<a class='category' href='/blog/categories/blog/'>blog</a>, <a class='category' href='/blog/categories/octopress/'>octopress</a>, <a class='category' href='/blog/categories/social/'>social</a>
-
-
-</span>
-	
-		
-	  		
-		
-	<span class="comments"><a href="/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons/#disqus_thread">Comments</a></span>
-
-	
-</div>
-	<div class="entry-content" itemprop="articleBody">
-		<p><a href="http://octopress.org/">Octopress</a> is a great blogging framework for (mostly) technical people. People that like to have everything about their blog in their control. People like me.</p>
-
-<p>It&rsquo;s great to:</p>
-
-<ul>
-<li>have your whole blog in version control,</li>
-<li>forget about hosting since it&rsquo;s only a bunch of static pages and you can host them on <a href="https://pages.github.com/">GitHub pages</a> <sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> ,</li>
-<li>style your blog with the help of many <a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">free themes</a>,</li>
-<li>easily customize and extend your blog by plugging in different pieces of functionality.</li>
-</ul>
-
-
-<p>Today I&rsquo;m going to show you how easy it is to add social share buttons below each of your posts. Let&rsquo;s get started.</p>
-
-
-		
-		<a href="/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons/" class="more-link">Continue reading</a>
 	</div>
 
 </article>
