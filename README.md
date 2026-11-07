@@ -4,7 +4,7 @@ A static Astro site, with Markdown posts and GitHub Pages hosting at
 [bezensek.com](https://bezensek.com).
 
 The custom pixel-computer theme takes its visual direction from Greenhouse:
-lavender dotted gutters, cream reading panels, beveled controls, and original
+slate-blue dotted gutters, warm silver reading panels, beveled controls, and original
 SVG computer artwork. The header uses a solid cream backing for readability.
 JetBrains Mono is used for headings/navigation and Geist
 for article text. Fonts are served locally; their SIL Open Font Licenses are
