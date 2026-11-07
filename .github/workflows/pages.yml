@@ -15,18 +15,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - name: Set up pnpm and Node.js
+        uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
         with:
           node-version-file: .nvmrc
-          cache: npm
+          cache: true
+          install: false
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
       - name: Check Astro and TypeScript
-        run: npm run check
+        run: pnpm run check
       - name: Build and verify draft exclusion
-        run: npm run test:drafts
+        run: pnpm run test:drafts
       - name: Verify legacy routes and content
-        run: npm test
+        run: pnpm test
       - name: Upload built site
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/source'
         uses: actions/upload-pages-artifact@v3

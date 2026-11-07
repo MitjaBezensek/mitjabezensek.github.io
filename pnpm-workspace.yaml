@@ -1,0 +1,8 @@
+packages:
+  - .
+
+packageExtensions:
+  '@astrojs/astro2tsx@0.1.3':
+    dependencies:
+      # Match the WASM context to astro2tsx's pinned @emnapi/core 1.x ABI.
+      '@emnapi/runtime': 1.11.3

@@ -42,7 +42,7 @@ This additional article verifies that future writing can still be published.
 ''')
 
 try:
-    subprocess.run(["npm", "run", "build"], cwd=ROOT, check=True)
+    subprocess.run(["pnpm", "run", "build"], cwd=ROOT, check=True)
     for path in (ROOT / "dist").rglob("*"):
         assert MARKER not in str(path), f"Draft route leaked: {path}"
         if path.is_file() and path.suffix in {".html", ".xml", ".json", ".js"}:
@@ -53,4 +53,4 @@ finally:
     draft.unlink()
     published.unlink()
     # Leave dist as a normal build, without the temporary published article.
-    subprocess.run(["npm", "run", "build"], cwd=ROOT, check=True)
+    subprocess.run(["pnpm", "run", "build"], cwd=ROOT, check=True)
