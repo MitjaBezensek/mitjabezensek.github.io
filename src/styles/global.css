@@ -81,7 +81,7 @@ main { background: var(--paper); border: 1px solid #7f939f; box-shadow: inset 0 
 .prose blockquote p:last-child { margin-bottom: 0; }
 .prose code { font: .8em/1.8 var(--mono); padding: .15em .3em; background: #e8edf0; }
 .prose pre { max-width: 100%; overflow-x: auto; border: 1px solid var(--line); box-shadow: 2px 2px #d9e2e7; padding: 20px; margin: 28px 0; }
-.prose pre code { font-size: 12px; white-space: pre; background: none; padding: 0; }
+.prose pre code { font-family: 'Fira Code', var(--mono); font-variant-ligatures: contextual; font-size: 12px; white-space: pre; background: none; padding: 0; }
 .prose table { display: block; overflow-x: auto; border-collapse: collapse; }
 .prose th, .prose td { border: 1px solid #cbd6dd; padding: 8px 12px; }
 .prose th { background: var(--soft); }

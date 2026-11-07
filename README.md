@@ -6,8 +6,8 @@ A static Astro site, with Markdown posts and GitHub Pages hosting at
 The custom pixel-computer theme takes its visual direction from Greenhouse:
 slate-blue dotted gutters, warm silver reading panels, beveled controls, and original
 SVG computer artwork. The header uses a solid cream backing for readability.
-JetBrains Mono is used for headings/navigation and Geist
-for article text. Fonts are served locally; their SIL Open Font Licenses are
+JetBrains Mono is used for headings/navigation, Geist for article text, and
+Fira Code with contextual ligatures for code blocks. Fonts are served locally; their SIL Open Font Licenses are
 included in `public/licenses/`. The palette deliberately stays light to match
 the reference. Edit `src/styles/global.css` for theme styling and
 `src/components/PixelComputer.astro` for the illustration.
