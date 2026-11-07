@@ -209,17 +209,19 @@ The theme follows the system color scheme unless the reader has saved a choice
 with the sun/moon toggle. If the system preference cannot be read, it defaults
 to light mode. Explicit palette previews take priority over both.
 
-Fonts are self-hosted WOFF2 files with metric-matched fallbacks. Only the three
-font faces used above the fold are preloaded; code and italic fonts load when
-needed. Font, CSS, and optimized image filenames change with their contents,
+Fonts are self-hosted WOFF2 files with metric-matched fallbacks. The heading and
+regular body faces preload four small files for their Latin and extended Latin
+subsets. These cover characters such as `š`; other weights and styles load when needed.
+Font, CSS, and optimized image filenames change with their contents,
 allowing cached assets to be reused safely. GitHub Pages sets the HTTP cache
 headers; this repository cannot override them with a `_headers` file.
 
 The custom pixel-computer theme takes its visual direction from Greenhouse:
 neutral dotted gutters, ivory reading panels, beveled controls, and original
 SVG computer artwork. The header uses a solid cream backing for readability.
-JetBrains Mono is used for headings/navigation, Source Sans 3 for reading text, and
-Fira Code with contextual ligatures for code blocks. Fonts are served locally; their SIL Open Font Licenses are
+The site uses two font families: Fira Code for headings, navigation, and code
+blocks (with contextual ligatures), and Source Sans 3 for reading text.
+Fonts are served locally; their SIL Open Font Licenses are
 included in `public/licenses/`. The blue-and-coral palette supports light and dark
 modes. Edit `src/styles/global.css` for theme styling and
 `src/components/PixelComputer.astro` for the illustration.

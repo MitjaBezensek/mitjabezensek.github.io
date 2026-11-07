@@ -17,13 +17,13 @@
   },
   "dependencies": {
     "@fontsource/fira-code": "^5.3.0",
-    "@fontsource/jetbrains-mono": "^5.3.0",
     "@fontsource/source-sans-3": "^5.3.1",
     "astro": "7.4.7"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@astrojs/markdown-satteri": "0.4.7",
+    "fontkitten": "1.0.3",
     "sharp": "0.35.5",
     "typescript": "^5.9.3"
   },

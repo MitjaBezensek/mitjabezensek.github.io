@@ -1,5 +1,14 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import markdownImages from './integrations/markdown-images.mjs';
+import { readFileSync } from 'node:fs';
+
+function fontVariants(family, faces) {
+  const ranges = JSON.parse(readFileSync(new URL(import.meta.resolve(`@fontsource/${family}/unicode.json`)), 'utf8'));
+  return faces.flatMap(([weight, style = 'normal']) => ['latin', 'latin-ext'].map(subset => ({
+    src: [`@fontsource/${family}/files/${family}-${subset}-${weight}-${style}.woff2`],
+    weight, style, unicodeRange: ranges[subset].split(','),
+  })));
+}
 
 export default defineConfig({
   site: 'https://bezensek.com',
@@ -8,28 +17,14 @@ export default defineConfig({
   integrations: [markdownImages()],
   fonts: [
     {
-      name: 'JetBrains Mono', cssVariable: '--font-mono', provider: fontProviders.local(),
+      name: 'Fira Code', cssVariable: '--font-mono', provider: fontProviders.local(),
       fallbacks: ['monospace'],
-      options: { variants: [
-        { src: ['@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2'], weight: 400, style: 'normal' },
-        { src: ['@fontsource/jetbrains-mono/files/jetbrains-mono-latin-600-normal.woff2'], weight: 600, style: 'normal' },
-      ] },
+      options: { variants: fontVariants('fira-code', [[400], [600]]) },
     },
     {
       name: 'Source Sans 3', cssVariable: '--font-body', provider: fontProviders.local(),
       fallbacks: ['sans-serif'],
-      options: { variants: [
-        { src: ['@fontsource/source-sans-3/files/source-sans-3-latin-400-normal.woff2'], weight: 400, style: 'normal' },
-        { src: ['@fontsource/source-sans-3/files/source-sans-3-latin-600-normal.woff2'], weight: 600, style: 'normal' },
-        { src: ['@fontsource/source-sans-3/files/source-sans-3-latin-400-italic.woff2'], weight: 400, style: 'italic' },
-      ] },
-    },
-    {
-      name: 'Fira Code', cssVariable: '--font-code', provider: fontProviders.local(),
-      fallbacks: ['monospace'],
-      options: { variants: [
-        { src: ['@fontsource/fira-code/files/fira-code-latin-400-normal.woff2'], weight: 400, style: 'normal' },
-      ] },
+      options: { variants: fontVariants('source-sans-3', [[400], [600], [400, 'italic']]) },
     },
   ],
   markdown: {

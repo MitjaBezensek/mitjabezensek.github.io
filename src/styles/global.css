@@ -119,7 +119,7 @@ main, .site-footer { background: var(--paper); border: 1px solid var(--border); 
 .prose blockquote p:last-child { margin-bottom: 0; }
 .prose code { font: .8em/1.8 var(--mono); padding: .15em .3em; background: var(--soft); }
 .prose pre { max-width: 100%; overflow-x: auto; border: 1px solid var(--line); box-shadow: 2px 2px var(--shadow); padding: 20px; margin: 28px 0; font-size: 14px; line-height: 1.5; }
-.prose pre code { font-family: var(--font-code, monospace); font-variant-ligatures: contextual; font-size: inherit; line-height: inherit; white-space: pre; background: none; padding: 0; }
+.prose pre code { font-family: var(--mono); font-variant-ligatures: contextual; font-size: inherit; line-height: inherit; white-space: pre; background: none; padding: 0; }
 .prose table { display: block; overflow-x: auto; border-collapse: collapse; }
 .prose th, .prose td { border: 1px solid var(--rule); padding: 8px 12px; }
 .prose th { background: var(--soft); }

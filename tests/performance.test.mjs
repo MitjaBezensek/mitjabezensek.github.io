@@ -3,11 +3,23 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import { join } from 'node:path';
 import test from 'node:test';
 import sharp from 'sharp';
+import { create as readFont } from 'fontkitten';
 
 const attributes = (tag) => Object.fromEntries(
   [...tag.matchAll(/([\w-]+)="([^"]*)"/g)].map((match) => [match[1], match[2]]),
 );
 const files = await readdir('dist', { recursive: true });
+
+test('the shared monospace font contains the complete author name at both weights', async () => {
+  const fonts = await Promise.all(files.filter(file => file.endsWith('.woff2'))
+    .map(async file => readFont(await readFile(join('dist', file)))));
+  for (const weight of [400, 600]) {
+    const faces = fonts.filter(font => font.familyName.startsWith('Fira Code') && font['OS/2'].usWeightClass === weight);
+    for (const character of 'Mitja Bezenšek') {
+      assert.ok(faces.some(font => font.hasGlyphForCodePoint(character.codePointAt(0))), `${weight}: ${character}`);
+    }
+  }
+});
 
 test('content images reserve space and defer images after the first', async () => {
   let count = 0;
@@ -71,7 +83,7 @@ test('only critical fonts preload, with local WOFF2 files and metric-matched fal
   const html = await readFile('dist/index.html', 'utf8');
   const preloads = [...html.matchAll(/<link\b[^>]*>/g)]
     .map(([tag]) => attributes(tag)).filter((link) => link.rel === 'preload');
-  assert.equal(preloads.length, 3);
+  assert.equal(preloads.length, 4);
   for (const preload of preloads) {
     assert.equal(preload.as, 'font');
     assert.equal(preload.type, 'font/woff2');
