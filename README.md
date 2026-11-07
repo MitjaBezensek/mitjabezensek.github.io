@@ -8,6 +8,7 @@ Personal blog built with Astro and Markdown, published at
 - [Publish an update](#publishing-updates)
 - [Find files](#repository-map)
 - [Handle private drafts](#draft-privacy)
+- [Configure the domain and HTTPS](#domain-and-https)
 - [Deploy for the first time](#first-deployment-github-pages)
 
 ## Local development
@@ -252,6 +253,44 @@ removed while retaining the surrounding text. The unavailable external
 SourceTree screenshot was removed; the other original images remain locally
 hosted. Automated-request blocks are not treated as evidence of a dead link.
 
+## Domain and HTTPS
+
+`bezensek.com` uses NEOSERV DNS. The pre-launch audit on 7 November 2026 found
+the legacy GitHub Pages addresses `192.30.252.153` and `192.30.252.154`, no
+GitHub-issued certificate for the domain, and no HTTP-to-HTTPS redirect.
+
+In the domain's DNS editor, replace those two apex `A` records with
+[GitHub Pages' current addresses](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site):
+
+| Type | Host | Value |
+| --- | --- | --- |
+| A | `@` | `185.199.108.153` |
+| A | `@` | `185.199.109.153` |
+| A | `@` | `185.199.110.153` |
+| A | `@` | `185.199.111.153` |
+
+`@` means the apex domain, `bezensek.com`; the editor may display the full
+domain name instead. Keep the nameservers and unrelated DNS records as they
+are. NEOSERV documents its editor in
+[DNS hosting instructions](https://www.neoserv.si/podpora/dns-gostovanje).
+
+Keep `bezensek.com` configured as the custom domain in GitHub Pages. After
+the new DNS records propagate, wait for GitHub to provision a valid certificate,
+then enable **Enforce HTTPS** in Pages settings. The old records had a
+one-hour TTL; certificate provisioning can take additional time. See
+[GitHub's HTTPS troubleshooting guide](https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https).
+
+Verify the result without bypassing certificate checks:
+
+```sh
+dig +short bezensek.com A
+curl -I https://bezensek.com/
+curl -I http://bezensek.com/
+```
+
+DNS should return the four new addresses, HTTPS should have a valid certificate,
+and HTTP should redirect to HTTPS once enforcement is enabled.
+
 ## First deployment (GitHub Pages)
 
 The existing Pages site serves generated HTML from `master`; editable source
@@ -291,8 +330,8 @@ When ready to publish:
 
 3. In [Settings → Pages](https://github.com/MitjaBezensek/mitjabezensek.github.io/settings/pages),
    choose **GitHub Actions** as the publishing source. Keep the custom domain
-   `bezensek.com`. If deployment environment rules block the workflow, allow
-   `source` in the `github-pages` environment.
+   `bezensek.com` and configure [DNS and HTTPS](#domain-and-https). If deployment
+   environment rules block the workflow, allow `source` in `github-pages`.
 
 4. Start deployment with `git push origin source`. The workflow installs locked
    dependencies, checks, builds, and uploads only `dist/`. Wait for
