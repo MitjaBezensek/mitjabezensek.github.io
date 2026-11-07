@@ -161,8 +161,11 @@ main, .site-footer { background: var(--paper); border: 1px solid var(--border); 
 .prose h3 { font: var(--weight-semibold) var(--text-subheading)/1.6 var(--mono); margin: 2em 0 .8em; }
 .prose li { padding-left: .15em; }
 .prose img { display: block; max-width: 100%; height: auto; margin: var(--space-7) auto; }
-.prose blockquote { margin: 26px 0; border-left: 3px solid var(--line); padding: 15px var(--space-5); background: var(--soft); color: var(--muted); }
-.prose blockquote p:last-child { margin-bottom: 0; }
+.prose blockquote { margin: var(--space-6) 0; border-left: 3px solid var(--line); padding: var(--space-4); background: var(--soft); color: var(--muted); }
+.prose blockquote > :first-child { margin-top: 0; }
+.prose blockquote > :last-child { margin-bottom: 0; }
+.prose blockquote :is(ul, ol) { padding-inline-start: 1.25em; }
+.prose blockquote li + li { margin-top: var(--space-2); }
 .prose code { font: .8em/var(--leading-body) var(--mono); padding: .15em .3em; background: var(--soft); }
 .prose pre { max-width: 100%; overflow-x: auto; border: 1px solid var(--line); box-shadow: 2px 2px var(--shadow); padding: var(--space-5); margin: var(--space-7) 0; font-size: var(--text-base); line-height: var(--leading-ui); }
 .prose pre code { font-family: var(--mono); font-variant-ligatures: contextual; font-size: inherit; line-height: inherit; white-space: pre; background: none; padding: 0; }
