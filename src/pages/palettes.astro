@@ -12,7 +12,7 @@ import { palettes } from '../lib/palettes';
     {palettes.map((palette, index) => (
       <section class="palette-card">
         <div class="palette-label">
-          <h2>{index + 1}. {palette.name}</h2>
+          <h2><span class="palette-swatches" aria-hidden="true"><i style={`background: ${palette.colors.accent}`}></i><i style={`background: ${palette.colors.secondary}`}></i></span>{index + 1}. {palette.name}</h2>
           <a href={`/?palette=${palette.id}`} target="_blank" rel="noopener">Open preview ↗</a>
         </div>
         <p>{palette.description}</p>
@@ -27,6 +27,8 @@ import { palettes } from '../lib/palettes';
   .palette-card { min-width: 0; }
   .palette-label { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px; }
   .palette-label h2 { font-size: 18px; margin: 0; }
+  .palette-swatches { display: inline-flex; gap: 4px; margin-right: 10px; }
+  .palette-swatches i { width: 12px; height: 12px; border: 1px solid var(--line); }
   .palette-label a { font: 12px var(--mono); }
   .palette-card > p { font-size: 14px; color: var(--muted); }
   iframe { display: block; border: 1px solid var(--line); width: 100%; height: 650px; background: var(--paper); }

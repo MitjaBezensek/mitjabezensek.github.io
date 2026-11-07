@@ -14,7 +14,7 @@ const { post, newer, older } = Astro.props;
 const { Content } = await render(post);
 ---
 <Base title={post.data.title} description={post.data.description} article published={post.data.pubDate}>
-  <article class="article">
+  <article class="article blog-post">
     <header class="article-header">
       <a class="back-link" href="/">← All writing</a>
       <div class="article-meta"><time datetime={post.data.pubDate}>{formatDate(post.data.pubDate)}</time><span aria-hidden="true">/</span><span>Mitja Bezenšek</span></div>
@@ -23,8 +23,8 @@ const { Content } = await render(post);
     </header>
     <div class="prose"><Content /></div>
     <nav class="post-navigation" aria-label="Other articles">
-      {older && <a href={older.data.url}><small>← Earlier</small>{older.data.title}</a>}
-      {newer && <a href={newer.data.url}><small>More recent →</small>{newer.data.title}</a>}
+      {older && <a href={older.data.url} rel="prev"><small><span aria-hidden="true">←</span> Earlier article</small><span>{older.data.title}</span></a>}
+      {newer && <a href={newer.data.url} rel="next"><small>More recent article <span aria-hidden="true">→</span></small><span>{newer.data.title}</span></a>}
     </nav>
   </article>
 </Base>

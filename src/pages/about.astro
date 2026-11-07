@@ -7,8 +7,7 @@ const { Content } = await render(page);
 ---
 <Base title={page.data.title} description={page.data.description}>
   <article class="article about">
-    <header class="page-heading"><p class="eyebrow">A little background</p><h1>{page.data.title}.</h1></header>
-    <p class="historical-note">This biography is preserved from the original blog, written in 2014.</p>
+    <header class="page-heading"><p class="eyebrow">A little background</p><h1>{page.data.title}.</h1><div class="article-meta">Originally written in 2014.</div></header>
     <div class="prose"><Content /></div>
   </article>
 </Base>

@@ -1,17 +1,50 @@
 ---
-import { palettes } from '../lib/palettes';
+import { darkColors, palettes } from '../lib/palettes';
 ---
-<script is:inline define:vars={{ palettes }}>
+<script is:inline define:vars={{ palettes, darkColors }}>
   const requestedPalette = new URLSearchParams(window.location.search).get('palette')
     ?? (window.location.pathname === '/palettes/' ? 'graphite' : null);
   const previewPalette = palettes.find((option) => option.id === requestedPalette);
-  if (previewPalette) {
-    for (const [name, value] of Object.entries(previewPalette.colors)) {
+  const root = document.documentElement;
+  function applyColors(colors, dark) {
+    for (const [name, value] of Object.entries(colors)) {
       document.documentElement.style.setProperty(`--${name}`, value);
     }
-    document.documentElement.style.colorScheme = previewPalette.dark ? 'dark' : 'light';
-    document.documentElement.dataset.paletteMode = previewPalette.dark ? 'dark' : 'light';
-    document.addEventListener('DOMContentLoaded', () => {
+    root.style.colorScheme = dark ? 'dark' : 'light';
+    root.dataset.paletteMode = dark ? 'dark' : 'light';
+  }
+  let savedTheme;
+  try {
+    savedTheme = window.localStorage.getItem('blog-theme');
+  } catch {
+    // Storage can be blocked; the switch still works for this page.
+  }
+  const dark = savedTheme === 'dark' || (savedTheme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (previewPalette) applyColors(previewPalette.colors, previewPalette.dark);
+  else applyColors(dark ? darkColors : palettes[0].colors, dark);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.querySelector('[data-theme-toggle]');
+    if (toggle) {
+      function updateToggle() {
+        const isDark = root.dataset.paletteMode === 'dark';
+        toggle.ariaLabel = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+        toggle.title = toggle.ariaLabel;
+        toggle.hidden = false;
+      }
+      toggle.addEventListener('click', () => {
+        const dark = root.dataset.paletteMode !== 'dark';
+        applyColors(dark ? darkColors : palettes[0].colors, dark);
+        try {
+          window.localStorage.setItem('blog-theme', dark ? 'dark' : 'light');
+        } catch {
+          // Keep switching available even without persistent storage.
+        }
+        updateToggle();
+      });
+      updateToggle();
+    }
+    if (previewPalette) {
       for (const link of document.querySelectorAll('a[href]')) {
         const target = new URL(link.href);
         if (target.origin === window.location.origin && !target.searchParams.has('palette') && !target.pathname.endsWith('.xml') && !target.pathname.startsWith('/palettes/')) {
@@ -19,6 +52,6 @@ import { palettes } from '../lib/palettes';
           link.href = target.href;
         }
       }
-    });
-  }
+    }
+  });
 </script>
