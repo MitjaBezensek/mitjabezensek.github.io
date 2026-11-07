@@ -124,6 +124,8 @@ main, .site-footer { background: var(--paper); border: 1px solid var(--border); 
 .pagination a { text-decoration: none; }
 .site-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); margin: var(--space-5) 0 var(--space-6); padding: var(--space-4) var(--content-gutter); font: var(--text-ui)/var(--leading-body) var(--mono); color: var(--ink); }
 .site-footer nav { flex-wrap: wrap; column-gap: 18px; row-gap: var(--space-2); }
+.site-footer > span { display: inline-flex; align-items: center; gap: var(--space-2); }
+.site-footer > span .status-pixel { margin-right: 0; }
 .site-footer a { color: var(--ink); }
 .page-heading { padding: 35px 0 25px; }
 .page-heading h1 { font: var(--weight-semibold) clamp(27px, 4vw, 36px)/1.4 var(--mono); letter-spacing: -.05em; margin: 0 0 var(--space-4); }
