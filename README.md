@@ -225,7 +225,7 @@ beveled controls, and SVG computer artwork. The header uses a solid cream
 backing for readability.
 The site uses two font families: Fira Code for headings, navigation, and code
 blocks (with contextual ligatures), and Source Sans 3 for reading text.
-Reading text is 18px on desktop and 16px on phones, with a 76ch maximum
+Reading text is 18px on desktop and 16px on phones, with an 85ch maximum
 reading measure. Functional labels are at least 12px; navigation controls
 have a 44px minimum height. The compact mobile hero keeps writing near the top.
 Fonts are served locally; their SIL Open Font Licenses are

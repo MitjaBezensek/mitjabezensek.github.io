@@ -36,7 +36,7 @@
   --content-gutter: var(--space-8);
   --section-space: var(--space-12);
   --row-space: var(--space-6);
-  --reading-width: 76ch;
+  --reading-width: 85ch;
   --control-height: 44px;
   --weight-regular: 400;
   --weight-semibold: 600;
@@ -112,9 +112,9 @@ main, .site-footer { background: var(--paper); border: 1px solid var(--border); 
 .post-card h2, .post-title { font: var(--weight-semibold) var(--text-post)/1.45 var(--mono); letter-spacing: var(--tracking-heading); }
 .post-card h2 { margin: 0 0 var(--space-2); }
 .post-title { text-decoration-line: none; color: var(--ink); }
-.post-title:hover { color: var(--accent); text-decoration-line: underline; }
+.post-title:is(:hover, :focus-visible) { color: var(--accent); text-decoration-line: underline; }
 :is(.post-card, .archive-year li) .post-title::after { content: ""; position: absolute; inset: 0; }
-:is(.post-card, .archive-year li) .post-title:focus-visible { outline: none; color: var(--accent); text-decoration-line: underline; }
+:is(.post-card, .archive-year li) .post-title:focus-visible { outline: none; }
 :is(.post-card, .archive-year li) .post-title:focus-visible::after { outline: 2px solid var(--accent); outline-offset: 4px; }
 .post-card p { flex: 1; min-width: 0; font-size: var(--text-body); line-height: var(--leading-body); color: var(--muted); margin: 0; }
 .read-link { display: inline-block; padding-block: var(--space-3); min-height: var(--control-height); font: var(--text-label) var(--mono); }
@@ -162,7 +162,7 @@ main, .site-footer { background: var(--paper); border: 1px solid var(--border); 
 .post-navigation { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); border-top: 1px solid var(--rule); padding-top: var(--space-4); margin-top: var(--space-7); }
 .post-navigation a { display: flex; flex-direction: column; gap: var(--space-1); color: var(--secondary); font: var(--weight-regular) var(--text-body)/var(--leading-ui) var(--sans); text-decoration-line: none; }
 .post-navigation a[rel="next"] { grid-column: 2; text-align: right; }
-.post-navigation a:hover > span { color: var(--accent); text-decoration-line: underline; }
+.post-navigation a:is(:hover, :focus-visible) > span { color: var(--accent); text-decoration-line: underline; }
 .post-navigation small { color: var(--muted); font: var(--text-label)/var(--leading-ui) var(--mono); }
 .post-navigation small span { color: var(--secondary); }
 button { cursor: pointer; }
