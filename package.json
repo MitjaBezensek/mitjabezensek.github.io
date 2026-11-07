@@ -11,7 +11,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "python3 tests/verify_site.py && node --test tests/palettes.test.mjs",
+    "test": "python3 tests/verify_site.py && node --test tests/*.test.mjs",
     "test:drafts": "python3 tests/verify_draft_filter.py"
   },
   "dependencies": {
@@ -22,6 +22,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "@astrojs/markdown-satteri": "0.4.7",
+    "sharp": "0.35.5",
     "typescript": "^5.9.3"
   },
   "packageManager": "pnpm@12.18.0"

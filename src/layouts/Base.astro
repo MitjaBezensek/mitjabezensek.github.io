@@ -1,13 +1,8 @@
 ---
 import { AUTHOR, SITE } from '../lib/posts';
 import PalettePreview from '../components/PalettePreview.astro';
+import { Font } from 'astro:assets';
 import '../styles/global.css';
-import '@fontsource/jetbrains-mono/latin-400.css';
-import '@fontsource/jetbrains-mono/latin-600.css';
-import '@fontsource/source-sans-3/latin-400.css';
-import '@fontsource/source-sans-3/latin-600.css';
-import '@fontsource/source-sans-3/latin-400-italic.css';
-import '@fontsource/fira-code/latin-400.css';
 
 interface Props {
   title?: string;
@@ -36,6 +31,9 @@ const isAbout = Astro.url.pathname === '/about/';
     <meta name="description" content={description} />
     <meta name="author" content={AUTHOR} />
     <meta name="color-scheme" content="light dark" />
+    <Font cssVariable="--font-mono" preload={[{ weight: 400 }, { weight: 600 }]} />
+    <Font cssVariable="--font-body" preload={[{ weight: 400, style: 'normal' }]} />
+    <Font cssVariable="--font-code" />
     {noindex && <meta name="robots" content="noindex, follow" />}
     <PalettePreview />
     <title>{fullTitle}</title>

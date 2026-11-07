@@ -184,6 +184,12 @@ importers:
       '@astrojs/check':
         specifier: ^0.9.9
         version: 0.9.12(prettier@3.9.10)(typescript@5.9.3)
+      '@astrojs/markdown-satteri':
+        specifier: 0.4.7
+        version: 0.4.7
+      sharp:
+        specifier: 0.35.5
+        version: 0.35.5
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -2138,8 +2144,7 @@ snapshots:
 
   '@fontsource/source-sans-3@5.3.1': {}
 
-  '@img/colour@1.1.0':
-    optional: true
+  '@img/colour@1.1.0': {}
 
   '@img/sharp-darwin-arm64@0.35.5':
     optionalDependencies:
@@ -3118,7 +3123,6 @@ snapshots:
       '@img/sharp-win32-arm64': 0.35.5
       '@img/sharp-win32-ia32': 0.35.5
       '@img/sharp-win32-x64': 0.35.5
-    optional: true
 
   shiki@4.6.0:
     dependencies:

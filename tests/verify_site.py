@@ -159,6 +159,8 @@ class MigrationChecks(unittest.TestCase):
             content = entry.find("a:content", ATOM).text
             self.assertGreater(len(content), 500)
             self.assertNotRegex(content, r'(?:src|href)=[\x27"]/(?!/)')
+            self.assertNotRegex(content, r'srcset=[\x27"]/(?!/)')
+            self.assertNotRegex(content, r',\s*/_images/')
         self.assertEqual(feed.find("a:id", ATOM).text, "http://bezensek.com/")
 
     def test_category_feed_membership_is_preserved(self):

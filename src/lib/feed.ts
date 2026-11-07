@@ -11,6 +11,8 @@ export function atomFeed(posts: Post[], path = '/atom.xml', title = AUTHOR): str
     const content = post.rendered.html.replace(
       /\b(href|src)=(['"])(\/(?!\/)[^'"]*)\2/g,
       (_, attr, quote, url) => `${attr}=${quote}${SITE}${url}${quote}`,
+    ).replace(/\bsrcset=([\x27"])(.*?)\1/g, (_, quote, srcset) =>
+      `srcset=${quote}${srcset.replace(/(^|,\s*)(\/(?!\/)\S+)/g, '$1' + SITE + '$2')}${quote}`,
     );
     // Atom IDs are permanent identifiers, not the URLs used to visit the site.
     const id = `http://bezensek.com${(post.data.legacyUrl ?? post.data.url).slice(0, -1)}`;

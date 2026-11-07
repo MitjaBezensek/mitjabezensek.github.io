@@ -33,8 +33,8 @@ Markdown, components, or styles. Stop it with Ctrl+C.
 | `pnpm run check` | Check Astro and TypeScript. |
 | `pnpm build` | Generate the static site in `dist/`. |
 | `pnpm preview` | Serve the existing production build locally. |
-| `pnpm test` | Verify the built site and theme behavior; build first. |
-| `pnpm run test:drafts` | Verify draft exclusion and new-post support, then leave a normal production build. |
+| `pnpm test` | Verify the built site, themes, image loading, animation integrity, and font setup; build first. |
+| `pnpm run test:drafts` | Verify draft exclusion, new posts, and image replacement cache invalidation, then leave a normal build. |
 
 For a production preview:
 
@@ -107,6 +107,15 @@ Reference them using a root-relative URL and descriptive alternative text:
 
 Everything in `public/` is copied to the live site, even if the post using it
 is a draft. Keep private draft assets outside that directory until publishing.
+
+Images in Markdown get width and height automatically, so they reserve their
+space before loading. The first image loads normally; subsequent images use
+native lazy loading and asynchronous decoding. Builds create responsive WebP
+alternatives under `public/_images/` when they are smaller, preserving animation
+and keeping the original files and URLs as fallbacks. This generated directory
+is ignored by Git; continue adding images to `public/img/` as usual. Replacing
+an image restarts the development server automatically to refresh its metadata
+and optimized copies.
 
 ### About and automatic pages
 
@@ -184,6 +193,12 @@ Astro checker.
 | `dist/` | Generated production site; do not edit it. |
 
 ## Theme
+
+Fonts are self-hosted WOFF2 files with metric-matched fallbacks. Only the three
+font faces used above the fold are preloaded; code and italic fonts load when
+needed. Font, CSS, and optimized image filenames change with their contents,
+allowing cached assets to be reused safely. GitHub Pages sets the HTTP cache
+headers; this repository cannot override them with a `_headers` file.
 
 The custom pixel-computer theme takes its visual direction from Greenhouse:
 neutral dotted gutters, ivory reading panels, beveled controls, and original

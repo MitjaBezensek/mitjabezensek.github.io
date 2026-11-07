@@ -3,6 +3,7 @@ _deploy
 node_modules
 .astro/
 dist/
+public/_images/
 .env
 .env.*
 !.env.example
