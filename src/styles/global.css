@@ -197,7 +197,7 @@ button[aria-busy='true'] { cursor: wait; }
   .site-header { margin-top: var(--space-4); margin-bottom: var(--space-4); gap: var(--space-3); }
   .wordmark { font-size: var(--text-body); }
   .header-navigation { width: 100%; align-items: flex-start; }
-  .site-header .main-navigation { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) var(--control-height); width: 100%; }
+  .site-header .main-navigation { width: 100%; }
   .intro { position: relative; display: block; padding: var(--space-6) 0; }
   .intro h1 { margin-bottom: var(--space-4); }
   .intro-description { margin-bottom: var(--space-2); }
