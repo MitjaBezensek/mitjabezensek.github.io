@@ -36,7 +36,7 @@ Create a file in `src/content/posts/`, for example `my-new-post.md`:
 title: "My new post"
 description: "A short description for listings and search results."
 pubDate: "2026-11-07T12:00:00+01:00"
-url: "/blog/2026/11/07/my-new-post/"
+url: "/my-new-post/"
 categories: [programming]
 draft: false
 comments: false
@@ -47,8 +47,11 @@ Write regular Markdown below the frontmatter. Fenced code blocks accept
 language names such as `csharp`, `typescript`, and `javascript`. Images in
 `public/img/` are linked as `![Description](/img/example.png)`.
 
-The explicit `url` preserves old links independently of filenames and titles.
-For new posts, use a unique lowercase, hyphenated slug and keep the URL stable.
+The explicit `url` sets a short root-level path independently of filenames
+and dates. Use a unique lowercase, hyphenated slug and keep the URL stable.
+Existing articles also have `legacyUrl` for their dated Octopress path;
+retain it to preserve incoming links and the original feed/comment identities.
+New posts do not need `legacyUrl`. Avoid reserved paths such as `/about/`.
 Set `comments: true` to offer the existing Disqus discussion; Disqus loads
 only when the reader clicks **Load comments**. Historical posts retain their
 original HTTP Disqus identifiers so existing discussions stay associated.
@@ -56,7 +59,24 @@ original HTTP Disqus identifiers so existing discussions stay associated.
 The homepage shows five articles per page. Archives, categories, Atom feeds,
 and the sitemap update automatically. `/atom.xml` contains the latest twenty
 articles; category feeds contain the latest five. Atom IDs retain their old
-HTTP spelling as stable identities; visit links and canonicals use HTTPS.
+HTTP spelling as stable identities; visit links and canonicals use the short
+HTTPS URLs.
+
+## URL redirects and SEO
+
+Published posts use `/post-name/`. Each original dated URL serves a small
+redirect page with an immediate (zero-second) HTML meta refresh, a canonical
+link to the short URL, and a clickable fallback. Articles, their internal
+links, indexes, feeds, and the sitemap point directly to the short URL.
+Redirect pages are excluded from the sitemap and never duplicate article
+content. Keep the original redirects indefinitely for incoming links.
+
+An HTTP **301 Moved Permanently** is the usual choice for this move, but
+GitHub Pages cannot set custom redirect response headers. These redirect
+pages therefore return HTTP 200, not an actual 301. Google treats an immediate
+meta refresh as a permanent redirect; see [Google’s redirect guidance](https://developers.google.com/search/docs/crawling-indexing/301-redirects).
+True HTTP 301 responses would require a proxy in front of GitHub Pages or a
+host supporting redirect rules. HTTP 304 is a caching response, not a redirect.
 
 Edit `src/content/pages/about.md` for the biography. It preserves the original
 2014 copy, marked as historical.
@@ -84,7 +104,8 @@ in `public/` or variables prefixed with `PUBLIC_`.
 
 `tests/legacy-site.json` records the old generated site from `master`:
 29 pages, nine published articles, and sixteen Atom feeds. The verifier checks
-those routes, post titles, publication dates, code examples, images, feed IDs,
+those routes (including redirect destinations), post titles, publication dates,
+code examples, images, feed IDs,
 category feed membership, internal link targets, HTTPS metadata, and source
 and draft exclusion. New articles are supported without changing the fixture;
 intentional changes to historical content may require corresponding fixture

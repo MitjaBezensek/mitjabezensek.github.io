@@ -2,7 +2,8 @@
 title: "Non-deterministic Finite State Machine implementation in C#"
 description: "A simple implementation of non-deterministic finite state machine in C#."
 pubDate: "2015-04-12T22:35:00+02:00"
-url: "/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/"
+url: "/non-deterministic-finite-state-machine-implementation-in-c-number/"
+legacyUrl: "/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/"
 categories: ["automata", "theory of computation", "csharp", "dotnet"]
 comments: true
 draft: false
@@ -105,7 +106,7 @@ Also the implementation above is not really the best when it comes to performanc
 You can find the [source code][5] for NDFSM on github.
 
 
-[1]: https://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/
+[1]: https://bezensek.com/deterministic-finite-state-machine-implementation-in-c-number/
 [2]: https://github.com/MitjaBezensek/DFSM/blob/master/FSM_Simple/DeterministicFSM.cs
 [3]: https://en.wikipedia.org/wiki/Backtracking
 [4]: http://en.wikipedia.org/wiki/Nondeterministic_finite_automaton_with_%CE%B5-moves

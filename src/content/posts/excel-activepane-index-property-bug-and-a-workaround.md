@@ -2,7 +2,8 @@
 title: "Excel's ActivePane Index property bug and a workaround"
 description: "A short description of a bug in the Excel object model. The ActivePane Index property does not work according to specification."
 pubDate: "2014-07-23T10:20:04+01:00"
-url: "/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround/"
+url: "/excel-activepane-index-property-bug-and-a-workaround/"
+legacyUrl: "/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround/"
 categories: ["Excel", "excel bug", "vsto"]
 comments: true
 draft: false

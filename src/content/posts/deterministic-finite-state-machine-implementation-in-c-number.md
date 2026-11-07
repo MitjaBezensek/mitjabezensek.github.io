@@ -2,7 +2,8 @@
 title: "Deterministic finite state machine implementation in C#"
 description: "A simple implementation of deterministic finite state machine in C#."
 pubDate: "2014-08-13T21:36:58+02:00"
-url: "/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/"
+url: "/deterministic-finite-state-machine-implementation-in-c-number/"
+legacyUrl: "/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/"
 categories: ["automata", "theory of computation", "csharp", "dotnet"]
 comments: true
 draft: false

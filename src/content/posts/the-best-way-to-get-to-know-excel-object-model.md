@@ -2,7 +2,8 @@
 title: "The best way to get to know Excel Object Model"
 description: "What is the best way to get to know Excel object model? Most likely the macro recorder."
 pubDate: "2014-03-24T21:10:04+01:00"
-url: "/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model/"
+url: "/the-best-way-to-get-to-know-excel-object-model/"
+legacyUrl: "/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model/"
 categories: ["Excel", "excel Excel"]
 comments: true
 draft: false

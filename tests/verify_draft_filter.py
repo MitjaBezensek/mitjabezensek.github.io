@@ -17,7 +17,8 @@ with tempfile.NamedTemporaryFile(
 title: "{MARKER}"
 description: "{MARKER}"
 pubDate: "2026-11-07T12:00:00Z"
-url: "/blog/2026/11/07/{MARKER}/"
+url: "/{MARKER}/"
+legacyUrl: "/blog/2026/11/07/{MARKER}/"
 categories: ["{MARKER}"]
 draft: true
 comments: true
@@ -34,7 +35,7 @@ with tempfile.NamedTemporaryFile(
 title: "New article verification"
 description: "An additional published article must not break the migration checks."
 pubDate: "2026-11-07T12:00:00Z"
-url: "/blog/2026/11/07/new-article-verification/"
+url: "/new-article-verification/"
 categories: [programming]
 ---
 This additional article verifies that future writing can still be published.

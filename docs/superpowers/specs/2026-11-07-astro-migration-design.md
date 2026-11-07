@@ -1,5 +1,9 @@
 # Astro migration
 
+The subsequent [short-URL design](2026-11-07-short-post-urls.md) supersedes the
+original choice to serve articles directly at their dated URLs. Those URLs
+now remain as redirects, with article canonicals at `/post-name/`.
+
 ## Intent and agreed choices
 
 Replace the Octopress/Jekyll build with Astro while keeping this repository,

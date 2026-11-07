@@ -25,6 +25,8 @@ class Document(HTMLParser):
         self.canonicals = []
         self.h1 = []
         self.dates = []
+        self.refresh = []
+        self.is_post = False
         self._code = None
         self._h1 = False
         self.feed(markup)
@@ -43,6 +45,10 @@ class Document(HTMLParser):
             self.dates.append(attrs["datetime"])
         if tag == "link" and attrs.get("rel") == "canonical":
             self.canonicals.append(attrs["href"])
+        if tag == "meta" and attrs.get("http-equiv", "").lower() == "refresh":
+            self.refresh.append(attrs.get("content", ""))
+        if tag == "meta" and attrs.get("property") == "article:published_time":
+            self.is_post = True
 
     def handle_endtag(self, tag):
         if tag == "code" and self._code is not None:
@@ -67,18 +73,42 @@ def normalize_code(value):
     return re.sub(r"\s+", " ", value).strip()
 
 
+def short_url(legacy_url):
+    return "/" + legacy_url.rstrip("/").split("/")[-1] + "/"
+
+
+def stable_id(url):
+    for post in LEGACY["posts"]:
+        if short_url(post["url"]) == url:
+            return post["id"]
+    return "http://bezensek.com" + url.rstrip("/")
+
+
 def built_posts():
     posts = []
-    for path in DIST.glob("blog/*/*/*/*/index.html"):
+    for path in DIST.glob("*/index.html"):
         url = "/" + str(path.relative_to(DIST)).removesuffix("index.html")
-        if not re.fullmatch(r"/blog/\d{4}/\d{2}/\d{2}/[^/]+/", url):
-            continue
         doc = Document(path.read_text())
+        if not doc.is_post:
+            continue
         posts.append({"url": url, "doc": doc, "date": datetime.fromisoformat(doc.dates[0].replace("Z", "+00:00"))})
     return sorted(posts, key=lambda post: post["date"], reverse=True)
 
 
 class MigrationChecks(unittest.TestCase):
+    def test_old_post_urls_redirect_directly_to_short_canonicals(self):
+        for post in LEGACY["posts"]:
+            with self.subTest(url=post["url"]):
+                destination = short_url(post["url"])
+                doc = Document(output_path(post["url"]).read_text())
+                self.assertEqual(doc.refresh, [f"0;url={destination}"])
+                self.assertEqual(doc.canonicals, ["https://bezensek.com" + destination])
+                self.assertIn(destination, doc.links)
+                target = Document(output_path(destination).read_text())
+                self.assertTrue(target.is_post)
+                self.assertEqual(target.refresh, [])
+                self.assertEqual(target.canonicals, ["https://bezensek.com" + destination])
+
     def test_all_legacy_routes_survive(self):
         for path in LEGACY["pages"] + LEGACY["feeds"] + ["404.html"]:
             with self.subTest(path=path):
@@ -87,7 +117,7 @@ class MigrationChecks(unittest.TestCase):
     def test_published_posts_preserve_titles_images_and_code(self):
         for post in LEGACY["posts"]:
             with self.subTest(url=post["url"]):
-                markup = output_path(post["url"]).read_text()
+                markup = output_path(short_url(post["url"])).read_text()
                 doc = Document(markup)
                 self.assertEqual(len(doc.h1), 1)
                 self.assertEqual(html.unescape(post["title"]), "".join(doc.h1))
@@ -114,10 +144,10 @@ class MigrationChecks(unittest.TestCase):
         )
         by_id = {entry.find("a:id", ATOM).text: entry for entry in entries}
         for post in LEGACY["posts"]:
-            if post["url"] not in [p["url"] for p in expected_posts]:
+            if short_url(post["url"]) not in [p["url"] for p in expected_posts]:
                 continue
             entry = by_id[post["id"]]
-            self.assertEqual(entry.find("a:link", ATOM).get("href"), "https://bezensek.com" + post["url"])
+            self.assertEqual(entry.find("a:link", ATOM).get("href"), "https://bezensek.com" + short_url(post["url"]))
             self.assertTrue(entry.find("a:updated", ATOM).text.startswith("-".join(post["date"])))
             content = entry.find("a:content", ATOM).text
             self.assertGreater(len(content), 500)
@@ -130,7 +160,7 @@ class MigrationChecks(unittest.TestCase):
             with self.subTest(category=category):
                 category_url = f"/blog/categories/{category}/"
                 category_posts = [post for post in posts if category_url in post["doc"].links]
-                all_ids = ["http://bezensek.com" + post["url"].rstrip("/") for post in category_posts]
+                all_ids = [stable_id(post["url"]) for post in category_posts]
                 for expected_id in expected_ids:
                     self.assertIn(expected_id, all_ids)
                 feed = ET.parse(DIST / f"blog/categories/{category}/atom.xml").getroot()
@@ -159,6 +189,7 @@ class MigrationChecks(unittest.TestCase):
                 if target.netloc in ["bezensek.com", "www.bezensek.com"]:
                     with self.subTest(page=str(path.relative_to(DIST)), link=link):
                         self.assertTrue(output_path(target.path).is_file(), target.path)
+                        self.assertNotRegex(target.path, r"^/blog/\d{4}/", "Link directly to the short canonical URL")
 
     def test_https_metadata_and_sitemap(self):
         self.assertTrue(DIST.is_dir(), "Build the site first")
@@ -169,7 +200,8 @@ class MigrationChecks(unittest.TestCase):
         sitemap = ET.parse(DIST / "sitemap.xml").getroot()
         urls = {el.text for el in sitemap.iter() if el.tag.endswith("}loc")}
         for post in LEGACY["posts"]:
-            self.assertIn("https://bezensek.com" + post["url"], urls)
+            self.assertIn("https://bezensek.com" + short_url(post["url"]), urls)
+            self.assertNotIn("https://bezensek.com" + post["url"], urls)
         self.assertEqual((DIST / "CNAME").read_text().strip(), "bezensek.com")
 
 

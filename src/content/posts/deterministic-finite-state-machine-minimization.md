@@ -2,13 +2,14 @@
 title: "Deterministic finite state machine minimization"
 description: "An implementation of deterministic finite state machine minimization using Brzozowski’s algorithm in C#."
 pubDate: "2015-05-08T00:48:59+02:00"
-url: "/blog/2015/05/08/deterministic-finite-state-machine-minimization/"
+url: "/deterministic-finite-state-machine-minimization/"
+legacyUrl: "/blog/2015/05/08/deterministic-finite-state-machine-minimization/"
 categories: ["automata", "theory of computation", "csharp", "dotnet"]
 comments: true
 draft: false
 ---
 
-I have received a question about how to approach DFSM minimization in [one of the previous posts](https://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/). This is an attempt to answer that question.
+I have received a question about how to approach DFSM minimization in [one of the previous posts](https://bezensek.com/deterministic-finite-state-machine-implementation-in-c-number/). This is an attempt to answer that question.
 
 ## What is DFSM minimization?
 
@@ -119,7 +120,7 @@ private NDFSM Reverse(DFSM d){
 
 ### Powerset construction
 
-Here is [how I implemented the powerset constructions](https://bezensek.com/blog/2015/04/30/powerset-construction/) algorithm in my previous post[^4]:
+Here is [how I implemented the powerset constructions](https://bezensek.com/powerset-construction/) algorithm in my previous post[^4]:
 
 ```csharp
  private static DFSM PowersetConstruction(NDFSM ndfsm){
@@ -207,7 +208,7 @@ And lets see how the minimization works on an example. This is how the four step
 
 So this is it for minimization. The source code can be found at [github](https://github.com/MitjaBezensek/DFSM_Minimization).
 
-[^2]: You might want to check [one of my previous articles](https://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/) to check the DFSM implementation.
+[^2]: You might want to check [one of my previous articles](https://bezensek.com/deterministic-finite-state-machine-implementation-in-c-number/) to check the DFSM implementation.
 
 [^3]: If you read my previous article you might be wondering if those implementations will work with this reversal. The answer is no. The problem is that when we reverse a DFSM we are basically converting starting state to finish state and finish states to starting states. Which means there can be many starting states - a variant of the DFSM that my implementation does not cover. 
 

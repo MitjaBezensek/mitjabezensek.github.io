@@ -1,8 +1,8 @@
 ---
 import { SITE } from '../lib/posts';
-interface Props { url: string; }
-const { url } = Astro.props;
-const identifier = `http://bezensek.com${url}`;
+interface Props { url: string; identifierUrl?: string; }
+const { url, identifierUrl = url } = Astro.props;
+const identifier = `http://bezensek.com${identifierUrl}`;
 const canonical = `${SITE}${url}`;
 ---
 <section class="comments" aria-labelledby="comments-title">

@@ -2,7 +2,8 @@
 title: "How to use Add This with Octopress to add social buttons"
 description: "Octopress is a great blogging framework with easy customizations. In this post I'll take you through adding some social buttons at the bottom of your posts."
 pubDate: "2014-07-31T18:04:44+02:00"
-url: "/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons/"
+url: "/how-to-use-add-this-with-octopress-to-add-social-buttons/"
+legacyUrl: "/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons/"
 categories: ["octopress", "blog", "social"]
 comments: true
 draft: false

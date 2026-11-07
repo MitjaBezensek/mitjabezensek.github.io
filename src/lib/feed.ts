@@ -13,7 +13,7 @@ export function atomFeed(posts: Post[], path = '/atom.xml', title = AUTHOR): str
       (_, attr, quote, url) => `${attr}=${quote}${SITE}${url}${quote}`,
     );
     // Atom IDs are permanent identifiers, not the URLs used to visit the site.
-    const id = `http://bezensek.com${post.data.url.slice(0, -1)}`;
+    const id = `http://bezensek.com${(post.data.legacyUrl ?? post.data.url).slice(0, -1)}`;
     return `<entry>
       <title type="text">${escapeXml(post.data.title)}</title>
       <id>${escapeXml(id)}</id>

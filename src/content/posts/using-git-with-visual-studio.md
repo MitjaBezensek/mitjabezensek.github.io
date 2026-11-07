@@ -2,7 +2,8 @@
 title: "Using Git with Visual Studio"
 description: "A few different techniques on how to use Git in Visual studio."
 pubDate: "2014-03-06T21:30:35+01:00"
-url: "/blog/2014/03/06/using-git-with-visual-studio/"
+url: "/using-git-with-visual-studio/"
+legacyUrl: "/blog/2014/03/06/using-git-with-visual-studio/"
 categories: ["programming", "source control", "git"]
 comments: true
 draft: false
