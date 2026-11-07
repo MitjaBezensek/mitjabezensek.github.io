@@ -6,10 +6,10 @@ A static Astro site, with Markdown posts and GitHub Pages hosting at
 The custom pixel-computer theme takes its visual direction from Greenhouse:
 slate-blue dotted gutters, warm silver reading panels, beveled controls, and original
 SVG computer artwork. The header uses a solid cream backing for readability.
-JetBrains Mono is used for headings/navigation, Geist for article text, and
+JetBrains Mono is used for headings/navigation, Source Sans 3 for reading text, and
 Fira Code with contextual ligatures for code blocks. Fonts are served locally; their SIL Open Font Licenses are
-included in `public/licenses/`. The palette deliberately stays light to match
-the reference. Edit `src/styles/global.css` for theme styling and
+included in `public/licenses/`. The blue-and-coral palette supports light and dark
+modes, with a header switch that remembers the reader's choice. Edit `src/styles/global.css` for theme styling and
 `src/components/PixelComputer.astro` for the illustration.
 
 `/palettes/` compares five color alternatives on the real homepage. Open a
@@ -21,24 +21,25 @@ values are in `src/lib/palettes.ts`.
 ## Local development
 
 Use Node 24.14.1 or newer (the development version is in `.nvmrc`) and Python 3
-for the migration checks.
+for the migration checks. The project pins pnpm 12.18.0. If needed, install it
+once with `npm install --global pnpm@12.18.0`.
 
 ```sh
 nvm use
-npm ci
-npm run dev
+pnpm install --frozen-lockfile
+pnpm run dev
 ```
 
 Open the local URL printed by Astro. To inspect the production build:
 
 ```sh
-npm run check
-npm run build
-npm test
-npm run preview
+pnpm run check
+pnpm run build
+pnpm test
+pnpm run preview
 ```
 
-`npm run test:drafts` builds with a temporary draft and a new published post.
+`pnpm run test:drafts` builds with a temporary draft and a new published post.
 It verifies draft exclusion and that the migration checks accept new writing,
 then removes the temporary files and restores a normal build.
 
@@ -54,7 +55,6 @@ pubDate: "2026-11-07T12:00:00+01:00"
 url: "/my-new-post/"
 categories: [programming]
 draft: false
-comments: false
 ---
 ```
 
@@ -65,11 +65,9 @@ language names such as `csharp`, `typescript`, and `javascript`. Images in
 The explicit `url` sets a short root-level path independently of filenames
 and dates. Use a unique lowercase, hyphenated slug and keep the URL stable.
 Existing articles also have `legacyUrl` for their dated Octopress path;
-retain it to preserve incoming links and the original feed/comment identities.
+retain it to preserve incoming links and the original feed identities.
 New posts do not need `legacyUrl`. Avoid reserved paths such as `/about/`.
-Set `comments: true` to offer the existing Disqus discussion; Disqus loads
-only when the reader clicks **Load comments**. Historical posts retain their
-original HTTP Disqus identifiers so existing discussions stay associated.
+Posts have no discussion section or third-party comment scripts.
 
 The homepage shows five articles per page. Archives, categories, Atom feeds,
 and the sitemap update automatically. `/atom.xml` contains the latest twenty
@@ -126,10 +124,11 @@ and draft exclusion. New articles are supported without changing the fixture;
 intentional changes to historical content may require corresponding fixture
 updates.
 
-One historical image remains externally hosted over HTTP in the Git/Visual
-Studio article (the SourceTree UI screenshot). Its URL is preserved from the
-original content; availability and mixed-content handling depend on that
-external server. All locally hosted images are preserved.
+External links were audited on 7 November 2026. Working destinations use HTTPS,
+moved resources point to their current pages, and confirmed dead links were
+removed while retaining the surrounding text. The unavailable external
+SourceTree screenshot was removed; the other original images remain locally
+hosted. Automated-request blocks are not treated as evidence of a dead link.
 
 ## GitHub Pages cutover (not performed by this migration)
 
@@ -139,20 +138,46 @@ local until explicitly approved for publishing.
 
 When ready to publish:
 
-1. Back up the local `pre-astro` tag and migration branch to an appropriate
-   remote. The tag includes historical drafts; a public push exposes
-   everything reachable from it.
-2. Merge the migration into `source`, keeping `master` untouched for rollback.
-3. In **Settings → Pages**, choose **GitHub Actions** as the publishing source.
-   Keep the custom domain `bezensek.com`. Ensure the `github-pages` environment
-   allows deployments from `source`; existing rules may only allow `master`.
-4. Push `source`. The workflow installs locked dependencies, type-checks,
-   builds, runs preservation checks, and uploads only `dist/`. Pull requests
-   run the same checks without deploying. After the switch, a push to `source`
-   triggers deployment; do not push it until cutover is intended.
-5. Verify domain DNS and certificate status. Enable **Enforce HTTPS** once
-   GitHub reports the certificate ready. Check the homepage, an old post URL,
-   an image, `/atom.xml`, and Disqus thread association after deployment.
+1. Select Node and install the pinned pnpm version if needed, then run the
+   same checks as CI. `test:drafts` also leaves a normal production build.
+
+   ```sh
+   nvm use
+   npm install --global pnpm@12.18.0
+   pnpm install --frozen-lockfile
+   pnpm run check
+   pnpm run test:drafts
+   pnpm test
+   ```
+
+2. Commit the finished migration and merge it into `source`. Review the staged
+   diff for private writing before committing; the repository is public.
+
+   ```sh
+   git add -A
+   git diff --cached
+   git commit -m "Finish Astro blog migration"
+   git switch source
+   git merge --ff-only codex/astro-migration
+   ```
+
+3. In [Settings → Pages](https://github.com/MitjaBezensek/mitjabezensek.github.io/settings/pages),
+   choose **GitHub Actions** as the publishing source. Keep the custom domain
+   `bezensek.com`. If deployment environment rules block the workflow, allow
+   `source` in the `github-pages` environment.
+
+4. Start deployment with `git push origin source`. The workflow installs locked
+   dependencies, checks, builds, and uploads only `dist/`. Wait for
+   **Verify and deploy blog** to succeed in the repository's Actions tab.
+
+5. Check the homepage, an old dated URL, images, `/atom.xml`, page 2, and the
+   light/dark switch on the live domain. Enable **Enforce HTTPS** in Pages
+   settings once GitHub reports the certificate ready.
+
+Future updates are Markdown edits followed by a commit and `git push origin
+source`; GitHub builds and deploys automatically. Keep `master` unchanged for
+rollback. Keep the local `pre-astro` tag backed up privately: it includes
+historical drafts, and pushing it publicly exposes everything reachable from it.
 
 Because the default branch is still `master`, manual workflow dispatch may
 not be available in the UI until the workflow exists on that branch too.
