@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
       - name: Set up pnpm and Node.js
@@ -31,14 +31,14 @@ jobs:
         run: pnpm test
       - name: Upload built site
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/source'
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
   deploy:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/source'
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     concurrency:
       group: github-pages
       cancel-in-progress: false
