@@ -3,6 +3,14 @@
 A static Astro site, with Markdown posts and GitHub Pages hosting at
 [bezensek.com](https://bezensek.com).
 
+The custom pixel-garden theme takes its visual direction from Greenhouse:
+lavender dotted gutters, cream reading panels, beveled controls, and original
+SVG pixel plants. JetBrains Mono is used for headings/navigation and Geist
+for article text. Fonts are served locally; their SIL Open Font Licenses are
+included in `public/licenses/`. The palette deliberately stays light to match
+the reference. Edit `src/styles/global.css` for theme styling and
+`src/components/PixelGarden.astro` for the illustration.
+
 ## Local development
 
 Use Node 24.14.1 or newer (the development version is in `.nvmrc`) and Python 3

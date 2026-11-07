@@ -1,6 +1,10 @@
 ---
 import { AUTHOR, SITE } from '../lib/posts';
 import '../styles/global.css';
+import '@fontsource/jetbrains-mono/latin-400.css';
+import '@fontsource/jetbrains-mono/latin-600.css';
+import '@fontsource/geist/latin-400.css';
+import '@fontsource/geist/latin-600.css';
 
 interface Props {
   title?: string;
@@ -25,7 +29,7 @@ const isAbout = Astro.url.pathname === '/about/';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="author" content={AUTHOR} />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="light" />
     <title>{fullTitle}</title>
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -43,7 +47,7 @@ const isAbout = Astro.url.pathname === '/about/';
     <div class="site-shell">
       <header class="site-header">
         <a class="wordmark" href="/" aria-label={`${AUTHOR}, home`}>
-          <span class="monogram" aria-hidden="true">mb.</span>
+          <svg class="site-sprout" viewBox="0 0 24 24" shape-rendering="crispEdges" aria-hidden="true"><path fill="#6d8550" d="M11 10h3v12h-3zM3 3h7v3h3v7H6v-3H3zM17 6h5v7h-3v3h-5V9h3z"/><path fill="#a2b27d" d="M5 5h4v3H5zM17 8h3v3h-3z"/></svg>
           <span>{AUTHOR}<small>Software developer</small></span>
         </a>
         <nav aria-label="Main navigation">
@@ -52,9 +56,12 @@ const isAbout = Astro.url.pathname === '/about/';
           <a href="/atom.xml">RSS <span aria-hidden="true">↗</span></a>
         </nav>
       </header>
-      <main id="main"><slot /></main>
+      <main id="main">
+        <div class="window-bar" aria-hidden="true"><span><span class="status-pixel"></span> bezensek.com / notebook</span><span class="window-marks">─ □ ×</span></div>
+        <div class="window-content"><slot /></div>
+      </main>
       <footer class="site-footer">
-        <span>© {new Date().getUTCFullYear()} {AUTHOR}</span>
+        <span><span class="status-pixel" aria-hidden="true"></span> © {new Date().getUTCFullYear()} {AUTHOR}</span>
         <nav aria-label="Footer navigation">
           <a href="/blog/archives/">Archives</a>
           <a href="/blog/categories/">Categories</a>
