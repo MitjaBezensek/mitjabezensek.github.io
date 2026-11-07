@@ -10,6 +10,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "deploy": "node scripts/deploy.mjs",
     "check": "astro check",
     "test": "python3 tests/verify_site.py && node --test tests/*.test.mjs",
     "test:drafts": "python3 tests/verify_draft_filter.py"

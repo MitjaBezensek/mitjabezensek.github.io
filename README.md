@@ -33,6 +33,8 @@ Markdown, components, or styles. Stop it with Ctrl+C.
 | `pnpm run check` | Check Astro and TypeScript. |
 | `pnpm build` | Generate the static site in `dist/`. |
 | `pnpm preview` | Serve the existing production build locally. |
+| `pnpm run deploy` | Verify committed work on `source` and push it to trigger GitHub Pages. |
+| `pnpm run deploy --dry-run` | Run deployment checks and print the push step without publishing. |
 | `pnpm test` | Verify the built site, themes, image loading, animation integrity, and font setup; build first. |
 | `pnpm run test:drafts` | Verify draft exclusion, new posts, and image replacement cache invalidation, then leave a normal build. |
 
@@ -137,27 +139,35 @@ git switch source
 git pull --ff-only origin source
 ```
 
-Edit and preview your post, then run the same checks as CI:
-
-```sh
-pnpm run check
-pnpm run test:drafts
-pnpm test
-```
-
-Stage the post and its images, review the diff, and publish:
+Edit and preview your post. Stage the post and its images, review the diff,
+commit, and deploy:
 
 ```sh
 git add src/content/posts/my-new-post.md public/img/my-new-post/
 git diff --cached
 git commit -m "Publish my new post"
-git push origin source
+pnpm run deploy
 ```
 
 Use your actual filenames and omit the image directory if there are no new
 images. For edits to About or other files, stage those paths instead.
 Keep commit messages focused on the change, such as `Fix a code example in
 powerset construction` or `Update the About biography`.
+
+`pnpm run deploy` requires a clean `source` branch. It fetches `origin/source`,
+stops if your branch is behind or has diverged, then runs `check`, `test:drafts`,
+and `test`. After checking that the branch, commit, and working tree still match,
+it pushes only the verified commit to `source`, without tags. It does not stage
+or commit files for you. GitHub Actions then builds and publishes the site.
+
+To run the same verification without pushing:
+
+```sh
+pnpm run deploy --dry-run
+```
+
+Use `pnpm run deploy` in full: `pnpm deploy` is pnpm's separate built-in
+command for packaging workspace dependencies.
 
 A push to `source` runs **Verify and deploy blog** in
 [GitHub Actions](https://github.com/MitjaBezensek/mitjabezensek.github.io/actions).
@@ -188,6 +198,7 @@ Astro checker.
 | `src/components/PixelComputer.astro` | Pixel computer illustration. |
 | `src/lib/posts.ts` | Site identity, post ordering, categories, and page size. |
 | `tests/` | Migration preservation, theme, and draft checks. |
+| `scripts/deploy.mjs` | Local verification and publishing shortcut for the `source` branch. |
 | `.github/workflows/pages.yml` | Automated checks and GitHub Pages deployment. |
 | `assets/`, `references/` | Original working material; excluded from the built site. |
 | `dist/` | Generated production site; do not edit it. |
@@ -317,16 +328,12 @@ local until explicitly approved for publishing.
 
 When ready to publish:
 
-1. Select Node and install the pinned pnpm version if needed, then run the
-   same checks as CI. `test:drafts` also leaves a normal production build.
+1. Select Node and install the pinned pnpm version if needed:
 
    ```sh
    nvm use
    npm install --global pnpm@12.18.0
    pnpm install --frozen-lockfile
-   pnpm run check
-   pnpm run test:drafts
-   pnpm test
    ```
 
 2. Commit any remaining work on `MitjaBezensek/astro-migration`. Skip this first block
@@ -351,7 +358,8 @@ When ready to publish:
    `bezensek.com` and configure [DNS and HTTPS](#domain-and-https). If deployment
    environment rules block the workflow, allow `source` in `github-pages`.
 
-4. Start deployment with `git push origin source`. The workflow installs locked
+4. Run `pnpm run deploy` from `source`. The command runs the same checks as CI
+   and pushes the verified commit. The workflow installs locked
    dependencies, checks, builds, and uploads only `dist/`. Wait for
    **Verify and deploy blog** to succeed in the repository's Actions tab.
 
@@ -359,8 +367,8 @@ When ready to publish:
    light/dark switch on the live domain. Enable **Enforce HTTPS** in Pages
    settings once GitHub reports the certificate ready.
 
-Future updates are Markdown edits followed by a commit and `git push origin
-source`; GitHub builds and deploys automatically. Keep `master` unchanged for
+Future updates are Markdown edits followed by a commit and `pnpm run deploy`;
+GitHub builds and deploys automatically. Keep `master` unchanged for
 rollback. Keep the local `pre-astro` tag backed up privately: it includes
 historical drafts, and pushing it publicly exposes everything reachable from it.
 
