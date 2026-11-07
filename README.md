@@ -12,6 +12,12 @@ included in `public/licenses/`. The palette deliberately stays light to match
 the reference. Edit `src/styles/global.css` for theme styling and
 `src/components/PixelComputer.astro` for the illustration.
 
+`/palettes/` compares five color alternatives on the real homepage. Open a
+preview to carry that palette through internal article links using a query
+parameter; it does not save a preference or change the default theme. The
+preview page is marked noindex and is excluded from the sitemap. Palette
+values are in `src/lib/palettes.ts`.
+
 ## Local development
 
 Use Node 24.14.1 or newer (the development version is in `.nvmrc`) and Python 3

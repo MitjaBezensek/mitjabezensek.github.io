@@ -11,7 +11,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "python3 tests/verify_site.py",
+    "test": "python3 tests/verify_site.py && node --test tests/palettes.test.mjs",
     "test:drafts": "python3 tests/verify_draft_filter.py"
   },
   "dependencies": {

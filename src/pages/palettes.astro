@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import { palettes } from '../lib/palettes';
+---
+<Base title="Five color alternatives" noindex>
+  <header class="page-heading">
+    <p class="eyebrow">Same computer windows. Five different palettes.</p>
+    <h1>Color alternatives.</h1>
+    <p>Open a preview to see the full homepage, articles, and Fira Code blocks in that palette.</p>
+  </header>
+  <div class="palette-grid">
+    {palettes.map((palette, index) => (
+      <section class="palette-card">
+        <div class="palette-label">
+          <h2>{index + 1}. {palette.name}</h2>
+          <a href={`/?palette=${palette.id}`} target="_blank" rel="noopener">Open preview ↗</a>
+        </div>
+        <p>{palette.description}</p>
+        <iframe src={`/?palette=${palette.id}`} title={`${palette.name} homepage preview`} loading="lazy"></iframe>
+      </section>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .palette-grid { display: grid; gap: 30px; }
+  .palette-card { min-width: 0; }
+  .palette-label { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .palette-label h2 { font-size: 18px; margin: 0; }
+  .palette-label a { font: 12px var(--mono); }
+  .palette-card > p { font-size: 14px; color: var(--muted); }
+  iframe { display: block; border: 1px solid var(--line); width: 100%; height: 650px; background: var(--paper); }
+  @media (max-width: 540px) { iframe { height: 700px; } }
+</style>

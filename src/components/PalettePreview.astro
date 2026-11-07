@@ -1,0 +1,24 @@
+---
+import { palettes } from '../lib/palettes';
+---
+<script is:inline define:vars={{ palettes }}>
+  const requestedPalette = new URLSearchParams(window.location.search).get('palette')
+    ?? (window.location.pathname === '/palettes/' ? 'graphite' : null);
+  const previewPalette = palettes.find((option) => option.id === requestedPalette);
+  if (previewPalette) {
+    for (const [name, value] of Object.entries(previewPalette.colors)) {
+      document.documentElement.style.setProperty(`--${name}`, value);
+    }
+    document.documentElement.style.colorScheme = previewPalette.dark ? 'dark' : 'light';
+    document.documentElement.dataset.paletteMode = previewPalette.dark ? 'dark' : 'light';
+    document.addEventListener('DOMContentLoaded', () => {
+      for (const link of document.querySelectorAll('a[href]')) {
+        const target = new URL(link.href);
+        if (target.origin === window.location.origin && !target.searchParams.has('palette') && !target.pathname.endsWith('.xml') && !target.pathname.startsWith('/palettes/')) {
+          target.searchParams.set('palette', previewPalette.id);
+          link.href = target.href;
+        }
+      }
+    });
+  }
+</script>

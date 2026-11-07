@@ -1,5 +1,6 @@
 ---
 import { AUTHOR, SITE } from '../lib/posts';
+import PalettePreview from '../components/PalettePreview.astro';
 import '../styles/global.css';
 import '@fontsource/jetbrains-mono/latin-400.css';
 import '@fontsource/jetbrains-mono/latin-600.css';
@@ -12,12 +13,14 @@ interface Props {
   description?: string;
   article?: boolean;
   published?: string;
+  noindex?: boolean;
 }
 const {
   title,
   description = 'Writing about software development, algorithms, C#, Excel, and occasional random thoughts.',
   article = false,
   published,
+  noindex = false,
 } = Astro.props;
 const fullTitle = title ? `${title} · ${AUTHOR}` : AUTHOR;
 const canonical = new URL(Astro.url.pathname, SITE).href;
@@ -31,6 +34,8 @@ const isAbout = Astro.url.pathname === '/about/';
     <meta name="description" content={description} />
     <meta name="author" content={AUTHOR} />
     <meta name="color-scheme" content="light" />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <PalettePreview />
     <title>{fullTitle}</title>
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -48,7 +53,7 @@ const isAbout = Astro.url.pathname === '/about/';
     <div class="site-shell">
       <header class="site-header">
         <a class="wordmark" href="/" aria-label={`${AUTHOR}, home`}>
-          <svg class="site-computer" viewBox="0 0 24 24" shape-rendering="crispEdges" aria-hidden="true"><path fill="#607986" d="M1 2h22v16H1zM10 18h4v3h-4zM6 21h12v2H6z"/><path fill="#b7cbd7" d="M3 4h18v12H3z"/><path fill="#f8f7f2" d="M5 6h14v8H5z"/><path fill="#315d7a" d="M7 7h2v2H7zM9 9h2v2H9zM7 11h2v2H7zM12 11h5v2h-5z"/></svg>
+          <svg class="site-computer" viewBox="0 0 24 24" shape-rendering="crispEdges" aria-hidden="true"><path fill="var(--computer-dark)" d="M1 2h22v16H1zM10 18h4v3h-4zM6 21h12v2H6z"/><path fill="var(--computer-light)" d="M3 4h18v12H3z"/><path fill="var(--paper)" d="M5 6h14v8H5z"/><path fill="var(--accent)" d="M7 7h2v2H7zM9 9h2v2H9zM7 11h2v2H7zM12 11h5v2h-5z"/></svg>
           <span>{AUTHOR}<small>Software developer</small></span>
         </a>
         <nav aria-label="Main navigation">
