@@ -18,7 +18,7 @@ Source code needs to be under [version control][1], period. When it comes to dec
 <!-- more -->
 ## Git in Visual Studio
 
-In January 2013 the Visual Studio team [announced][5] that Visual Studio will have Git support and you can download it from [here][6] if you want. You will need Visual Studio 2012 Update 2 at least. 
+In January 2013 the Visual Studio team [announced][5] that Visual Studio will have Git support. You will need Visual Studio 2012 Update 2 at least.
 
 I have tried the extension but I don't recommend it just yet. It is still lacking many features and it seems very rushed. In a few iterations it might be worth to install it but for now I would say stay away. This is why I decided to discuss possible alternatives, namely: command line, Git Extensions and Source Tree.
 
@@ -48,9 +48,6 @@ I've had some minor problems with Git Extensions. Sometimes the window crashed i
 ## Source Tree
 The last option is a standalone desktop application called [Source Tree][13] from Atlassian. While the Mac version has been around for quite some while they have released the Windows version not so long ago. 
 
-![Source Tree UI](http://www.sourcetreeapp.com/images/sourcetree_hero_win_full_interface_windows.png)
-<sup>[Image source][14]</sup>
-
 I must admit that lately I've been using Source tree the most. I really like the nice user interface, it is also very easy to keep track of multiple projects. And there is another little gem: it has support for Gitflow. So you can easily start new features, hotfixes, releases.
 
 ![Gitflow options inside of Source Tree](/img/sourceTree2.png)
@@ -58,17 +55,15 @@ I must admit that lately I've been using Source tree the most. I really like the
 So until the Visual Studio team improves their extension I think any of the three proposed options is better. Once again it will come down to personal preference. Do you want visual control or do you like command line? Do you want to have integration with Visual Studio or is a standalone application also ok?
 
 
-  [1]: http://www.joelonsoftware.com/articles/fog0000000043.html
-  [2]: http://en.wikipedia.org/wiki/Git_%28software%29
-  [3]: http://stackoverflow.com/questions/871/why-is-git-better-than-subversion/875#875
-  [4]: http://nvie.com/posts/a-successful-git-branching-model/
-  [5]: http://blogs.msdn.com/b/bharry/archive/2013/01/30/git-init-vs.aspx
-  [6]: http://visualstudiogallery.msdn.microsoft.com/abafc7d6-dcaa-40f4-8a5e-d6724bdb980c
-  [7]: http://git-scm.com/downloads
-  [8]: http://git-scm.com/doc
-  [9]: http://nvie.com/posts/a-successful-git-branching-model/
-  [10]: https://code.google.com/p/gitextensions/
-  [11]: https://code.google.com/p/gitextensions/
-  [12]: http://visualstudiogallery.msdn.microsoft.com/63a7e40d-4d71-4fbb-a23b-d262124b8f4c
-  [13]: http://www.sourcetreeapp.com/
-  [14]: http://www.sourcetreeapp.com
+  [1]: https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/
+  [2]: https://en.wikipedia.org/wiki/Git_%28software%29
+  [3]: https://stackoverflow.com/questions/871/why-is-git-better-than-subversion/875#875
+  [4]: https://nvie.com/posts/a-successful-git-branching-model/
+  [5]: https://devblogs.microsoft.com/bharry/git-init-vs/
+  [7]: https://git-scm.com/install/
+  [8]: https://git-scm.com/docs
+  [9]: https://nvie.com/posts/a-successful-git-branching-model/
+  [10]: https://gitextensions.github.io/
+  [11]: https://gitextensions.github.io/
+  [12]: https://marketplace.visualstudio.com/items?itemName=yysun.GitSourceControlProvider
+  [13]: https://www.sourcetreeapp.com/

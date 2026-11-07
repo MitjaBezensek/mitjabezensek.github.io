@@ -85,5 +85,5 @@ However, what you also get, are some triggered events as soon as you access the 
 
 [^1]: Since the `PointsToScreenPixels` method is bugged as well.
 
-  [1]: http://zebra.bi/
-  [2]: http://msdn.microsoft.com/en-us/library/office/microsoft.office.interop.excel.window.activepane%28v=office.15%29.aspx
+  [1]: https://zebrabi.com/
+  [2]: https://learn.microsoft.com/en-us/dotnet/api/microsoft.office.interop.excel.window.activepane?view=excel-pia

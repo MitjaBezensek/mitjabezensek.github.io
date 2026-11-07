@@ -109,5 +109,5 @@ You can find the [source code][5] for NDFSM on github.
 [1]: https://bezensek.com/deterministic-finite-state-machine-implementation-in-c-number/
 [2]: https://github.com/MitjaBezensek/DFSM/blob/master/FSM_Simple/DeterministicFSM.cs
 [3]: https://en.wikipedia.org/wiki/Backtracking
-[4]: http://en.wikipedia.org/wiki/Nondeterministic_finite_automaton_with_%CE%B5-moves
+[4]: https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton_with_%CE%B5-moves
 [5]: https://github.com/MitjaBezensek/NDFSM

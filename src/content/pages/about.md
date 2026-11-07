@@ -17,7 +17,7 @@ I was one of the few people in my high school class that had absolutely no troub
 
 ![Application layer multicasting](/about/multicast.png)
 
-After college I applied for the junior researcher position at the college and I spent the next couple of years at the [Laboratory of Algorithms and Data structures][7] where I really learned a lot! I was researching potential usage of [Steiner trees][8] in [Application layer multicast][9] protocols, published an article on the subject, developed a novel protocol but still need to put some more effort into finishing my PhD thesis. I also worked as a [teaching assistant][10] for Programming and Algorithms courses. I must admit I quite enjoyed it although I never envisoned myself as a teacher in my high school days. 
+After college I applied for the junior researcher position at the college and I spent the next couple of years at the [Laboratory of Algorithms and Data structures][7] where I really learned a lot! I was researching potential usage of [Steiner trees][8] in [Application layer multicast][9] protocols, published an article on the subject, developed a novel protocol but still need to put some more effort into finishing my PhD thesis. I also worked as a teaching assistant for Programming and Algorithms courses. I must admit I quite enjoyed it although I never envisoned myself as a teacher in my high school days.
 
 ## New adventures
 
@@ -36,21 +36,20 @@ Appart from computers I also like to [travel][18] and photograph. If I can combi
 Until last year I also did a lot of sports, especially cycling and running. But last year and a half was just too frantic and I completely gave up. Not to mention that both my bicycles got stolen. But with the weather getting warmer outside and things calming down a bit my legs are starting to itch.
 
 
-  [1]: http://en.wikipedia.org/wiki/Sega_Genesis
-  [2]: http://www.dosgamesarchive.com/download/tyrian/
-  [3]: http://en.wikipedia.org/wiki/Intel_80286
-  [4]: http://joker.si/
-  [5]: http://www.fri.uni-lj.si/
-  [6]: http://www.sdu.dk/en/om_sdu/fakulteterne/teknik
-  [7]: http://www.fri.uni-lj.si/si/laboratoriji/lalg/
-  [8]: http://en.wikipedia.org/wiki/Steiner_tree_problem
-  [9]: http://en.wikipedia.org/wiki/Overlay_multicast
-  [10]: http://www.fri.uni-lj.si/si/mitja--bezensek/
-  [11]: http://zebra.bi/
-  [12]: http://www.amazon.com/gp/product/0132350882/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0132350882&linkCode=as2&tag=bezensek-20&linkId=HJ7AG6O5IAHTC457
-  [13]: http://www.amazon.com/gp/product/1617290890/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1617290890&linkCode=as2&tag=bezensek-20&linkId=4DWL6VKAHR7SSTDP
-  [14]: http://www.fastcompany.com/3026201/lessons-learned/how-pandoras-40-engineers-nabbed-70-million-monthly-users
-  [15]: http://zebra.bi
-  [16]: http://www.amazon.com/gp/product/1449305172/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1449305172&linkCode=as2&tag=bezensek-20&linkId=IBKF6R67I5GFWYL5 
-  [17]: http://en.wikipedia.org/wiki/Scrum_%28software_development%29
-  [18]: http://poevropi.blogspot.com/
+  [1]: https://en.wikipedia.org/wiki/Sega_Genesis
+  [2]: https://www.dosgamesarchive.com/download/tyrian/
+  [3]: https://en.wikipedia.org/wiki/Intel_80286
+  [4]: https://joker.muzej.si/
+  [5]: https://www.fri.uni-lj.si/
+  [6]: https://www.sdu.dk/en/om-sdu/fakulteterne/teknik
+  [7]: https://fri.uni-lj.si/en/laboratory/la-216
+  [8]: https://en.wikipedia.org/wiki/Steiner_tree_problem
+  [9]: https://en.wikipedia.org/wiki/Overlay_multicast
+  [11]: https://zebrabi.com/
+  [12]: https://www.amazon.com/gp/product/0132350882/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0132350882&linkCode=as2&tag=bezensek-20&linkId=HJ7AG6O5IAHTC457
+  [13]: https://www.amazon.com/gp/product/1617290890/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1617290890&linkCode=as2&tag=bezensek-20&linkId=4DWL6VKAHR7SSTDP
+  [14]: https://www.fastcompany.com/3026201/lessons-learned/how-pandoras-40-engineers-nabbed-70-million-monthly-users
+  [15]: https://zebrabi.com/
+  [16]: https://www.amazon.com/gp/product/1449305172/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1449305172&linkCode=as2&tag=bezensek-20&linkId=IBKF6R67I5GFWYL5
+  [17]: https://en.wikipedia.org/wiki/Scrum_%28software_development%29
+  [18]: https://poevropi.blogspot.com/

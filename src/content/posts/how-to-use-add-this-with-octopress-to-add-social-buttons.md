@@ -23,7 +23,7 @@ Today I'm going to show you how easy it is to add social share buttons below eac
  
 <!-- more -->
 
-Octopress by default supports the [Add this][4] social buttons. But it was a bit too limiting for my taste, so I removed it all and started from scratch.
+Octopress by default supports the Add this social buttons. But it was a bit too limiting for my taste, so I removed it all and started from scratch.
 
 The first thing to do is to create the account at Add This. This will allow you to customize your social buttons just the way you want them. I went for the "Original sharing buttons" and have set them like this:
 
@@ -59,9 +59,7 @@ If we now regenerate the files we should see the social buttons beneath every bl
 
 If you don't want to use Add This you can use this same logic for any other buttons you wish to add. 
 
-[^1]: GitHub pages run on [Jekyll](http://jekyllrb.com/) that is at the core of Octopress.
+[^1]: GitHub pages run on [Jekyll](https://jekyllrb.com/) that is at the core of Octopress.
 
-  [1]: http://octopress.org/
+  [1]: https://octopress.org/
   [2]: https://pages.github.com/
-  [3]: https://github.com/shashankmehta/greyshade
-  [4]: http://www.addthis.com/

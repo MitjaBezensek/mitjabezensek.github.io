@@ -194,8 +194,8 @@ Before I say goodbye let me show you a test run of the DFSM on the following inp
 ![Finite state machine output](/img/Output.png)
 
   
-  [1]: http://www.fri.uni-lj.si/en/
-  [2]: http://www.amazon.com/gp/product/0262033844/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0262033844&linkCode=as2&tag=bezensek-20&linkId=EL57QKBNM5BB373B
-  [3]: http://en.wikipedia.org/wiki/Automata_theory
-  [4]: http://dsoguy.blogspot.com/2007/01/programming-by-wishful-thinking.html
+  [1]: https://www.fri.uni-lj.si/en/
+  [2]: https://www.amazon.com/gp/product/0262033844/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0262033844&linkCode=as2&tag=bezensek-20&linkId=EL57QKBNM5BB373B
+  [3]: https://en.wikipedia.org/wiki/Automata_theory
+  [4]: https://dsoguy.blogspot.com/2007/01/programming-by-wishful-thinking.html
   [5]: https://github.com/MitjaBezensek/DFSM

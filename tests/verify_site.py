@@ -14,6 +14,11 @@ ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
 LEGACY = json.loads((ROOT / "tests/legacy-site.json").read_text())
 ATOM = {"a": "http://www.w3.org/2005/Atom"}
+# Removed during the link audit because the original screenshot returns 404.
+RETIRED_SOURCETREE_IMAGE = (
+    "http://www.sourcetreeapp.com/images/"
+    "sourcetree_hero_win_full_interface_windows.png"
+)
 
 
 class Document(HTMLParser):
@@ -122,6 +127,9 @@ class MigrationChecks(unittest.TestCase):
                 self.assertEqual(len(doc.h1), 1)
                 self.assertEqual(html.unescape(post["title"]), "".join(doc.h1))
                 for image in post["images"]:
+                    if image == RETIRED_SOURCETREE_IMAGE:
+                        self.assertNotIn(image, doc.images)
+                        continue
                     target = urlsplit(image)
                     image_path = target.path if target.netloc == "bezensek.com" else image
                     self.assertIn(image_path, doc.images)

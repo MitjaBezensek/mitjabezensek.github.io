@@ -9,7 +9,7 @@ comments: true
 draft: false
 ---
 
-In the last two articles I have implemented the [deterministic finite state machine](https://bezensek.com/deterministic-finite-state-machine-implementation-in-c-number/) (DFSM) and the [non-deterministic finite state machine](https://bezensek.com/non-deterministic-finite-state-machine-implementation-in-c-number/) (NDFSM). As you probably all know the two variants are equivalent in terms of power; that is everything that can be expressed with one can also be expressed with the other. This may come as a surprise when you first hear about it, but you are soon presented with the **[powerset construction](http://en.wikipedia.org/wiki/Powerset_construction)** which converts a NDFSM into a DFSM and thus proves one part of the equivalence. The other part is trivial since DFSM is only a limited NDFSM.
+In the last two articles I have implemented the [deterministic finite state machine](https://bezensek.com/deterministic-finite-state-machine-implementation-in-c-number/) (DFSM) and the [non-deterministic finite state machine](https://bezensek.com/non-deterministic-finite-state-machine-implementation-in-c-number/) (NDFSM). As you probably all know the two variants are equivalent in terms of power; that is everything that can be expressed with one can also be expressed with the other. This may come as a surprise when you first hear about it, but you are soon presented with the **[powerset construction](https://en.wikipedia.org/wiki/Powerset_construction)** which converts a NDFSM into a DFSM and thus proves one part of the equivalence. The other part is trivial since DFSM is only a limited NDFSM.
 
 <!-- more -->
 

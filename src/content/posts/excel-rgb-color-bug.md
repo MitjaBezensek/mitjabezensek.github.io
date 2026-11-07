@@ -45,4 +45,4 @@ After searching the web I found that this bug has already been mentioned on the 
 
 It seems that this is not an Excel interop bug. Apparently the reason for this strange behavior is that VBA has a different representation of colors. For more see the comments.
 
-  [1]: http://stackoverflow.com/questions/7423456/changing-an-excel-cells-backcolor-using-hex-results-in-excel-displaying-complet
+  [1]: https://stackoverflow.com/questions/7423456/changing-an-excel-cells-backcolor-using-hex-results-in-excel-displaying-complet

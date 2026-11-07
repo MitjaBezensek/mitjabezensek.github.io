@@ -45,5 +45,5 @@ As you can see at the end of the animation all of the steps that I performed dur
  ![Quick access toolbar customization](/img/quickAccess.png)
 
 
-  [1]: http://stackoverflow.com/
-  [2]: http://msdn.microsoft.com/en-us/library/wss56bz7.aspx
+  [1]: https://stackoverflow.com/
+  [2]: https://learn.microsoft.com/en-us/visualstudio/vsto/excel-object-model-overview?view=visualstudio

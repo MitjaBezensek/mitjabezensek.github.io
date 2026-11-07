@@ -34,14 +34,14 @@ Like I described in the previous paragraph you can use minimization to check the
 - easier reasoning about the minimized machine since it has fewer moving parts.
 
 ## Two types of states to remove
-When minimizing there are [two types of states](http://en.wikipedia.org/wiki/DFA_minimization) that we can either completly remove or merge with other states of the machine:
+When minimizing there are [two types of states](https://en.wikipedia.org/wiki/DFA_minimization) that we can either completly remove or merge with other states of the machine:
 
 > - **unreachable states** are those states that are not reachable from the initial state of the DFA, for any input string,
 > - **nondistinguishable states** are those that cannot be distinguished from one another for any input string.
 
 ## Unreachable states
 
-First, let us look at an algorithm for finding the [unreachable states](http://en.wikipedia.org/wiki/DFA_minimization#Unreachable_states). The algorithm starts from the known reachable states which are the start states - the start states are always reachable. It then expands the list of reachable states by adding all the states that can be reached from the start states. It continues this expansion using the newly added states until it cannot add any new states to the list of reachable states. The states of the DFSM that did not end up in the list of reachable states are unreachable.
+First, let us look at an algorithm for finding the [unreachable states](https://en.wikipedia.org/wiki/DFA_minimization#Unreachable_states). The algorithm starts from the known reachable states which are the start states - the start states are always reachable. It then expands the list of reachable states by adding all the states that can be reached from the start states. It continues this expansion using the newly added states until it cannot add any new states to the list of reachable states. The states of the DFSM that did not end up in the list of reachable states are unreachable.
 
 To me this algorithm feels like flooding the pipes: we have a system of pipes some of which are connected and some of which are not. We open the water and check which pipes did the water reach and which it did not reach.
 
@@ -93,7 +93,7 @@ foreach (var unreachableState in unreachableStates){
 
 ## Nondistinguishable states
 
-And now for the hard part - the nondistinguishable states. Here, we will use [Brzozowski's algorithm for minimization](http://en.wikipedia.org/wiki/DFA_minimization#Brzozowski.27s_algorithm), which works like this:
+And now for the hard part - the nondistinguishable states. Here, we will use [Brzozowski's algorithm for minimization](https://en.wikipedia.org/wiki/DFA_minimization#Brzozowski%27s_algorithm), which works like this:
 
 > Reversing the edges of a DFA produces a non-deterministic finite automaton (NFA) for the reversal of the original language, and converting this NFA to a DFA using the standard powerset construction (constructing only the reachable states of the converted DFA) leads to a minimal DFA for the same reversed language. Repeating this reversal operation a second time produces a minimal DFA for the original language.
 
