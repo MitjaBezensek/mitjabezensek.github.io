@@ -4,10 +4,14 @@ interface Props { animated?: boolean }
 const { animated = false } = Astro.props;
 ---
 <section class="lost-state" aria-label="404 — Page not found">
+  <h1>Cache miss</h1>
   <div class="computer-scene"><PixelMissingComputer animated={animated} /></div>
 </section>
 <style>
   .lost-state { padding: 36px 0 56px; text-align: center; }
-  .computer-scene { width: min(100%, 432px); margin: 0 auto; padding: 0; }
+  h1 { margin: 0 0 var(--space-6); font: var(--weight-semibold) clamp(20px, 3.5vw, 28px)/var(--leading-heading) var(--mono); letter-spacing: var(--tracking-heading); }
+  .computer-scene { width: 144px; margin: 0 auto; padding: 0; }
+  @media (min-width: 350px) { .computer-scene { width: 288px; } }
+  @media (min-width: 540px) { .computer-scene { width: 432px; } }
   @media (max-width: 540px) { .lost-state { padding: 24px 0 36px; } }
 </style>

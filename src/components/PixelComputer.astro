@@ -1,7 +1,8 @@
 <svg class="pixel-computer" viewBox="0 0 144 88" fill="none" shape-rendering="crispEdges" aria-hidden="true" focusable="false">
-  <path fill="var(--computer-shadow)" d="M6 80h132v2H6z" />
+  <path fill="var(--accent)" opacity="0.35" d="M26 80h111v2H26z" />
+  <g transform="translate(0 7)">
   <path fill="var(--soft)" d="M30 13h73v50H30z" />
-  <path fill="var(--computer-dark)" d="M34 10h64v4H34zM30 14h4v43h-4zM98 14h4v43h-4zM34 57h64v4H34z" />
+  <path fill="var(--accent)" d="M34 10h64v4H34zM30 14h4v43h-4zM98 14h4v43h-4zM34 57h64v4H34z" />
   <path fill="var(--computer-mid)" d="M34 14h64v43H34z" />
   <path fill="var(--paper)" d="M38 18h56v35H38z" />
   <path fill="var(--bar)" d="M38 18h56v6H38z" />
@@ -10,7 +11,7 @@
     <g class="terminal">
       <path fill="var(--accent)" d="M3 7h2v2H3zM5 9h2v2H5zM7 11h2v2H7zM5 13h2v2H5zM3 15h2v2H3z" />
       <!-- Five-pixel lettering keeps the command legible at the artwork's native resolution. -->
-      <g class="build-command" fill="var(--computer-dark)">
+      <g class="build-command" fill="var(--accent)">
         <path d="M14 9h2v1h-2zM14 10h1v1h-1zM16 10h1v1h-1zM14 11h2v1h-2zM14 12h1v1h-1zM16 12h1v1h-1zM14 13h2v1h-2z" />
         <path d="M19 9h1v4h-1zM21 9h1v4h-1zM19 13h3v1h-3z" />
         <path d="M24 9h3v1h-3zM25 10h1v3h-1zM24 13h3v1h-3z" />
@@ -38,19 +39,16 @@
       <path fill="var(--computer-detail)" d="M14 23h20v1H14z" />
     </g>
   </svg>
-  <path fill="var(--computer-dark)" d="M58 61h16v8H58zM50 69h32v4H50z" />
-  <path fill="var(--computer-light)" d="M54 65h24v4H54zM28 74h76v6H28z" />
-  <path fill="var(--paper)" d="M32 74h68v2H32z" />
-  <path fill="var(--computer-detail)" d="M34 77h5v1h-5zM42 77h5v1h-5zM50 77h5v1h-5zM58 77h5v1h-5zM66 77h5v1h-5zM74 77h5v1h-5zM82 77h5v1h-5zM90 77h5v1h-5z" />
-  <path fill="var(--computer-dark)" d="M111 28h22v49h-22z" />
-  <path fill="var(--computer-light)" d="M114 31h16v43h-16z" />
+  <path fill="var(--accent)" d="M58 61h16v8H58zM50 69h32v4H50z" />
+  <path fill="var(--computer-light)" d="M54 65h24v4H54z" />
+  </g>
+  <path fill="var(--accent)" d="M111 28h22v52h-22z" />
+  <path fill="var(--computer-light)" d="M114 31h16v46h-16z" />
   <path fill="var(--paper)" d="M116 34h12v4h-12zM116 41h12v3h-12z" />
-  <path fill="var(--computer-dark)" d="M118 35h8v1h-8zM118 42h8v1h-8zM116 61h12v2h-12zM116 65h12v2h-12zM116 69h12v2h-12z" />
-  <path fill="var(--computer-dark)" d="M116 50h3v3h-3zM122 50h3v3h-3z" />
+  <path fill="var(--accent)" d="M118 35h8v1h-8zM118 42h8v1h-8zM116 61h12v2h-12zM116 65h12v2h-12zM116 69h12v2h-12z" />
+  <path fill="var(--accent)" d="M116 50h3v3h-3zM122 50h3v3h-3z" />
   <path class="power-light" fill="var(--accent)" d="M116 50h3v3h-3z" />
   <path class="drive-light" fill="var(--led)" d="M122 50h3v3h-3z" />
-  <path fill="var(--computer-mid)" d="M8 65h12v12H8zM11 62h6v3h-6zM8 77h12v3H8z" />
-  <path fill="var(--paper)" d="M11 66h6v5h-6z" />
 </svg>
 
 <style>
@@ -83,7 +81,7 @@
   .build-command { animation-name: type-command; animation-timing-function: steps(5, end); }
   .cursor { animation-name: blink-cursor; }
   .build-output { animation-name: scroll-output; animation-timing-function: steps(6, end); }
-  .build-progress { animation-name: fill-progress; animation-timing-function: steps(12, end); transform-box: fill-box; transform-origin: left; }
+  .build-progress { animation-name: fill-progress; animation-timing-function: steps(15, end); transform-box: fill-box; transform-origin: left; }
   .power-light { animation-name: blink-power; }
   .drive-light { animation-name: blink-drive; }
 

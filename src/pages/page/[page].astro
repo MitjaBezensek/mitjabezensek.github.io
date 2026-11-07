@@ -1,4 +1,5 @@
 ---
+import ButtonLink from '../../components/ButtonLink.astro';
 import Base from '../../layouts/Base.astro';
 import PostList from '../../components/PostList.astro';
 import { getPosts, PAGE_SIZE, pageUrl, type Post } from '../../lib/posts';
@@ -17,8 +18,8 @@ const { posts, page, total } = Astro.props;
   <header class="page-heading"><p class="eyebrow">The archive</p><h1>Earlier writing.</h1><p>More notes from the notebook.</p></header>
   <PostList posts={posts} />
   <nav class="pagination" aria-label="Pagination">
-    <a href={pageUrl(page - 1)}><span class="link-arrow" aria-hidden="true">←</span> Newer articles</a>
+    <ButtonLink href={pageUrl(page - 1)}><span class="link-arrow" aria-hidden="true">←</span> Newer articles</ButtonLink>
     <span>Page {page} of {total}</span>
-    {page < total && <a href={pageUrl(page + 1)}>Older articles <span class="link-arrow" aria-hidden="true">→</span></a>}
+    {page < total && <ButtonLink href={pageUrl(page + 1)}>Older articles <span class="link-arrow" aria-hidden="true">→</span></ButtonLink>}
   </nav>
 </Base>

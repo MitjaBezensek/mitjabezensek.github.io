@@ -1,4 +1,5 @@
 ---
+import ButtonLink from '../components/ButtonLink.astro';
 import Base from '../layouts/Base.astro';
 import PostList from '../components/PostList.astro';
 import PixelComputer from '../components/PixelComputer.astro';
@@ -46,8 +47,8 @@ public static string Describe(int count)
       <h2 id="buttons-heading">Buttons</h2>
       <p class="showcase-note">Default, selected, disabled, and busy. Tab through the controls to check focus; hover to check feedback.</p>
       <nav class="main-navigation showcase-row" aria-label="Button state examples">
-        <a href="#buttons">Default</a>
-        <a href="#buttons" aria-current="page">Selected</a>
+        <ButtonLink href="#buttons">Default</ButtonLink>
+        <ButtonLink href="#buttons" aria-current="page">Selected</ButtonLink>
         <button type="button" disabled>Disabled</button>
         <button type="button" aria-busy="true" disabled>Loading…</button>
       </nav>
@@ -106,7 +107,7 @@ public static string Describe(int count)
 
     <section id="navigation" class="showcase-section" aria-labelledby="navigation-heading">
       <h2 id="navigation-heading">Navigation</h2>
-      <nav class="pagination" aria-label="Pagination example"><a href="#posts"><span class="link-arrow" aria-hidden="true">←</span> Newer articles</a><span>Page 2 of 3</span><a href="#posts">Older articles <span class="link-arrow" aria-hidden="true">→</span></a></nav>
+      <nav class="pagination" aria-label="Pagination example"><ButtonLink href="#posts"><span class="link-arrow" aria-hidden="true">←</span> Newer articles</ButtonLink><span>Page 2 of 3</span><ButtonLink href="#posts">Older articles <span class="link-arrow" aria-hidden="true">→</span></ButtonLink></nav>
       <nav class="post-navigation" aria-label="Adjacent article examples"><a href="#posts" rel="prev"><small><span class="link-arrow" aria-hidden="true">←</span> Earlier article</small><span>A previous article with a title that can wrap</span></a><a href="#posts" rel="next"><small>More recent article <span class="link-arrow" aria-hidden="true">→</span></small><span>The next article</span></a></nav>
       <ul class="category-list"><li><a href="#posts"><span>Algorithms</span><span class="category-count">3 articles</span></a></li><li><a href="#posts"><span>Software development</span><span class="category-count">12 articles</span></a></li></ul>
     </section>

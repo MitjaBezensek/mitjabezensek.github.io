@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <style>
+    :root { --case: #2465aa; --bezel: #9db9d2; --screen: #fafaf7; }
+    @media (prefers-color-scheme: dark) {
+      :root { --case: #a0c8ff; --bezel: #628bb8; --screen: #182230; }
+    }
+  </style>
+  <path fill="var(--case)" d="M1 1h14v10H1zM7 11h2v2H7zM4 13h8v2H4z" />
+  <path fill="var(--bezel)" d="M2 2h12v8H2z" />
+  <path fill="var(--screen)" d="M3 3h10v6H3z" />
+  <path fill="var(--case)" d="M4 4h1v1H4zM5 5h1v1H5zM4 6h1v1H4zM7 7h4v1H7z" />
+</svg>

@@ -1,9 +1,10 @@
 ---
+import ButtonLink from '../components/ButtonLink.astro';
 import { AUTHOR, SITE } from '../lib/posts';
 import ThemeScript from '../components/ThemeScript.astro';
 import { Font } from 'astro:assets';
 import siteIcon from '../assets/site-icon.svg?raw';
-import favicon from '../assets/site-icon.svg?url&no-inline';
+import favicon from '../assets/favicon.svg?url&no-inline';
 import '../styles/global.css';
 
 interface Props {
@@ -59,8 +60,8 @@ const isAbout = Astro.url.pathname === '/about/';
         </a>
         <div class="header-navigation">
           <nav class="main-navigation" aria-label="Main navigation">
-            <a href="/" aria-current={isWriting ? (Astro.url.pathname === '/' ? 'page' : 'location') : undefined}>Writing</a>
-            <a href="/about/" aria-current={isAbout ? 'page' : undefined}>About</a>
+            <ButtonLink href="/" aria-current={isWriting ? (Astro.url.pathname === '/' ? 'page' : 'location') : undefined}>Writing</ButtonLink>
+            <ButtonLink href="/about/" aria-current={isAbout ? 'page' : undefined}>About</ButtonLink>
             <button class="theme-toggle" data-theme-toggle type="button" aria-label="Switch to dark mode" hidden>
               <svg class="sun-icon" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 0h2v3H7zM7 13h2v3H7zM0 7h3v2H0zM13 7h3v2h-3zM2 2h2v2H2zM12 2h2v2h-2zM2 12h2v2H2zM12 12h2v2h-2zM5 5h6v6H5z" /></svg>
               <svg class="moon-icon" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><path fill="currentColor" d="M10 1H6V3H4V5H2V11H4V13H6V15H12V13H14V9H12V11H8V9H6V5H8V3H10Z" /></svg>
@@ -73,6 +74,7 @@ const isAbout = Astro.url.pathname === '/about/';
         </div>
       </header>
       <main id="main">
+        <div class="window-bar" aria-hidden="true"><span><span class="status-pixel"></span> bezensek.com / dev-notes</span><span class="window-marks">─ □ ×</span></div>
         <div class="window-content"><slot /></div>
       </main>
       <footer class="site-footer">
