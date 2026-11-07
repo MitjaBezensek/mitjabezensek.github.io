@@ -226,6 +226,12 @@ included in `public/licenses/`. The blue-and-coral palette supports light and da
 modes. Edit `src/styles/global.css` for theme styling and
 `src/components/PixelComputer.astro` for the illustration.
 
+Shared styling values live in the stylesheet's `:root`: `--space-*` for spacing,
+`--text-*` for font sizes, and weight, line-height, and link variables. Ordinary
+text links share the underline, color, and hover rules; navigation buttons and
+post-list titles have explicit treatments. Palette colors remain in
+`src/lib/palettes.ts` and feed the link color variables in either theme.
+
 `/palettes/` compares five color alternatives on the real homepage. Open a
 preview to carry that palette through internal article links using a query
 parameter; it does not save a preference or change the default theme. The
