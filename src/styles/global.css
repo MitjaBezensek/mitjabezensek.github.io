@@ -100,6 +100,7 @@ main, .site-footer { background: var(--paper); border: 1px solid var(--border); 
 .intro-description { text-wrap: balance; font-size: var(--text-body); line-height: var(--leading-body); color: var(--muted); margin: 0 0 var(--space-4); }
 .intro-link { display: inline-block; padding-block: var(--space-3); min-height: var(--control-height); font: var(--text-label) var(--mono); }
 .computer-scene { text-align: center; padding-top: var(--space-3); }
+.intro > .computer-scene { align-self: start; padding-top: 0; }
 .pixel-computer { display: block; width: 100%; max-width: 288px; height: auto; image-rendering: pixelated; }
 .computer-scene > span { display: block; font: var(--text-caption)/1.6 var(--mono); color: var(--muted); margin-top: var(--space-3); }
 .section-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-4); border: 1px solid var(--line); background: var(--soft); padding: var(--space-3) var(--space-4); box-shadow: var(--shadow-inset); }
