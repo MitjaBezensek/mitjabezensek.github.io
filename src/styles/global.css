@@ -111,6 +111,7 @@ main, .site-footer { background: var(--paper); border: 1px solid var(--border); 
 .prose a:hover { color: var(--accent); }
 .prose p, .prose ul, .prose ol { margin: 0 0 1.5em; }
 .prose h1, .prose h2 { font: 600 22px/1.5 var(--mono); letter-spacing: -.04em; margin: 1.9em 0 .8em; }
+.about .prose > :first-child { margin-top: 0; }
 .prose h3 { font: 600 17px/1.6 var(--mono); margin: 2em 0 .8em; }
 .prose li { padding-left: .15em; }
 .prose img { display: block; max-width: 100%; height: auto; margin: 28px auto; }
