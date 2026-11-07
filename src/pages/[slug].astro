@@ -1,7 +1,6 @@
 ---
 import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import Disqus from '../components/Disqus.astro';
 import { getPosts, formatDate, categorySlug, type Post } from '../lib/posts';
 export async function getStaticPaths() {
   const posts = await getPosts();
@@ -27,6 +26,5 @@ const { Content } = await render(post);
       {older && <a href={older.data.url}><small>← Earlier</small>{older.data.title}</a>}
       {newer && <a href={newer.data.url}><small>More recent →</small>{newer.data.title}</a>}
     </nav>
-    {post.data.comments && <Disqus url={post.data.url} identifierUrl={post.data.legacyUrl} />}
   </article>
 </Base>

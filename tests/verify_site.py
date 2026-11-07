@@ -132,7 +132,6 @@ class MigrationChecks(unittest.TestCase):
                     self.assertIn(normalize_code(expected), code)
                 expected_date = "-".join(post["date"])
                 self.assertIn(f'datetime="{expected_date}', markup)
-                self.assertIn("http://bezensek.com" + post["url"], markup)
 
     def test_atom_preserves_ids_dates_and_full_content(self):
         feed = ET.parse(DIST / "atom.xml").getroot()

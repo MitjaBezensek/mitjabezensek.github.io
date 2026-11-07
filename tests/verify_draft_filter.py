@@ -21,7 +21,6 @@ url: "/{MARKER}/"
 legacyUrl: "/blog/2026/11/07/{MARKER}/"
 categories: ["{MARKER}"]
 draft: true
-comments: true
 ---
 {MARKER}
 ''')
