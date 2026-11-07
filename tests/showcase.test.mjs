@@ -7,14 +7,14 @@ test('showcase route is registered only by the development server', () => {
   for (const command of ['dev', 'build', 'preview', 'sync']) {
     const routes = [];
     devShowcase().hooks['astro:config:setup']({ command, injectRoute: route => routes.push(route) });
-    assert.equal(routes.length, command === 'dev' ? 1 : 0);
-    if (command === 'dev') assert.equal(routes[0].pattern, '/showcase');
+    assert.deepEqual(routes.map(route => route.pattern), command === 'dev' ? ['/404-preview', '/showcase'] : []);
   }
 });
 
 test('development showcase and obsolete palette preview are absent from production', () => {
   assert.equal(existsSync('dist/palettes'), false);
   assert.equal(existsSync('dist/showcase'), false);
+  assert.equal(existsSync('dist/404-preview'), false);
   for (const file of readdirSync('dist', { recursive: true }).filter(file => /\.(html|js|css|xml)$/.test(file))) {
     const body = readFileSync(`dist/${file}`, 'utf8');
     assert.ok(!body.includes('?palette='), `${file}: no preview links`);

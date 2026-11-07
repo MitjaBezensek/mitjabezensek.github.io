@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
+import NotFoundState from '../components/NotFoundState.astro';
 ---
-<Base title="Page not found">
-  <section class="page-heading not-found"><p class="eyebrow">404 · A wrong turn</p><h1>Nothing here,<br />just yet.</h1><p>The page you’re looking for couldn’t be found.</p><a class="read-link" href="/">Back to writing →</a></section>
+<Base title="Page not found" noindex>
+  <NotFoundState />
 </Base>

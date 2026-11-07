@@ -1,0 +1,78 @@
+---
+interface Props { animated?: boolean }
+const { animated = false } = Astro.props;
+const layouts = [
+  { name: 'wide', width: 640, height: 270, nodes: [[100, 85], [320, 85], [540, 85]], forward: 'M100 85H540', back: 'M540 85V165Q540 215 490 215H150Q100 215 100 165V85', label: [320, 215] },
+  { name: 'narrow', width: 280, height: 420, nodes: [[100, 65], [100, 195], [100, 325]], forward: 'M100 65V325', back: 'M100 325H185Q230 325 230 280V110Q230 65 185 65H100', label: [230, 195] },
+];
+---
+<section class:list={['lost-state', { animated }]}>
+  <p class="eyebrow">404 / Unexpected destination</p>
+  <h1>{animated ? 'You weren’t supposed to' : 'You found an'}<br />{animated ? 'reach this state.' : 'unreachable state.'}</h1>
+  <p class="description">{animated ? 'But every good state machine has a way back.' : 'This page doesn’t exist. Fortunately, the way back does.'}</p>
+  <div class="diagram">
+    {layouts.map(layout => <svg class={layout.name} viewBox={`0 0 ${layout.width} ${layout.height}`} role="img" aria-label="Home leads to Writing, then to a missing page marked 404. A return route leads back home.">
+      <path class="forward" d={layout.forward} />
+      <path class="return" d={layout.back} />
+      {layout.nodes.map(([x, y], index) => <g>
+        <rect class:list={['node', { missing: index === 2 }]} x={x - 51} y={y - 29} width="102" height="58" />
+        <text x={x} y={y + 5}>{['Home', 'Writing', '404'][index]}</text>
+        {index === 2 && <text class="annotation" x={x} y={y + 48}>not found</text>}
+      </g>)}
+      {layout.name === 'wide' ? <path class="arrow" d="m250 79 6 6-6 6m220-12 6 6-6 6M94 124l6-6 6 6" /> : <path class="arrow" d="m94 151 6 6 6-6m-12 130 6 6 6-6m65-222-6 6 6 6" />}
+      {animated && <circle class="traveler" r="5" style={`offset-path: path('${layout.forward} ${layout.back.slice(1).replace(/^\d+ \d+/, '')}');`} />}
+      {layout.name === 'wide' && <a href="/" aria-label="Back to writing"><rect class="label-bg" x="225" y="198" width="190" height="34" /><text class="return-label" x="320" y="220">← Back to writing</text></a>}
+    </svg>)}
+  </div>
+  <div class="actions">
+    <a class="home-link" href="/">← Back to writing</a>
+    <a href="/blog/archives/">Explore the archive ↗</a>
+  </div>
+  <div class="status"><span class="status-dot" aria-hidden="true"></span><span>{animated ? 'A wrong turn. A known way home.' : 'Unexpected state. Recoverable error.'}</span>{animated && <button class="motion-toggle" type="button" aria-pressed="false">Pause animation</button>}</div>
+</section>
+<style>
+  .lost-state { padding: 52px 0 32px; text-align: center; }
+  h1 { margin: 0; font: 600 clamp(23px, 4vw, 36px)/1.4 var(--mono); letter-spacing: -.055em; }
+  .eyebrow { margin-bottom: 20px; }
+  .description { color: var(--muted); font-size: var(--text-prose); line-height: 1.8; margin: 18px 0 0; }
+  .diagram { max-width: 640px; margin: 12px auto 0; }
+  svg { display: block; width: 100%; overflow: visible; }
+  .narrow { display: none; }
+  .forward { stroke: var(--line); stroke-width: 2; fill: none; stroke-dasharray: 4 5; }
+  .return { stroke: var(--accent); stroke-width: 2; fill: none; }
+  .node { fill: var(--soft); stroke: var(--line); stroke-width: 1.5; }
+  .missing { fill: var(--paper); stroke: var(--secondary); stroke-dasharray: 4 5; }
+  text { fill: var(--ink); font: 14px var(--mono); text-anchor: middle; }
+  .annotation { fill: var(--muted); font-size: 10px; }
+  .arrow { fill: none; stroke: var(--accent); stroke-width: 2; }
+  .label-bg { fill: var(--paper); }
+  .return-label { fill: var(--accent); font-size: 12px; }
+  svg a:hover text { text-decoration: underline; }
+  .traveler { fill: var(--accent); stroke: var(--paper); stroke-width: 2; offset-distance: 0%; animation: wander 6s infinite; }
+  .animated .missing { animation: signal 6s infinite; }
+  .paused * { animation-play-state: paused !important; }
+  @keyframes wander { 0%, 8% { offset-distance: 0%; } 45%, 55% { offset-distance: var(--turn, 44%); } 92%, 100% { offset-distance: 100%; } }
+  @keyframes signal { 0%, 35%, 70%, 100% { stroke: var(--line); } 45%, 55% { stroke: var(--secondary); stroke-width: 3; } }
+  .actions { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 24px; font: 11px var(--mono); }
+  .home-link { color: var(--ink); background: var(--soft); padding: 12px 16px; border: 1px solid var(--line); box-shadow: var(--bevel); text-decoration: none; }
+  .home-link:hover { background: var(--paper); color: var(--accent); }
+  .status { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px; border-top: 1px dashed var(--line); margin-top: 38px; padding-top: 18px; color: var(--muted); font: 10px/1.7 var(--mono); }
+  .status-dot { width: 6px; height: 6px; background: var(--accent); }
+  .motion-toggle { padding: 4px 7px; font-size: 9px; }
+  @media (max-width: 540px) { .lost-state { padding-top: 34px; } .wide { display: none; } .narrow { display: block; } .diagram { max-width: 280px; margin-top: 0; } .actions { gap: 20px; } }
+  @media (prefers-reduced-motion: reduce) { .traveler, .motion-toggle { display: none; } .animated .missing { animation: none; } }
+</style>
+<script>
+  document.querySelectorAll<SVGSVGElement>('.animated .diagram svg').forEach(svg => {
+    const forward = svg.querySelector<SVGPathElement>('.forward')!;
+    const back = svg.querySelector<SVGPathElement>('.return')!;
+    svg.style.setProperty('--turn', `${100 * forward.getTotalLength() / (forward.getTotalLength() + back.getTotalLength())}%`);
+  });
+  document.querySelectorAll<HTMLButtonElement>('.motion-toggle').forEach(button => {
+    button.addEventListener('click', () => {
+      const paused = button.closest('.lost-state')!.classList.toggle('paused');
+      button.setAttribute('aria-pressed', String(paused));
+      button.textContent = paused ? 'Resume animation' : 'Pause animation';
+    });
+  });
+</script>

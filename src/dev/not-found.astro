@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import NotFoundState from '../components/NotFoundState.astro';
+
+---
+<Base title="404 design preview" noindex>
+  <nav class="variants" aria-label="404 variants">
+    <a href="/404-preview/" data-variant="static">01 · Unreachable state</a>
+    <a href="/404-preview/?variant=animated" data-variant="animated">02 · Wandering transition</a>
+  </nav>
+  <div data-design="static"><NotFoundState /></div>
+  <div data-design="animated" hidden><NotFoundState animated /></div>
+</Base>
+<style>
+  .variants { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 24px; }
+  .variants a { font: 11px/1.5 var(--mono); padding: 9px 12px; border: 1px solid var(--line); text-decoration: none; }
+  .variants a[aria-current] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+</style>
+
+<script>
+  const selected = new URLSearchParams(location.search).get('variant') === 'animated' ? 'animated' : 'static';
+  document.querySelectorAll<HTMLElement>('[data-design]').forEach(panel => { panel.hidden = panel.dataset.design !== selected; });
+  document.querySelectorAll<HTMLAnchorElement>('[data-variant]').forEach(link => { if (link.dataset.variant === selected) link.setAttribute('aria-current', 'page'); });
+</script>
