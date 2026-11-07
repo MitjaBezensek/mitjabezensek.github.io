@@ -221,6 +221,8 @@ neutral dotted gutters, ivory reading panels, beveled controls, and original
 SVG computer artwork. The header uses a solid cream backing for readability.
 The site uses two font families: Fira Code for headings, navigation, and code
 blocks (with contextual ligatures), and Source Sans 3 for reading text.
+Reading text is 16px on desktop and mobile; interface labels and code have
+their own size tokens.
 Fonts are served locally; their SIL Open Font Licenses are
 included in `public/licenses/`. The blue-and-coral palette supports light and dark
 modes. Edit `src/styles/global.css` for theme styling and
