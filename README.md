@@ -233,7 +233,8 @@ the selected site palette; the standalone favicon adapts to the system theme.
 Shared styling values live in the stylesheet's `:root`: `--space-*` for spacing,
 `--text-*` for font sizes, and weight, line-height, and link variables. Ordinary
 text links share the underline, color, and hover rules; navigation buttons and
-post-list titles have explicit treatments. Palette colors remain in
+article titles have explicit treatments. Homepage and archive title links share
+the `.post-title` class. Palette colors remain in
 `src/lib/palettes.ts` and feed the link color variables in either theme.
 
 Syntax highlighting uses the custom Shiki theme in `src/lib/syntax-theme.mjs`.

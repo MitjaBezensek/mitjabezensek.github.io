@@ -124,9 +124,10 @@ main, .site-footer { background: var(--paper); border: 1px solid var(--border); 
 .post-card { display: grid; grid-template-columns: 126px minmax(0, 1fr); gap: 22px; border-bottom: 1px solid var(--rule); padding: 18px 15px; }
 .post-card:last-child { border-bottom: 0; }
 .post-card time { padding-top: var(--space-1); font: var(--text-meta)/var(--leading-body) var(--mono); color: var(--muted); }
-.post-card h2 { font: var(--weight-semibold) var(--text-post)/1.45 var(--mono); letter-spacing: -.035em; margin: 0 0 6px; }
-.post-card h2 a { text-decoration: none; color: var(--ink); }
-.post-card h2 a:hover { color: var(--accent); text-decoration: underline; }
+.post-card h2, .post-title { font: var(--weight-semibold) var(--text-post)/1.45 var(--mono); letter-spacing: -.035em; }
+.post-card h2 { margin: 0 0 6px; }
+.post-title { text-decoration: none; color: var(--ink); }
+.post-title:hover { color: var(--accent); text-decoration: underline; }
 .post-summary { display: flex; align-items: flex-end; gap: 18px; }
 .post-card p { flex: 1; min-width: 0; font-size: var(--text-prose); line-height: 1.65; color: var(--muted); margin: 0; }
 .read-link { font: var(--text-label) var(--mono); text-decoration: none; }
@@ -182,7 +183,6 @@ button:disabled { cursor: wait; }
 .archive-year h2 { margin: 0; font: var(--weight-semibold) 20px var(--mono); color: var(--green); }
 .archive-year ul { list-style: none; margin: 0; padding: 0; }
 .archive-year li { margin-bottom: 23px; }
-.archive-year a { font: var(--weight-semibold) var(--text-post)/1.7 var(--mono); }
 .archive-year time { display: block; font: var(--text-meta) var(--mono); color: var(--muted); margin-top: 9px; }
 .category-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--rule); }
 .category-list a { display: flex; justify-content: space-between; align-items: center; gap: 18px; border-bottom: 1px solid var(--rule); padding: 19px var(--space-2); font: var(--text-base) var(--mono); text-decoration: none; }
@@ -233,7 +233,6 @@ button:disabled { cursor: wait; }
   .post-navigation { grid-template-columns: minmax(0, 1fr); }
   .post-navigation a[rel="next"] { grid-column: 1; }
   .archive-year { grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
-  .archive-year a { font-size: var(--text-small); }
   .category-list a { font-size: var(--text-meta); }
   .category-count { font-size: var(--text-caption); }
 }
