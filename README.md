@@ -81,7 +81,7 @@ and timezone offset. `title`, `description`, `pubDate`, and `url` are required.
 
 The URL is independent of the filename. Use a unique, lowercase, hyphenated
 slug such as `/my-new-post/`. Keep published URLs stable, and avoid routes
-already used by pages, such as `/about/`, `/palettes/`, and `/page/2/`.
+already used by pages, such as `/about/`, `/showcase/`, and `/page/2/`.
 A future `pubDate` does not schedule a post: only `draft: true` hides it.
 
 Use the post's own title for the page heading; start body sections at `##`.
@@ -193,8 +193,10 @@ Astro checker.
 | `src/layouts/Base.astro` | Shared header, navigation, metadata, and footer. |
 | `src/pages/` | Page templates, article routes, archives, feeds, and redirects. |
 | `src/styles/global.css` | Typography, spacing, and shared theme styles. |
-| `src/lib/palettes.ts` | Preview palettes and dark-mode colors. |
-| `src/components/PalettePreview.astro` | Theme selection, persistence, and palette previews. |
+| `src/lib/theme.ts` | Shared light and dark color tokens. |
+| `src/components/ThemeScript.astro` | System theme detection, saved preference, and theme switching. |
+| `src/dev/showcase.astro` | Development-only component showcase. |
+| `integrations/dev-showcase.mjs` | Registers `/showcase/` only for `pnpm dev`. |
 | `src/components/PixelComputer.astro` | Pixel computer illustration. |
 | `src/lib/posts.ts` | Site identity, post ordering, categories, and page size. |
 | `tests/` | Migration preservation, theme, and draft checks. |
@@ -207,7 +209,7 @@ Astro checker.
 
 The theme follows the system color scheme unless the reader has saved a choice
 with the sun/moon toggle. If the system preference cannot be read, it defaults
-to light mode. Explicit palette previews take priority over both.
+to light mode.
 
 Fonts are self-hosted WOFF2 files with metric-matched fallbacks. The heading and
 regular body faces preload four small files for their Latin and extended Latin
@@ -235,20 +237,27 @@ Shared styling values live in the stylesheet's `:root`: `--space-*` for spacing,
 text links share the underline, color, and hover rules; navigation buttons and
 article titles have explicit treatments. Homepage and archive title links share
 the `.post-title` class. Palette colors remain in
-`src/lib/palettes.ts` and feed the link color variables in either theme.
+`src/lib/theme.ts` and feed the link color variables in either theme.
 
 Syntax highlighting uses the custom Shiki theme in `src/lib/syntax-theme.mjs`.
 Its `--code-*` variables in the global stylesheet reference the same palette
 colors: coral keywords and blue functions, with dedicated teal types, green
 strings, amber constants, and muted comments. The dedicated colors have light
-and dark variants. Code panels use the soft-panel background in light, dark, and
-preview palettes. Publishing checks verify highlighted output and text contrast.
+and dark variants. Code panels use the soft-panel background in both themes. Publishing checks verify highlighted output and text contrast.
 
-`/palettes/` compares five color alternatives on the real homepage. Open a
-preview to carry that palette through internal article links using a query
-parameter; it does not save a preference or change the default theme. The
-preview page is marked noindex and is excluded from the sitemap. Palette
-values are in `src/lib/palettes.ts`.
+### Component showcase
+
+Run `pnpm dev` and open `/showcase/` on the URL Astro prints. The footer links
+to it during development. It includes real buttons and links, state examples,
+typography, article content, post lists, navigation, artwork, and design tokens.
+Use the normal theme switch to compare light and dark appearances.
+
+The showcase route is registered only by the dev server. Production builds
+exclude its page, styles, and interaction script entirely; `pnpm preview` and
+the live site return 404 for `/showcase/`. The source is still tracked in this
+public repository. Publishing checks enforce production exclusion.
+
+The former color-preview page and URL-based palette overrides have been removed.
 
 ## URL redirects and SEO
 

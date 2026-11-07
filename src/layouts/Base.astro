@@ -1,6 +1,6 @@
 ---
 import { AUTHOR, SITE } from '../lib/posts';
-import PalettePreview from '../components/PalettePreview.astro';
+import ThemeScript from '../components/ThemeScript.astro';
 import { Font } from 'astro:assets';
 import siteIcon from '../assets/site-icon.svg?raw';
 import favicon from '../assets/site-icon.svg?url&no-inline';
@@ -36,7 +36,7 @@ const isAbout = Astro.url.pathname === '/about/';
     <Font cssVariable="--font-mono" preload={[{ weight: 600 }]} />
     <Font cssVariable="--font-body" preload={[{ weight: 400, style: 'normal' }]} />
     {noindex && <meta name="robots" content="noindex, follow" />}
-    <PalettePreview />
+    <ThemeScript />
     <title>{fullTitle}</title>
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href={favicon} />
@@ -78,6 +78,7 @@ const isAbout = Astro.url.pathname === '/about/';
       <footer class="site-footer">
         <span><span class="status-pixel" aria-hidden="true"></span> © {new Date().getUTCFullYear()} {AUTHOR}</span>
         <nav aria-label="Footer navigation">
+          {import.meta.env.DEV && <a href="/showcase/">Showcase</a>}
           <a href="/blog/archives/">Archives</a>
           <a href="/blog/categories/">Categories</a>
           <a href="https://github.com/MitjaBezensek">GitHub ↗</a>

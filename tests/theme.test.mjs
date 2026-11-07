@@ -2,9 +2,9 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
-import { palettes } from '../src/lib/palettes.ts';
+import { lightColors, darkColors } from '../src/lib/theme.ts';
 
-const markup = readFileSync(new URL('../dist/palettes/index.html', import.meta.url), 'utf8');
+const markup = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8');
 const scripts = [...markup.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map(match => match[1]);
 
 function preview(url, targets, { savedTheme = null, systemDark = false, storageBlocked = false, mediaSupport = 'available' } = {}) {
@@ -38,28 +38,6 @@ function preview(url, targets, { savedTheme = null, systemDark = false, storageB
   return { links, colors, dataset, button, storage, toggle: () => { assert.equal(typeof handlers.click, 'function'); handlers.click(); } };
 }
 
-test('the gallery keeps five distinct explicit palette destinations', () => {
-  const targets = palettes.map(palette => `/?palette=${palette.id}`);
-  const { links } = preview('https://bezensek.com/palettes/', targets);
-  assert.deepEqual(links.map(link => new URL(link.href).searchParams.get('palette')), palettes.map(palette => palette.id));
-});
-
-test('each palette applies and follows article links without changing feeds or external links', () => {
-  for (const palette of palettes) {
-    const { links, colors } = preview(`https://bezensek.com/?palette=${palette.id}`, ['/excel-rgb-color-bug/', '/atom.xml', 'https://github.com/MitjaBezensek']);
-    assert.equal(colors['--accent'], palette.colors.accent);
-    assert.equal(new URL(links[0].href).searchParams.get('palette'), palette.id);
-    assert.equal(links[1].href, 'https://bezensek.com/atom.xml');
-    assert.equal(links[2].href, 'https://github.com/MitjaBezensek');
-  }
-});
-
-test('unrecognized palettes use the default theme and leave links alone', () => {
-  const { colors, links } = preview('https://bezensek.com/?palette=invalid', ['/about/']);
-  assert.equal(colors['--accent'], palettes[0].colors.accent);
-  assert.equal(links[0].href, 'https://bezensek.com/about/');
-});
-
 test('new visitors follow the system color scheme', () => {
   for (const systemDark of [false, true]) {
     const page = preview('https://bezensek.com/', [], { systemDark });
@@ -73,7 +51,7 @@ test('unavailable or unreadable system preferences fall back to light', () => {
   for (const mediaSupport of ['missing', 'blocked']) {
     const page = preview('https://bezensek.com/', [], { systemDark: true, mediaSupport });
     assert.equal(page.dataset.paletteMode, 'light');
-    assert.equal(page.colors['--paper'], palettes[0].colors.paper);
+    assert.equal(page.colors['--paper'], lightColors.paper);
     page.toggle();
     assert.equal(page.dataset.paletteMode, 'dark');
   }
@@ -117,12 +95,6 @@ test('the switch works when browser storage is blocked', () => {
   assert.equal(page.dataset.paletteMode, 'dark');
 });
 
-test('explicit palette previews take priority over saved dark mode', () => {
-  const page = preview('https://bezensek.com/?palette=copper', [], { savedTheme: 'dark' });
-  assert.equal(page.colors['--accent'], palettes.find(palette => palette.id === 'copper').colors.accent);
-  assert.equal(page.dataset.paletteMode, 'light');
-});
-
 function luminance(hex) {
   return [0.2126, 0.7152, 0.0722].reduce((total, weight, index) => {
     const value = parseInt(hex.slice(index * 2 + 1, index * 2 + 3), 16) / 255;
@@ -130,8 +102,16 @@ function luminance(hex) {
   }, 0);
 }
 
+test('old palette parameters do not override the theme or rewrite links', () => {
+  for (const id of ['graphite', 'copper', 'phosphor']) {
+    const page = preview(`https://bezensek.com/?palette=${id}`, ['/about/', '/atom.xml'], { savedTheme: 'dark' });
+    assert.equal(page.dataset.paletteMode, 'dark');
+    assert.deepEqual(page.links.map(link => link.href), ['https://bezensek.com/about/', 'https://bezensek.com/atom.xml']);
+  }
+});
+
 test('palette text remains readable on panels, title bars, and background dots', () => {
-  for (const palette of palettes) {
+  for (const palette of [{ id: 'light', colors: lightColors }, { id: 'dark', colors: darkColors }]) {
     for (const [foreground, background] of [['muted', 'paper'], ['muted', 'soft'], ['ink', 'dots'], ['on-accent', 'accent'], ['secondary', 'paper']]) {
       const [low, high] = [luminance(palette.colors[foreground]), luminance(palette.colors[background])].sort((a, b) => a - b);
       assert.ok((high + 0.05) / (low + 0.05) >= 4.5, `${palette.id}: ${foreground} on ${background}`);

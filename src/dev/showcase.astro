@@ -1,0 +1,148 @@
+---
+import Base from '../layouts/Base.astro';
+import PostList from '../components/PostList.astro';
+import PixelComputer from '../components/PixelComputer.astro';
+import { Code } from 'astro:components';
+import { getPosts } from '../lib/posts';
+import { syntaxTheme } from '../lib/syntax-theme.mjs';
+import siteIcon from '../assets/site-icon.svg?raw';
+
+const allPosts = await getPosts();
+const posts = allPosts.slice(0, 2);
+const sampleImage = allPosts.map(post => post.rendered?.html.match(/<picture>[\s\S]*?<\/picture>/)?.[0]).find(Boolean);
+const sections = ['Buttons', 'Links', 'Typography', 'Content', 'Posts', 'Navigation', 'Artwork', 'Tokens'];
+const colors = ['page', 'paper', 'soft', 'ink', 'muted', 'accent', 'secondary', 'line'];
+const sampleCode = `// A small C# sample for checking syntax colors.
+public static string Describe(int count)
+{
+    var label = count == 1 ? "article" : "articles";
+    return $"{count} {label}";
+}`;
+---
+<Base title="Component showcase" description="Development reference for the blog’s shared components." noindex>
+  <div class="showcase-page">
+    <header class="page-heading">
+      <p class="eyebrow">Development / UI reference</p>
+      <h1>Component showcase.</h1>
+      <p>Real blog components and styles, together in one place. Use the header’s sun/moon switch to compare themes.</p>
+    </header>
+    <nav aria-label="Showcase sections">
+      <ul class="tags showcase-index">{sections.map(section => <li><a href={`#${section.toLowerCase()}`}>{section}</a></li>)}</ul>
+    </nav>
+
+    <section id="buttons" class="showcase-section" aria-labelledby="buttons-heading">
+      <h2 id="buttons-heading">Buttons</h2>
+      <p class="showcase-note">Default, selected, disabled, and busy. Tab through the controls to check focus; hover to check feedback.</p>
+      <nav class="main-navigation showcase-row" aria-label="Button state examples">
+        <a href="#buttons">Default</a>
+        <a href="#buttons" aria-current="page">Selected</a>
+        <button type="button" disabled>Disabled</button>
+        <button type="button" aria-busy="true" disabled>Loading…</button>
+      </nav>
+      <div class="showcase-row">
+        <button type="button" data-showcase-action>Try button</button>
+        <span class="showcase-note" role="status" data-showcase-status>Ready</span>
+      </div>
+    </section>
+
+    <section id="links" class="showcase-section" aria-labelledby="links-heading">
+      <h2 id="links-heading">Links</h2>
+      <div class="showcase-examples">
+        <div class="prose"><p>A paragraph with an <a href="#content">ordinary text link</a> and a <a href="https://example.com/">link to another website ↗</a>.</p></div>
+        <a class="post-title" href="#posts">Article title: a longer heading that can wrap on narrow screens</a>
+        <a class="read-link" href="#posts">Read <span aria-hidden="true">→</span></a>
+        <a class="back-link" href="#links">← All writing</a>
+        <nav class="social-links showcase-row" aria-label="Social link examples"><a href="https://twitter.com/mitjabezensek">Twitter ↗</a><a href="https://www.linkedin.com/in/mitjabezensek/">LinkedIn ↗</a></nav>
+      </div>
+    </section>
+
+    <section id="typography" class="showcase-section" aria-labelledby="typography-heading">
+      <h2 id="typography-heading">Typography</h2>
+      <div class="prose">
+        <h1>Heading one</h1><h2>Heading two</h2><h3>Heading three</h3>
+        <p>Body text is 16px Source Sans 3. <strong>Strong emphasis</strong>, <em>italic emphasis</em>, and <code>inline code</code> stay readable in both themes.</p>
+        <p>Extended Latin: Mitja Bezenšek — č, š, ž, Č, Š, Ž.</p>
+      </div>
+      <div class="article-meta"><time datetime="2026-01-01">1 January 2026</time><span aria-hidden="true">/</span><span>Article metadata</span></div>
+      <ul class="tags showcase-tags" aria-label="Category examples"><li><a href="#posts">C#</a></li><li><a href="#posts">Algorithms</a></li><li><a href="#posts">A longer category label</a></li></ul>
+    </section>
+
+    <section id="content" class="showcase-section" aria-labelledby="content-heading">
+      <h2 id="content-heading">Article content</h2>
+      <div class="prose">
+        <p>Paragraphs, lists, quotes, tables, and syntax highlighting use the production reading styles.</p>
+        <ul><li>A short list item.</li><li>A longer item with enough detail to wrap naturally on a phone, including <a href="#links">a link</a>.</li></ul>
+        <ol><li>Choose a useful topic.</li><li>Write, preview, and publish.</li></ol>
+        <blockquote><p>A quoted paragraph uses even padding and no trailing margin.</p></blockquote>
+        <blockquote><ul><li><strong>Unreachable states</strong> cannot be reached from the initial state.</li><li><strong>Equivalent states</strong> behave the same for every input.</li></ul></blockquote>
+        <table><thead><tr><th>Component</th><th>What to check</th></tr></thead><tbody><tr><td>Links</td><td>Color, underline, focus</td></tr><tr><td>Code</td><td>Contrast, line height, horizontal scrolling</td></tr></tbody></table>
+        <Code code={sampleCode} lang="csharp" theme={{ ...syntaxTheme, type: 'light' }} />
+        <Code code={'const descriptiveName = "A deliberately long code line checks that the panel scrolls horizontally without making the whole page overflow.";'} lang="typescript" theme={{ ...syntaxTheme, type: 'light' }} />
+        <h3>Images</h3>
+        {sampleImage && <Fragment set:html={sampleImage} />}
+        <p class="showcase-note">An actual article image, including the generated responsive source and reserved dimensions.</p>
+        <hr />
+        <section class="footnotes" aria-label="Footnote example"><ol><li>A footnote with a <a href="#content">back reference ↩</a>.</li></ol></section>
+      </div>
+    </section>
+
+    <section id="posts" class="showcase-section" aria-labelledby="posts-heading">
+      <div class="section-heading"><h2 id="posts-heading"><span class="status-pixel" aria-hidden="true"></span> Article list</h2><a href="/blog/archives/">Browse the archive ↗</a></div>
+      <PostList posts={posts} />
+      <section class="archive-year" aria-label="Archive title examples"><h2>2026</h2><ul>{posts.map(post => <li><a class="post-title" href={post.data.url}>{post.data.title}</a><time datetime={post.data.pubDate}>Archive date</time></li>)}</ul></section>
+    </section>
+
+    <section id="navigation" class="showcase-section" aria-labelledby="navigation-heading">
+      <h2 id="navigation-heading">Navigation</h2>
+      <nav class="pagination" aria-label="Pagination example"><a href="#posts">← Newer articles</a><span>Page 2 of 3</span><a href="#posts">Older articles →</a></nav>
+      <nav class="post-navigation" aria-label="Adjacent article examples"><a href="#posts" rel="prev"><small>← Earlier article</small><span>A previous article with a title that can wrap</span></a><a href="#posts" rel="next"><small>More recent article →</small><span>The next article</span></a></nav>
+      <ul class="category-list"><li><a href="#posts"><span>Algorithms</span><span class="category-count">3 articles</span></a></li><li><a href="#posts"><span>Software development</span><span class="category-count">12 articles</span></a></li></ul>
+    </section>
+
+    <section id="artwork" class="showcase-section" aria-labelledby="artwork-heading">
+      <h2 id="artwork-heading">Artwork</h2>
+      <div class="wordmark showcase-wordmark"><Fragment set:html={siteIcon} /><span>Mitja Bezenšek<small>Product developer</small></span></div>
+      <div class="computer-scene showcase-computer"><PixelComputer /><span>&gt; writing about software_</span></div>
+      <p class="showcase-note">The animation also has a static reduced-motion state. Header and footer on this page are the real layout components.</p>
+    </section>
+
+    <section id="tokens" class="showcase-section" aria-labelledby="tokens-heading">
+      <h2 id="tokens-heading">Design tokens</h2>
+      <div class="showcase-swatches">{colors.map(color => <div class="showcase-swatch"><span style={`background:var(--${color})`} aria-hidden="true"></span><code>--{color}</code></div>)}</div>
+      <div class="showcase-spacing">{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12].map(step => <div><code>--space-{step}</code><span style={`width:var(--space-${step})`} aria-hidden="true"></span></div>)}</div>
+    </section>
+  </div>
+</Base>
+
+<script>
+  const action = document.querySelector<HTMLButtonElement>('[data-showcase-action]');
+  const status = document.querySelector<HTMLElement>('[data-showcase-status]');
+  let clicks = 0;
+  action?.addEventListener('click', () => {
+    clicks += 1;
+    if (status) status.textContent = `Showcase interaction example: ${clicks} ${clicks === 1 ? 'click' : 'clicks'}`;
+  });
+</script>
+
+<style>
+  .showcase-page { min-width: 0; }
+  .showcase-index { gap: var(--space-2); margin-bottom: var(--space-8); }
+  .showcase-section { border-top: 1px solid var(--rule); padding: var(--space-8) 0; scroll-margin-top: var(--space-5); }
+  .showcase-section > h2 { margin: 0 0 var(--space-4); font: var(--weight-semibold) var(--text-heading)/var(--leading-ui) var(--mono); }
+  .showcase-note { color: var(--muted); font: var(--text-small)/var(--leading-body) var(--sans); margin: 0; }
+  .showcase-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-top: var(--space-4); }
+  .showcase-examples { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); }
+  .showcase-examples :global(p), .showcase-examples :global(.back-link) { margin: 0; }
+  .showcase-tags, .showcase-wordmark { margin-top: var(--space-4); }
+  .showcase-computer { width: min(100%, 288px); margin: var(--space-6) auto; }
+  .showcase-swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: var(--space-4); }
+  .showcase-swatch { display: flex; flex-direction: column; gap: var(--space-2); font: var(--text-meta) var(--mono); }
+  .showcase-swatch > span { height: 48px; border: 1px solid var(--line); }
+  .showcase-spacing { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-6); font: var(--text-meta) var(--mono); }
+  .showcase-spacing > div { display: flex; flex-direction: column; gap: var(--space-2); }
+  .showcase-spacing span { height: 8px; background: var(--accent); }
+  @media (max-width: 540px) {
+    .showcase-section { padding: var(--space-6) 0; }
+    .showcase-section :global(.pagination) { flex-wrap: wrap; }
+  }
+</style>

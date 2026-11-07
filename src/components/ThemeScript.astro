@@ -1,10 +1,7 @@
 ---
-import { darkColors, palettes } from '../lib/palettes';
+import { darkColors, lightColors } from '../lib/theme';
 ---
-<script is:inline define:vars={{ palettes, darkColors }}>
-  const requestedPalette = new URLSearchParams(window.location.search).get('palette')
-    ?? (window.location.pathname === '/palettes/' ? 'graphite' : null);
-  const previewPalette = palettes.find((option) => option.id === requestedPalette);
+<script is:inline define:vars={{ lightColors, darkColors }}>
   const root = document.documentElement;
   function applyColors(colors, dark) {
     for (const [name, value] of Object.entries(colors)) {
@@ -27,8 +24,7 @@ import { darkColors, palettes } from '../lib/palettes';
       // Keep the light default if the system preference cannot be read.
     }
   }
-  if (previewPalette) applyColors(previewPalette.colors, previewPalette.dark);
-  else applyColors(dark ? darkColors : palettes[0].colors, dark);
+  applyColors(dark ? darkColors : lightColors, dark);
 
   document.addEventListener('DOMContentLoaded', () => {
     const toggle = document.querySelector('[data-theme-toggle]');
@@ -41,7 +37,7 @@ import { darkColors, palettes } from '../lib/palettes';
       }
       toggle.addEventListener('click', () => {
         const dark = root.dataset.paletteMode !== 'dark';
-        applyColors(dark ? darkColors : palettes[0].colors, dark);
+        applyColors(dark ? darkColors : lightColors, dark);
         try {
           window.localStorage.setItem('blog-theme', dark ? 'dark' : 'light');
         } catch {
@@ -50,15 +46,6 @@ import { darkColors, palettes } from '../lib/palettes';
         updateToggle();
       });
       updateToggle();
-    }
-    if (previewPalette) {
-      for (const link of document.querySelectorAll('a[href]')) {
-        const target = new URL(link.href);
-        if (target.origin === window.location.origin && !target.searchParams.has('palette') && !target.pathname.endsWith('.xml') && !target.pathname.startsWith('/palettes/')) {
-          target.searchParams.set('palette', previewPalette.id);
-          link.href = target.href;
-        }
-      }
     }
   });
 </script>

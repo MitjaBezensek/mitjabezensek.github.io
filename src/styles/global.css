@@ -94,7 +94,7 @@ h1, h2, h3 { font-family: var(--mono); }
 .header-navigation { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
 .site-header nav, .site-footer nav { display: flex; gap: var(--space-2); align-items: center; }
 .main-navigation a, button { display: inline-block; background: var(--paper); border: 1px solid var(--line); box-shadow: var(--bevel); padding: 9px 13px; color: var(--ink); font: var(--text-ui) var(--mono); text-decoration: none; }
-.main-navigation a:hover, button:hover { background: var(--soft); }
+.main-navigation a:hover, button:hover:not(:disabled) { background: var(--soft); }
 .main-navigation .theme-toggle { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; flex-shrink: 0; color: var(--accent); }
 .theme-toggle svg { width: 16px; height: 16px; }
 .theme-toggle .sun-icon { display: none; color: var(--secondary); }
@@ -179,7 +179,8 @@ main, .site-footer { background: var(--paper); border: 1px solid var(--border); 
 .post-navigation small { color: var(--muted); font: var(--text-label)/var(--leading-ui) var(--mono); }
 .post-navigation small span { color: var(--secondary); }
 button { cursor: pointer; }
-button:disabled { cursor: wait; }
+button:disabled { cursor: not-allowed; opacity: .55; }
+button[aria-busy='true'] { cursor: wait; }
 .archive-year { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: var(--space-5); padding: 26px 0; border-top: 1px solid var(--rule); }
 .archive-year h2 { margin: 0; font: var(--weight-semibold) 20px var(--mono); color: var(--green); }
 .archive-year ul { list-style: none; margin: 0; padding: 0; }

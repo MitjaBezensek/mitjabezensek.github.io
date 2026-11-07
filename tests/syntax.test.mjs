@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import test from 'node:test';
-import { palettes, darkColors } from '../src/lib/palettes.ts';
+import { lightColors, darkColors } from '../src/lib/theme.ts';
 
 const html = readdirSync('dist', { recursive: true }).filter(file => file.endsWith('.html'))
   .map(file => readFileSync(`dist/${file}`, 'utf8')).join('\n');
@@ -30,7 +30,7 @@ function luminance(hex) {
 }
 
 test('syntax text stays readable in every light and dark palette', () => {
-  for (const { colors, dark } of [...palettes, { colors: darkColors, dark: true }]) {
+  for (const { colors, dark } of [{ colors: lightColors, dark: false }, { colors: darkColors, dark: true }]) {
     const resolved = syntaxColors(colors, dark);
     assert.ok(resolved.background, 'Code background resolves');
     for (const [role, color] of Object.entries(resolved).filter(([role]) => role !== 'background')) {
@@ -42,7 +42,7 @@ test('syntax text stays readable in every light and dark palette', () => {
 
 test('code distinguishes keywords, types, functions, strings, and numbers by color', () => {
   for (const dark of [false, true]) {
-    const colors = syntaxColors(dark ? darkColors : palettes[0].colors, dark);
+    const colors = syntaxColors(dark ? darkColors : lightColors, dark);
     assert.equal(new Set(['keyword', 'type', 'function', 'string', 'constant'].map(role => colors[role])).size, 5);
   }
 });
