@@ -32,10 +32,10 @@
 
 **Interfaces:** Produces `posts` collection with `title`, `description`, `pubDate`, `url`, `categories`, `draft`, `comments`; `pages` collection for About. Legacy fixture records routes, images, code blocks, dates, IDs and category membership.
 
-- [ ] Capture the old rendered site's preservation fixture from `master` and original Markdown.
-- [ ] Write output assertions for routes, draft exclusion, image assets, code blocks, feed IDs, HTTPS metadata, and private-source exclusion.
-- [ ] Run `python3 tests/verify_site.py`; expected failure because `dist/` is absent.
-- [ ] Install stable Astro, convert Markdown rendering syntax, preserve original date metadata and explicit post paths, copy public content assets.
+- [x] Capture the old rendered site's preservation fixture from `master` and original Markdown.
+- [x] Write output assertions for routes, draft exclusion, image assets, code blocks, feed IDs, HTTPS metadata, and private-source exclusion.
+- [x] Run `python3 tests/verify_site.py`; expected failure because `dist/` is absent.
+- [x] Install stable Astro, convert Markdown rendering syntax, preserve original date metadata and explicit post paths, copy public content assets.
 
 ### Task 2: Render and verify the site
 
@@ -43,11 +43,11 @@
 
 **Interfaces:** `getPosts()` returns published posts newest first; `getCategories(posts)` produces distinct normalized categories; `atomFeed(posts, path, title)` returns XML with full rendered content and stable IDs.
 
-- [ ] Implement post routes, About, home and pagination, archives, category pages and feeds, Atom, sitemap, robots, and 404.
-- [ ] Build using `npm run build`; expected successful static output.
-- [ ] Run `npm run check` and `python3 tests/verify_site.py`; expected zero errors and all preservation checks passing.
-- [ ] Preview homepage, About, and image/code-heavy posts at desktop and mobile widths; verify navigation and comments interaction.
-- [ ] Commit the verified site migration.
+- [x] Implement post routes, About, home and pagination, archives, category pages and feeds, Atom, sitemap, robots, and 404.
+- [x] Build using `npm run build`; expected successful static output.
+- [x] Run `npm run check` and `python3 tests/verify_site.py`; expected zero errors and all preservation checks passing.
+- [x] Preview homepage, About, and image/code-heavy posts at desktop and mobile widths; verify navigation and comments interaction.
+- [x] Commit the verified site migration.
 
 ### Task 3: Deployment and authoring handoff
 
@@ -55,11 +55,27 @@
 
 **Interfaces:** `npm ci`, `npm run check`, `npm run build`, and `npm test` are the local/CI contract. Production deploy is limited to `source`; PRs only validate.
 
-- [ ] Add CI build verification and Pages deployment of `dist/` with job-scoped permissions.
-- [ ] Document editor authoring, draft privacy, preview, cutover, HTTPS, backup tag, and rollback.
-- [ ] Remove unused Ruby/theme code while retaining original content source material in `assets/` and `references/`.
-- [ ] Re-run the full contract and independently review the final diff before committing the handoff.
+- [x] Add CI build verification and Pages deployment of `dist/` with job-scoped permissions.
+- [x] Document editor authoring, draft privacy, preview, cutover, HTTPS, backup tag, and rollback.
+- [x] Remove unused Ruby/theme code while retaining original content source material in `assets/` and `references/`.
+- [x] Re-run the full contract and independently review the final diff before committing the handoff.
 
 ## Execution notes
 
 The user's explicit instruction to go ahead authorizes inline execution of the approved design. The migration branch already provides the agreed isolation; no additional worktree is needed. No baseline test suite exists for the old Octopress build; the preserved generated HTML is the comparison baseline.
+
+## Result
+
+Completed locally on `codex/astro-migration`. Independent review found no
+blocking migration issues. The inconsistent pnpm declaration was removed so
+tooling follows the npm lockfile and documented commands.
+
+Final validation: `npm run check` reports zero errors, warnings, or hints;
+`npm run build` produces 30 HTML pages; all seven migration checks pass.
+The synthetic draft/new-post build also passes. All nineteen migrated image
+files are byte-identical to the original source. Mobile preview at 390px
+showed no page overflow, and local article/About images loaded successfully.
+
+No push, PR, live deployment, or Pages configuration change was performed.
+The separate untracked `prototypes/` project was left untouched. Live
+certificate setup and Disqus thread association remain cutover checks.

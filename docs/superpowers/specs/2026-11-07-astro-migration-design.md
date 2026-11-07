@@ -63,7 +63,7 @@ minimal JavaScript. Prioritize typography and mobile reading. Keep the About
 copy as-is, since factual updates need the user's input. Search, newsletters,
 a CMS, and new content are outside this migration.
 
-Proposed integration choices (not yet agreed separately): retain Disqus on
+Integration choices approved with this design: retain Disqus on
 existing comment-enabled posts with their original HTTP URL identifiers to
 preserve thread association, loading its embed over HTTPS. Remove obsolete
 Google Analytics UA, Google+, AddThis widgets, and unused theme scripts.
