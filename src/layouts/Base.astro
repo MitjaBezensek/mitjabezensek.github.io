@@ -2,6 +2,8 @@
 import { AUTHOR, SITE } from '../lib/posts';
 import PalettePreview from '../components/PalettePreview.astro';
 import { Font } from 'astro:assets';
+import siteIcon from '../assets/site-icon.svg?raw';
+import favicon from '../assets/site-icon.svg?url&no-inline';
 import '../styles/global.css';
 
 interface Props {
@@ -37,7 +39,7 @@ const isAbout = Astro.url.pathname === '/about/';
     <PalettePreview />
     <title>{fullTitle}</title>
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={favicon} />
     <link rel="alternate" type="application/atom+xml" title={`${AUTHOR} · Feed`} href="/atom.xml" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
@@ -52,7 +54,7 @@ const isAbout = Astro.url.pathname === '/about/';
     <div class="site-shell">
       <header class="site-header">
         <a class="wordmark" href="/" aria-label={`${AUTHOR}, home`}>
-          <svg class="site-computer" viewBox="0 0 24 24" shape-rendering="crispEdges" aria-hidden="true"><path fill="var(--computer-dark)" d="M1 2h22v16H1zM10 18h4v3h-4zM6 21h12v2H6z"/><path fill="var(--computer-light)" d="M3 4h18v12H3z"/><path fill="var(--paper)" d="M5 6h14v8H5z"/><path fill="var(--accent)" d="M7 7h2v2H7zM9 9h2v2H9zM7 11h2v2H7zM12 11h5v2h-5z"/></svg>
+          <Fragment set:html={siteIcon} />
           <span>{AUTHOR}<small>Product developer</small></span>
         </a>
         <div class="header-navigation">

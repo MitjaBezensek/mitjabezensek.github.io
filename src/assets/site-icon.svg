@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="site-computer" viewBox="1 2 22 21" shape-rendering="crispEdges" aria-hidden="true"><style>
+:root { --icon-case: #557696; --icon-bezel: #9db9d2; --icon-screen: #fafaf7; --icon-accent: #2465aa; }
+@media (prefers-color-scheme: dark) {
+  :root { --icon-case: #9db9d2; --icon-bezel: #557696; --icon-screen: #202830; --icon-accent: #8dbbf0; }
+}
+</style><path fill="var(--computer-dark, var(--icon-case))" d="M1 2h22v16H1zM10 18h4v3h-4zM6 21h12v2H6z"/><path fill="var(--computer-light, var(--icon-bezel))" d="M3 4h18v12H3z"/><path fill="var(--paper, var(--icon-screen))" d="M5 6h14v8H5z"/><path fill="var(--accent, var(--icon-accent))" d="M7 7h2v2H7zM9 9h2v2H9zM7 11h2v2H7zM12 11h5v2h-5z"/></svg>

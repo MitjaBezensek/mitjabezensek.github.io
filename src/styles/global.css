@@ -72,9 +72,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 h1, h2, h3 { font-family: var(--mono); }
 .site-shell { --content-gutter: 38px; max-width: 1060px; margin: 0 auto; padding: 0 var(--space-10); }
 .site-header { margin: var(--space-6) 0 var(--space-5); padding: var(--space-5) var(--space-6); background: var(--paper); border: 1px solid var(--border); box-shadow: var(--bevel); display: flex; justify-content: space-between; align-items: center; gap: var(--space-5); min-height: 112px; }
-.wordmark { display: flex; align-items: center; gap: 13px; font-family: var(--mono); font-weight: var(--weight-semibold); font-size: var(--text-post); color: var(--ink); text-decoration: none; }
-.wordmark small { display: block; font-weight: var(--weight-regular); font-size: var(--text-label); color: var(--ink); margin-top: 5px; }
-.site-computer { width: 30px; height: 30px; flex-shrink: 0; }
+.wordmark { --subtitle-size: var(--text-label); --icon-size: calc(1.2em + 1.4 * var(--subtitle-size) + 5px); line-height: 1.2; display: flex; align-items: center; gap: 13px; font-family: var(--mono); font-weight: var(--weight-semibold); font-size: var(--text-post); color: var(--ink); text-decoration: none; }
+.wordmark small { display: block; line-height: 1.4; font-weight: var(--weight-regular); font-size: var(--subtitle-size); color: var(--ink); margin-top: 5px; }
+.site-computer { width: calc(var(--icon-size) * 22 / 21); height: var(--icon-size); flex-shrink: 0; }
 .header-navigation { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
 .site-header nav, .site-footer nav { display: flex; gap: var(--space-2); align-items: center; }
 .main-navigation a, button { display: inline-block; background: var(--paper); border: 1px solid var(--line); box-shadow: var(--bevel); padding: 9px 13px; color: var(--ink); font: var(--text-ui) var(--mono); text-decoration: none; }
@@ -188,9 +188,7 @@ button:disabled { cursor: wait; }
 @media (max-width: 540px) {
   .site-shell { --content-gutter: 19px; padding: 0 13px; }
   .site-header { min-height: 115px; flex-wrap: wrap; align-content: center; gap: 17px; padding: 17px 15px; }
-  .wordmark { font-size: var(--text-small); }
-  .wordmark small { font-size: var(--text-caption); }
-  .site-computer { width: 24px; height: 24px; }
+  .wordmark { --subtitle-size: var(--text-caption); font-size: var(--text-small); }
   .header-navigation { width: 100%; align-items: flex-start; }
   .main-navigation a, .main-navigation button { font-size: var(--text-label); padding: 7px var(--space-3); }
   .window-bar { padding: 10px 13px; font-size: var(--text-caption); }

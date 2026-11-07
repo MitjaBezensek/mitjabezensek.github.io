@@ -225,6 +225,8 @@ Fonts are served locally; their SIL Open Font Licenses are
 included in `public/licenses/`. The blue-and-coral palette supports light and dark
 modes. Edit `src/styles/global.css` for theme styling and
 `src/components/PixelComputer.astro` for the illustration.
+The header icon and favicon share `src/assets/site-icon.svg`. The header follows
+the selected site palette; the standalone favicon adapts to the system theme.
 
 Shared styling values live in the stylesheet's `:root`: `--space-*` for spacing,
 `--text-*` for font sizes, and weight, line-height, and link variables. Ordinary
