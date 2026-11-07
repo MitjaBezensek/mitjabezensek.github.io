@@ -97,8 +97,8 @@ main { background: var(--paper); border: 1px solid var(--border); box-shadow: in
 .prose blockquote { margin: 26px 0; border-left: 3px solid var(--line); padding: 15px 20px; background: var(--soft); color: var(--muted); }
 .prose blockquote p:last-child { margin-bottom: 0; }
 .prose code { font: .8em/1.8 var(--mono); padding: .15em .3em; background: var(--soft); }
-.prose pre { max-width: 100%; overflow-x: auto; border: 1px solid var(--line); box-shadow: 2px 2px var(--shadow); padding: 20px; margin: 28px 0; }
-.prose pre code { font-family: 'Fira Code', var(--mono); font-variant-ligatures: contextual; font-size: 12px; white-space: pre; background: none; padding: 0; }
+.prose pre { max-width: 100%; overflow-x: auto; border: 1px solid var(--line); box-shadow: 2px 2px var(--shadow); padding: 20px; margin: 28px 0; font-size: 14px; line-height: 1.5; }
+.prose pre code { font-family: 'Fira Code', var(--mono); font-variant-ligatures: contextual; font-size: inherit; line-height: inherit; white-space: pre; background: none; padding: 0; }
 .prose table { display: block; overflow-x: auto; border-collapse: collapse; }
 .prose th, .prose td { border: 1px solid var(--rule); padding: 8px 12px; }
 .prose th { background: var(--soft); }
@@ -168,8 +168,7 @@ button:disabled { cursor: wait; }
   .article-meta { font-size: 12px; gap: 8px; }
   .prose { font-size: 15px; }
   .prose h2 { font-size: 19px; }
-  .prose pre { padding: 14px; }
-  .prose pre code { font-size: 11px; }
+  .prose pre { padding: 14px; font-size: 13px; }
   .post-navigation { grid-template-columns: minmax(0, 1fr); }
   .archive-year { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .archive-year a { font-size: 13px; }
