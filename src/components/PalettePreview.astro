@@ -19,7 +19,7 @@ import { darkColors, palettes } from '../lib/palettes';
   } catch {
     // Storage can be blocked; the switch still works for this page.
   }
-  const dark = savedTheme === 'dark' || (savedTheme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const dark = savedTheme === 'dark';
   if (previewPalette) applyColors(previewPalette.colors, previewPalette.dark);
   else applyColors(dark ? darkColors : palettes[0].colors, dark);
 

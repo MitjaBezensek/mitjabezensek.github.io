@@ -57,12 +57,12 @@ test('unrecognized palettes use the default theme and leave links alone', () => 
   assert.equal(links[0].href, 'https://bezensek.com/about/');
 });
 
-test('the system dark preference starts with a dark blue and coral theme', () => {
+test('new visitors start in light mode even when the system prefers dark', () => {
   const page = preview('https://bezensek.com/', [], { systemDark: true });
-  assert.equal(page.dataset.paletteMode, 'dark');
-  assert.notEqual(page.colors['--paper'], palettes[0].colors.paper);
+  assert.equal(page.dataset.paletteMode, 'light');
+  assert.equal(page.colors['--paper'], palettes[0].colors.paper);
   assert.equal(page.button.hidden, false);
-  assert.equal(page.button.ariaLabel, 'Switch to light mode');
+  assert.equal(page.button.ariaLabel, 'Switch to dark mode');
 });
 
 test('the switch persists the choice across pages and can switch back', () => {
@@ -108,7 +108,7 @@ test('palette text remains readable on panels, title bars, and background dots',
       assert.ok((high + 0.05) / (low + 0.05) >= 4.5, `${palette.id}: ${foreground} on ${background}`);
     }
   }
-  const { colors } = preview('https://bezensek.com/', [], { systemDark: true });
+  const { colors } = preview('https://bezensek.com/', [], { savedTheme: 'dark' });
   for (const [foreground, background] of [['muted', 'paper'], ['muted', 'soft'], ['ink', 'dots'], ['on-accent', 'accent'], ['secondary', 'paper']]) {
     const [low, high] = [luminance(colors[`--${foreground}`]), luminance(colors[`--${background}`])].sort((a, b) => a - b);
     assert.ok((high + 0.05) / (low + 0.05) >= 4.5, `dark theme: ${foreground} on ${background}`);

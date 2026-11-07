@@ -190,7 +190,8 @@ SVG computer artwork. The header uses a solid cream backing for readability.
 JetBrains Mono is used for headings/navigation, Source Sans 3 for reading text, and
 Fira Code with contextual ligatures for code blocks. Fonts are served locally; their SIL Open Font Licenses are
 included in `public/licenses/`. The blue-and-coral palette supports light and dark
-modes, with a header switch that remembers the reader's choice. Edit `src/styles/global.css` for theme styling and
+modes. New visitors start in light mode; the header switch remembers an explicit
+choice for later visits. Edit `src/styles/global.css` for theme styling and
 `src/components/PixelComputer.astro` for the illustration.
 
 `/palettes/` compares five color alternatives on the real homepage. Open a
