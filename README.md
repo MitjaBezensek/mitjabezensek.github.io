@@ -9,7 +9,7 @@ Personal blog built with Astro and Markdown, published at
 - [Find files](#repository-map)
 - [Handle private drafts](#draft-privacy)
 - [Configure the domain and HTTPS](#domain-and-https)
-- [Deploy for the first time](#first-deployment-github-pages)
+- [Configure GitHub Pages](#github-pages-configuration)
 
 ## Local development
 
@@ -58,7 +58,7 @@ Create a Markdown file in `src/content/posts/`, such as `my-new-post.md`:
 ---
 title: "My new post"
 description: "A short summary for article lists and search results."
-pubDate: "2026-11-07T12:00:00+01:00"
+pubDate: "2026-01-01T12:00:00Z"
 url: "/my-new-post/"
 categories: [programming]
 draft: false
@@ -121,8 +121,8 @@ and optimized copies.
 
 ### About and automatic pages
 
-Edit `src/content/pages/about.md` for the biography. It contains the original
-2014 copy; the date label is in `src/pages/about.astro`.
+Edit `src/content/pages/about.md` for the biography and
+`src/pages/about.astro` for its page layout.
 
 The homepage shows five posts per page, newest first. Archives, categories,
 Atom feeds, and the sitemap update automatically. `/atom.xml` contains the
@@ -131,8 +131,8 @@ no discussion section or third-party comment scripts.
 
 ## Publishing updates
 
-After the [first deployment](#first-deployment-github-pages), use `source` for
-normal writing and publishing. Start a writing session with:
+Use `source`, the repository’s default branch, for writing and publishing.
+Start a writing session with:
 
 ```sh
 git switch source
@@ -188,7 +188,7 @@ Astro checker.
 | --- | --- |
 | `src/content/posts/` | Published articles and posts marked as drafts. |
 | `src/content/pages/about.md` | Editable About biography. |
-| `src/content/drafts/` | Original unpublished material, outside the loaded collections. |
+| `src/content/drafts/` | Content outside the loaded collections; excluded from builds. |
 | `public/img/`, `public/about/` | Images copied directly to the site. |
 | `src/layouts/Base.astro` | Shared header, navigation, metadata, and footer. |
 | `src/pages/` | Page templates, article routes, archives, feeds, and redirects. |
@@ -216,9 +216,9 @@ Font, CSS, and optimized image filenames change with their contents,
 allowing cached assets to be reused safely. GitHub Pages sets the HTTP cache
 headers; this repository cannot override them with a `_headers` file.
 
-The custom pixel-computer theme takes its visual direction from Greenhouse:
-neutral dotted gutters, ivory reading panels, beveled controls, and original
-SVG computer artwork. The header uses a solid cream backing for readability.
+The custom pixel-computer theme uses dotted gutters, ivory reading panels,
+beveled controls, and SVG computer artwork. The header uses a solid cream
+backing for readability.
 The site uses two font families: Fira Code for headings, navigation, and code
 blocks (with contextual ligatures), and Source Sans 3 for reading text.
 Reading text is 16px on desktop and mobile; interface labels and code have
@@ -269,16 +269,15 @@ host supporting redirect rules. HTTP 304 is a caching response, not a redirect.
 ## Draft privacy
 
 `draft: true` excludes a post from every published route, listing, feed, and
-sitemap, including during local development. `src/content/drafts/` preserves
-the seven old unpublished pieces outside the loaded collections entirely.
+sitemap, including during local development. Files in `src/content/drafts/`
+are outside the loaded collections entirely.
 To preview one, move it into `posts/` on a local branch and temporarily set
 `draft: false` with valid post metadata. Revert that flag before publishing.
 
 Build exclusion does **not** make a tracked draft private: anyone can read it
 if its branch or history is pushed to a public repository. Keep future private
 writing on local-only branches and back it up privately. Before sharing a
-branch, check its complete commit range for unfinished writing. The original
-drafts already existed on the public `source` branch before this migration.
+branch, check its complete commit range for unfinished writing.
 
 `assets/` and `references/` contain original working material, including source
 diagrams. They are preserved in the repository and never copied into the site.
@@ -287,117 +286,35 @@ in `public/` or variables prefixed with `PUBLIC_`.
 
 ## Migration checks
 
-`tests/legacy-site.json` records the old generated site from `master`:
-29 pages, nine published articles, and sixteen Atom feeds. The verifier checks
-those routes (including redirect destinations), post titles, publication dates,
-code examples, images, feed IDs,
-category feed membership, internal link targets, HTTPS metadata, and source
-and draft exclusion. New articles are supported without changing the fixture;
-intentional changes to historical content may require corresponding fixture
-updates.
+`tests/legacy-site.json` records the pre-migration generated site. Verification
+covers legacy routes and redirect destinations, post titles, publication dates,
+code examples, images, feed IDs, category membership, internal links, HTTPS
+metadata, and draft exclusion. New articles are supported without changing the
+fixture; intentional changes to historical content may require fixture updates.
 
-External links were audited on 7 November 2026. Working destinations use HTTPS,
-moved resources point to their current pages, and confirmed dead links were
-removed while retaining the surrounding text. The unavailable external
-SourceTree screenshot was removed; the other original images remain locally
-hosted. Automated-request blocks are not treated as evidence of a dead link.
+Additional checks cover theme switching, font coverage, image loading and
+animation preservation, syntax contrast, and deployment safeguards. All run
+through `pnpm test`; build first. `pnpm run test:drafts` also verifies draft
+exclusion and image-cache invalidation using temporary content.
 
 ## Domain and HTTPS
 
-`bezensek.com` uses NEOSERV DNS. The pre-launch audit on 7 November 2026 found
-the legacy GitHub Pages addresses `192.30.252.153` and `192.30.252.154`, no
-GitHub-issued certificate for the domain, and no HTTP-to-HTTPS redirect.
+The custom domain is configured in [GitHub Pages settings](https://github.com/MitjaBezensek/mitjabezensek.github.io/settings/pages).
+For domain changes, follow [GitHub’s DNS configuration guide](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)
+and update `site` in `astro.config.mjs` and `SITE` in `src/lib/posts.ts`.
+Enable **Enforce HTTPS** after GitHub provisions the domain’s certificate.
 
-In the domain's DNS editor, replace those two apex `A` records with
-[GitHub Pages' current addresses](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site):
+## GitHub Pages configuration
 
-| Type | Host | Value |
-| --- | --- | --- |
-| A | `@` | `185.199.108.153` |
-| A | `@` | `185.199.109.153` |
-| A | `@` | `185.199.110.153` |
-| A | `@` | `185.199.111.153` |
+The repository’s default and publishing branch is `source`. The workflow in
+`.github/workflows/pages.yml` builds Astro and publishes only `dist/`.
 
-`@` means the apex domain, `bezensek.com`; the editor may display the full
-domain name instead. Keep the nameservers and unrelated DNS records as they
-are. NEOSERV documents its editor in
-[DNS hosting instructions](https://www.neoserv.si/podpora/dns-gostovanje).
+The required repository settings are:
 
-Keep `bezensek.com` configured as the custom domain in GitHub Pages. After
-the new DNS records propagate, wait for GitHub to provision a valid certificate,
-then enable **Enforce HTTPS** in Pages settings. The old records had a
-one-hour TTL; certificate provisioning can take additional time. See
-[GitHub's HTTPS troubleshooting guide](https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https).
+- **Settings → Pages → Source:** GitHub Actions.
+- **Settings → Environments → github-pages:** allow the `source` branch.
+- **Settings → Pages → Custom domain:** the site’s domain, with Enforce HTTPS enabled.
 
-Verify the result without bypassing certificate checks:
-
-```sh
-dig +short bezensek.com A
-curl -I https://bezensek.com/
-curl -I http://bezensek.com/
-```
-
-DNS should return the four new addresses, HTTPS should have a valid certificate,
-and HTTP should redirect to HTTPS once enforcement is enabled.
-
-## First deployment (GitHub Pages)
-
-The existing Pages site serves generated HTML from `master`; editable source
-lives on `source`. The migration is on `MitjaBezensek/astro-migration`. All work is
-local until explicitly approved for publishing.
-
-When ready to publish:
-
-1. Select Node and install the pinned pnpm version if needed:
-
-   ```sh
-   nvm use
-   npm install --global pnpm@12.18.0
-   pnpm install --frozen-lockfile
-   ```
-
-2. Commit any remaining work on `MitjaBezensek/astro-migration`. Skip this first block
-   if `git status --short` is empty. Review the staged diff for private writing
-   before committing; the repository is public.
-
-   ```sh
-   git add -A
-   git diff --cached
-   git commit -m "Finish Astro blog migration"
-   ```
-
-   Then merge the committed migration into `source`:
-
-   ```sh
-   git switch source
-   git merge --ff-only MitjaBezensek/astro-migration
-   ```
-
-3. In [Settings → Pages](https://github.com/MitjaBezensek/mitjabezensek.github.io/settings/pages),
-   choose **GitHub Actions** as the publishing source. Keep the custom domain
-   `bezensek.com` and configure [DNS and HTTPS](#domain-and-https). If deployment
-   environment rules block the workflow, allow `source` in `github-pages`.
-
-4. Run `pnpm run deploy` from `source`. The command runs the same checks as CI
-   and pushes the verified commit. The workflow installs locked
-   dependencies, checks, builds, and uploads only `dist/`. Wait for
-   **Verify and deploy blog** to succeed in the repository's Actions tab.
-
-5. Check the homepage, an old dated URL, images, `/atom.xml`, page 2, and the
-   light/dark switch on the live domain. Enable **Enforce HTTPS** in Pages
-   settings once GitHub reports the certificate ready.
-
-Future updates are Markdown edits followed by a commit and `pnpm run deploy`;
-GitHub builds and deploys automatically. Keep `master` unchanged for
-rollback. Keep the local `pre-astro` tag backed up privately: it includes
-historical drafts, and pushing it publicly exposes everything reachable from it.
-
-Because the default branch is still `master`, manual workflow dispatch may
-not be available in the UI until the workflow exists on that branch too.
-The `source` push trigger is the intended first-deploy path. Renaming the
-default branch is a separate optional change.
-
-To roll back, switch Pages back to **Deploy from a branch → master → /(root)**.
-That branch retains the old generated site. Local tag `pre-astro` points to
-the editable Octopress source (`1a77db3`); inspect it with
-`git show pre-astro:path/to/file` or create a recovery branch from it.
+For updates, commit your changes on `source` and run `pnpm run deploy`.
+Check the deployment in [GitHub Actions](https://github.com/MitjaBezensek/mitjabezensek.github.io/actions),
+then verify the changed page on the live site.
