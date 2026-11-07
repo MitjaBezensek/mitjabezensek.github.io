@@ -22,7 +22,7 @@ const {
 } = Astro.props;
 const fullTitle = title ? `${title} · ${AUTHOR}` : AUTHOR;
 const canonical = new URL(Astro.url.pathname, SITE).href;
-const isWriting = Astro.url.pathname === '/' || /^\/page\/\d+\/$/.test(Astro.url.pathname);
+const isWriting = article || Astro.url.pathname === '/' || /^\/page\/\d+\/$/.test(Astro.url.pathname) || Astro.url.pathname.startsWith('/blog/');
 const isAbout = Astro.url.pathname === '/about/';
 ---
 <!doctype html>
@@ -67,8 +67,8 @@ const isAbout = Astro.url.pathname === '/about/';
             </button>
           </nav>
           <nav class="social-links" aria-label="Social links">
-            <a href="https://twitter.com/mitjabezensek" rel="me">Twitter <span aria-hidden="true">↗</span></a>
-            <a href="https://www.linkedin.com/in/mitjabezensek/" rel="me">LinkedIn <span aria-hidden="true">↗</span></a>
+            <a href="https://twitter.com/mitjabezensek" rel="me">Twitter <span class="link-arrow" aria-hidden="true">↗</span></a>
+            <a href="https://www.linkedin.com/in/mitjabezensek/" rel="me">LinkedIn <span class="link-arrow" aria-hidden="true">↗</span></a>
           </nav>
         </div>
       </header>
@@ -79,9 +79,10 @@ const isAbout = Astro.url.pathname === '/about/';
         <span><span class="status-pixel" aria-hidden="true"></span> © {new Date().getUTCFullYear()} {AUTHOR}</span>
         <nav aria-label="Footer navigation">
           {import.meta.env.DEV && <a href="/showcase/">Showcase</a>}
+          {import.meta.env.DEV && <a href="/404/">404</a>}
           <a href="/blog/archives/">Archives</a>
           <a href="/blog/categories/">Categories</a>
-          <a href="https://github.com/MitjaBezensek">GitHub ↗</a>
+          <a href="https://github.com/MitjaBezensek">GitHub <span class="link-arrow" aria-hidden="true">↗</span></a>
         </nav>
       </footer>
     </div>

@@ -167,8 +167,8 @@ class MigrationChecks(unittest.TestCase):
         posts = built_posts()
         for category, expected_ids in LEGACY["categoryEntries"].items():
             with self.subTest(category=category):
-                category_url = f"/blog/categories/{category}/"
-                category_posts = [post for post in posts if category_url in post["doc"].links]
+                category_page = Document((DIST / f"blog/categories/{category}/index.html").read_text())
+                category_posts = [post for post in posts if post["url"] in category_page.links]
                 all_ids = [stable_id(post["url"]) for post in category_posts]
                 for expected_id in expected_ids:
                     self.assertIn(expected_id, all_ids)

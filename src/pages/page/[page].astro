@@ -17,8 +17,8 @@ const { posts, page, total } = Astro.props;
   <header class="page-heading"><p class="eyebrow">The archive</p><h1>Earlier writing.</h1><p>More notes from the notebook.</p></header>
   <PostList posts={posts} />
   <nav class="pagination" aria-label="Pagination">
-    <a href={pageUrl(page - 1)}>← Newer articles</a>
+    <a href={pageUrl(page - 1)}><span class="link-arrow" aria-hidden="true">←</span> Newer articles</a>
     <span>Page {page} of {total}</span>
-    {page < total && <a href={pageUrl(page + 1)}>Older articles →</a>}
+    {page < total && <a href={pageUrl(page + 1)}>Older articles <span class="link-arrow" aria-hidden="true">→</span></a>}
   </nav>
 </Base>

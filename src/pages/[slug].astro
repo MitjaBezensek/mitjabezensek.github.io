@@ -1,7 +1,8 @@
 ---
 import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { getPosts, formatDate, categorySlug, type Post } from '../lib/posts';
+import { categoryTopics } from '../lib/categories';
+import { getPosts, formatDate, type Post } from '../lib/posts';
 export async function getStaticPaths() {
   const posts = await getPosts();
   return posts.map((post, index) => ({
@@ -16,15 +17,15 @@ const { Content } = await render(post);
 <Base title={post.data.title} description={post.data.description} article published={post.data.pubDate}>
   <article class="article blog-post">
     <header class="article-header">
-      <a class="back-link" href="/">← All writing</a>
+      <a class="back-link" href="/"><span class="link-arrow" aria-hidden="true">←</span> All writing</a>
       <div class="article-meta"><time datetime={post.data.pubDate}>{formatDate(post.data.pubDate)}</time><span aria-hidden="true">/</span><span>Mitja Bezenšek</span></div>
       <h1>{post.data.title}</h1>
-      <ul class="tags" aria-label="Categories">{post.data.categories.map((category) => <li><a href={`/blog/categories/${categorySlug(category)}/`}>{category}</a></li>)}</ul>
+      <ul class="tags" aria-label="Categories">{categoryTopics(post.data.categories).map((category) => <li><a href={`/blog/categories/${category.slug}/`}>{category.name}</a></li>)}</ul>
     </header>
     <div class="prose"><Content /></div>
     <nav class="post-navigation" aria-label="Other articles">
-      {older && <a href={older.data.url} rel="prev"><small><span aria-hidden="true">←</span> Earlier article</small><span>{older.data.title}</span></a>}
-      {newer && <a href={newer.data.url} rel="next"><small>More recent article <span aria-hidden="true">→</span></small><span>{newer.data.title}</span></a>}
+      {older && <a href={older.data.url} rel="prev"><small><span class="link-arrow" aria-hidden="true">←</span> Earlier article</small><span>{older.data.title}</span></a>}
+      {newer && <a href={newer.data.url} rel="next"><small>More recent article <span class="link-arrow" aria-hidden="true">→</span></small><span>{newer.data.title}</span></a>}
     </nav>
   </article>
 </Base>

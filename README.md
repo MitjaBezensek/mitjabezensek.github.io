@@ -125,7 +125,9 @@ Edit `src/content/pages/about.md` for the biography and
 `src/pages/about.astro` for its page layout.
 
 The homepage shows five posts per page, newest first. Archives, categories,
-Atom feeds, and the sitemap update automatically. `/atom.xml` contains the
+Atom feeds, and the sitemap update automatically. Category display names live
+in `src/lib/categories.ts`; duplicate Excel tags share one browsing destination,
+while the historical `excel-excel` page and feed remain available. `/atom.xml` contains the
 latest twenty articles; category feeds contain the latest five. Posts have
 no discussion section or third-party comment scripts.
 
@@ -223,8 +225,9 @@ beveled controls, and SVG computer artwork. The header uses a solid cream
 backing for readability.
 The site uses two font families: Fira Code for headings, navigation, and code
 blocks (with contextual ligatures), and Source Sans 3 for reading text.
-Reading text is 16px on desktop and mobile; interface labels and code have
-their own size tokens.
+Reading text is 18px on desktop and 16px on phones, with a 76ch maximum
+reading measure. Functional labels are at least 12px; navigation controls
+have a 44px minimum height. The compact mobile hero keeps writing near the top.
 Fonts are served locally; their SIL Open Font Licenses are
 included in `public/licenses/`. The blue-and-coral palette supports light and dark
 modes. Edit `src/styles/global.css` for theme styling and
@@ -236,8 +239,12 @@ Shared styling values live in the stylesheet's `:root`: `--space-*` for spacing,
 `--text-*` for font sizes, and weight, line-height, and link variables. Ordinary
 text links share the underline, color, and hover rules; navigation buttons and
 article titles have explicit treatments. Homepage and archive title links share
-the `.post-title` class. Palette colors remain in
-`src/lib/theme.ts` and feed the link color variables in either theme.
+the `.post-title` class. Internal navigation uses →; external links use ↗.
+The Writing tab stays active on articles, archives and category pages. Palette colors live only in
+`src/lib/theme.ts`: the theme component generates the no-script CSS defaults
+and applies the selected palette. Shared panel and control shadow tokens retain
+the retro bevels. Page gutters, section spacing and list rows use semantic
+spacing tokens; heading sizes and tracking are shared across page types.
 
 Syntax highlighting uses the custom Shiki theme in `src/lib/syntax-theme.mjs`.
 Its `--code-*` variables in the global stylesheet reference the same palette

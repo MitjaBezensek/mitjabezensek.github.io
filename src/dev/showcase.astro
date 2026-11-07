@@ -10,7 +10,7 @@ import siteIcon from '../assets/site-icon.svg?raw';
 const allPosts = await getPosts();
 const posts = allPosts.slice(0, 2);
 const sampleImage = allPosts.map(post => post.rendered?.html.match(/<picture>[\s\S]*?<\/picture>/)?.[0]).find(Boolean);
-const sections = ['Buttons', 'Links', 'Typography', 'Content', 'Posts', 'Navigation', 'Artwork', 'Tokens'];
+const sections = ['Underlines', 'Buttons', 'Links', 'Typography', 'Content', 'Posts', 'Navigation', 'Artwork', 'Tokens'];
 const colors = ['page', 'paper', 'soft', 'ink', 'muted', 'accent', 'secondary', 'line'];
 const sampleCode = `// A small C# sample for checking syntax colors.
 public static string Describe(int count)
@@ -30,6 +30,18 @@ public static string Describe(int count)
       <ul class="tags showcase-index">{sections.map(section => <li><a href={`#${section.toLowerCase()}`}>{section}</a></li>)}</ul>
     </nav>
 
+    <section id="underlines" class="showcase-section" aria-labelledby="underlines-heading">
+      <h2 id="underlines-heading">Underline experiments</h2>
+      <p class="showcase-note">Same links, six treatments. Hover or tab through; try both themes.</p>
+      <div class="underline-options">
+        {['Solid', 'Dotted', 'Dashed', 'Double', 'Thick + offset', 'Soft highlight'].map((label, index) => <div class={`underline-option option-${index}`}>
+          <span class="showcase-note">0{index + 1} · {label}</span>
+          <a class="sample-title" href="#underlines">Deterministic finite state machine minimization</a>
+          <a class="sample-navigation" href="#underlines">Browse the archive <span class="link-arrow" aria-hidden="true">→</span></a>
+        </div>)}
+      </div>
+    </section>
+
     <section id="buttons" class="showcase-section" aria-labelledby="buttons-heading">
       <h2 id="buttons-heading">Buttons</h2>
       <p class="showcase-note">Default, selected, disabled, and busy. Tab through the controls to check focus; hover to check feedback.</p>
@@ -48,11 +60,11 @@ public static string Describe(int count)
     <section id="links" class="showcase-section" aria-labelledby="links-heading">
       <h2 id="links-heading">Links</h2>
       <div class="showcase-examples">
-        <div class="prose"><p>A paragraph with an <a href="#content">ordinary text link</a> and a <a href="https://example.com/">link to another website ↗</a>.</p></div>
+        <div class="prose"><p>A paragraph with an <a href="#content">ordinary text link</a> and a <a href="https://example.com/">link to another website <span class="link-arrow" aria-hidden="true">↗</span></a>.</p></div>
         <a class="post-title" href="#posts">Article title: a longer heading that can wrap on narrow screens</a>
-        <a class="read-link" href="#posts">Read <span aria-hidden="true">→</span></a>
-        <a class="back-link" href="#links">← All writing</a>
-        <nav class="social-links showcase-row" aria-label="Social link examples"><a href="https://twitter.com/mitjabezensek">Twitter ↗</a><a href="https://www.linkedin.com/in/mitjabezensek/">LinkedIn ↗</a></nav>
+        <a class="read-link" href="#posts">Read <span class="link-arrow" aria-hidden="true">→</span></a>
+        <a class="back-link" href="#links"><span class="link-arrow" aria-hidden="true">←</span> All writing</a>
+        <nav class="social-links showcase-row" aria-label="Social link examples"><a href="https://twitter.com/mitjabezensek">Twitter <span class="link-arrow" aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/mitjabezensek/">LinkedIn <span class="link-arrow" aria-hidden="true">↗</span></a></nav>
       </div>
     </section>
 
@@ -60,7 +72,7 @@ public static string Describe(int count)
       <h2 id="typography-heading">Typography</h2>
       <div class="prose">
         <h1>Heading one</h1><h2>Heading two</h2><h3>Heading three</h3>
-        <p>Body text is 16px Source Sans 3. <strong>Strong emphasis</strong>, <em>italic emphasis</em>, and <code>inline code</code> stay readable in both themes.</p>
+        <p>Reading text uses Source Sans 3: 18px on desktop and 16px on phones. <strong>Strong emphasis</strong>, <em>italic emphasis</em>, and <code>inline code</code> stay readable in both themes.</p>
         <p>Extended Latin: Mitja Bezenšek — č, š, ž, Č, Š, Ž.</p>
       </div>
       <div class="article-meta"><time datetime="2026-01-01">1 January 2026</time><span aria-hidden="true">/</span><span>Article metadata</span></div>
@@ -82,20 +94,20 @@ public static string Describe(int count)
         {sampleImage && <Fragment set:html={sampleImage} />}
         <p class="showcase-note">An actual article image, including the generated responsive source and reserved dimensions.</p>
         <hr />
-        <section class="footnotes" aria-label="Footnote example"><ol><li>A footnote with a <a href="#content">back reference ↩</a>.</li></ol></section>
+        <section class="footnotes" aria-label="Footnote example"><ol><li>A footnote with a <a href="#content">back reference <span class="link-arrow" aria-hidden="true">↩</span></a>.</li></ol></section>
       </div>
     </section>
 
     <section id="posts" class="showcase-section" aria-labelledby="posts-heading">
-      <div class="section-heading"><h2 id="posts-heading"><span class="status-pixel" aria-hidden="true"></span> Article list</h2><a href="/blog/archives/">Browse the archive ↗</a></div>
+      <div class="section-heading"><h2 id="posts-heading"><span class="status-pixel" aria-hidden="true"></span> Article list</h2><a href="/blog/archives/">Browse the archive <span class="link-arrow" aria-hidden="true">→</span></a></div>
       <PostList posts={posts} />
       <section class="archive-year" aria-label="Archive title examples"><h2>2026</h2><ul>{posts.map(post => <li><a class="post-title" href={post.data.url}>{post.data.title}</a><time datetime={post.data.pubDate}>Archive date</time></li>)}</ul></section>
     </section>
 
     <section id="navigation" class="showcase-section" aria-labelledby="navigation-heading">
       <h2 id="navigation-heading">Navigation</h2>
-      <nav class="pagination" aria-label="Pagination example"><a href="#posts">← Newer articles</a><span>Page 2 of 3</span><a href="#posts">Older articles →</a></nav>
-      <nav class="post-navigation" aria-label="Adjacent article examples"><a href="#posts" rel="prev"><small>← Earlier article</small><span>A previous article with a title that can wrap</span></a><a href="#posts" rel="next"><small>More recent article →</small><span>The next article</span></a></nav>
+      <nav class="pagination" aria-label="Pagination example"><a href="#posts"><span class="link-arrow" aria-hidden="true">←</span> Newer articles</a><span>Page 2 of 3</span><a href="#posts">Older articles <span class="link-arrow" aria-hidden="true">→</span></a></nav>
+      <nav class="post-navigation" aria-label="Adjacent article examples"><a href="#posts" rel="prev"><small><span class="link-arrow" aria-hidden="true">←</span> Earlier article</small><span>A previous article with a title that can wrap</span></a><a href="#posts" rel="next"><small>More recent article <span class="link-arrow" aria-hidden="true">→</span></small><span>The next article</span></a></nav>
       <ul class="category-list"><li><a href="#posts"><span>Algorithms</span><span class="category-count">3 articles</span></a></li><li><a href="#posts"><span>Software development</span><span class="category-count">12 articles</span></a></li></ul>
     </section>
 
@@ -125,20 +137,34 @@ public static string Describe(int count)
 </script>
 
 <style>
+  .underline-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); margin-top: var(--space-6); }
+  .underline-option { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); padding: var(--space-4); border: 1px solid var(--line); }
+  .sample-title { font: var(--weight-semibold) var(--text-post)/1.6 var(--mono); color: var(--ink); }
+  .sample-navigation { font: var(--text-label)/1.8 var(--mono); }
+  .underline-option a { text-decoration-line: underline; text-underline-offset: .22em; }
+  .option-1 a { text-decoration-style: dotted; }
+  .option-2 a { text-decoration-style: dashed; }
+  .option-3 a { text-decoration-style: double; }
+  .option-4 a { text-decoration-thickness: 2px; text-underline-offset: .35em; }
+  .option-5 a { text-decoration: none; background: linear-gradient(transparent 70%, var(--selection) 70%); box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .underline-option a:hover { color: var(--accent); }
+  .option-1 a:hover, .option-2 a:hover { text-decoration-style: solid; }
+  @media (max-width: 650px) { .underline-options { grid-template-columns: minmax(0, 1fr); } }
+
   .showcase-page { min-width: 0; }
   .showcase-index { gap: var(--space-2); margin-bottom: var(--space-8); }
   .showcase-section { border-top: 1px solid var(--rule); padding: var(--space-8) 0; scroll-margin-top: var(--space-5); }
   .showcase-section > h2 { margin: 0 0 var(--space-4); font: var(--weight-semibold) var(--text-heading)/var(--leading-ui) var(--mono); }
-  .showcase-note { color: var(--muted); font: var(--text-small)/var(--leading-body) var(--sans); margin: 0; }
+  .showcase-note { color: var(--muted); font: var(--text-label)/var(--leading-body) var(--sans); margin: 0; }
   .showcase-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-top: var(--space-4); }
   .showcase-examples { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); }
   .showcase-examples :global(p), .showcase-examples :global(.back-link) { margin: 0; }
   .showcase-tags, .showcase-wordmark { margin-top: var(--space-4); }
   .showcase-computer { width: min(100%, 288px); margin: var(--space-6) auto; }
   .showcase-swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: var(--space-4); }
-  .showcase-swatch { display: flex; flex-direction: column; gap: var(--space-2); font: var(--text-meta) var(--mono); }
+  .showcase-swatch { display: flex; flex-direction: column; gap: var(--space-2); font: var(--text-caption) var(--mono); }
   .showcase-swatch > span { height: 48px; border: 1px solid var(--line); }
-  .showcase-spacing { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-6); font: var(--text-meta) var(--mono); }
+  .showcase-spacing { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-6); font: var(--text-caption) var(--mono); }
   .showcase-spacing > div { display: flex; flex-direction: column; gap: var(--space-2); }
   .showcase-spacing span { height: 8px; background: var(--accent); }
   @media (max-width: 540px) {

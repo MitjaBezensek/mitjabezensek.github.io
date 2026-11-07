@@ -1,6 +1,8 @@
 ---
 import { darkColors, lightColors } from '../lib/theme';
+const paletteCSS = `:root { ${Object.entries(lightColors).map(([name, value]) => `--${name}: ${value};`).join(' ')} }`;
 ---
+<style is:inline set:html={paletteCSS} />
 <script is:inline define:vars={{ lightColors, darkColors }}>
   const root = document.documentElement;
   function applyColors(colors, dark) {

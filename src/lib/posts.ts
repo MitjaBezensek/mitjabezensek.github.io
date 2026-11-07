@@ -1,4 +1,6 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { categorySlug, categoryLabel } from './categories';
+export { categorySlug } from './categories';
 
 export type Post = CollectionEntry<'posts'>;
 export const SITE = 'https://bezensek.com';
@@ -11,17 +13,13 @@ export async function getPosts(): Promise<Post[]> {
   );
 }
 
-export function categorySlug(category: string): string {
-  return category.toLowerCase().trim().replace(/\s+/g, '-');
-}
-
 export function getCategories(posts: Post[]) {
   const categories = new Map<string, { slug: string; name: string; posts: Post[] }>();
   for (const post of posts) {
     for (const name of new Set(post.data.categories.map(categorySlug))) {
       const category = categories.get(name) ?? {
         slug: name,
-        name: name.replaceAll('-', ' '),
+        name: categoryLabel(name),
         posts: [],
       };
       category.posts.push(post);
