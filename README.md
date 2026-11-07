@@ -269,8 +269,11 @@ The former color-preview page and URL-based palette overrides have been removed.
 ## URL redirects and SEO
 
 Published posts use `/post-name/`. Each original dated URL serves a small
-redirect page with an immediate (zero-second) HTML meta refresh, a canonical
-link to the short URL, and a clickable fallback. Articles, their internal
+redirect page with an early `location.replace()` that preserves query strings
+and fragments without adding a history entry. It also includes an immediate
+(zero-second) HTML meta refresh and a canonical link to the short URL. The page
+stays blank while redirecting; a clickable fallback appears only when JavaScript
+is disabled. Articles, their internal
 links, indexes, feeds, and the sitemap point directly to the short URL.
 Redirect pages are excluded from the sitemap and never duplicate article
 content. Keep the original redirects indefinitely for incoming links.

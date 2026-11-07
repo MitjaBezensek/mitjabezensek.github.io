@@ -17,12 +17,15 @@ const destination = post.data.url;
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <script is:inline define:vars={{ destination }}>
+      window.location.replace(destination + window.location.search + window.location.hash);
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="refresh" content={`0;url=${destination}`} />
     <link rel="canonical" href={`${SITE}${destination}`} />
     <title>{post.data.title} · Moved</title>
   </head>
   <body>
-    <p>This article has moved to <a href={destination}>{post.data.title}</a>.</p>
+    <noscript><p>This article has moved to <a href={destination}>{post.data.title}</a>.</p></noscript>
   </body>
 </html>
