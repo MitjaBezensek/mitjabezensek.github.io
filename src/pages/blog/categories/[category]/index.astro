@@ -1,14 +1,16 @@
 ---
 import Base from '../../../../layouts/Base.astro';
 import PostList from '../../../../components/PostList.astro';
+import { canonicalCategorySlug, categoryDescription } from '../../../../lib/categories';
 import { getPosts, getCategories, type Post } from '../../../../lib/posts';
 export async function getStaticPaths() {
   return getCategories(await getPosts()).map((category) => ({ params: { category: category.slug }, props: category }));
 }
 interface Props { slug: string; name: string; posts: Post[]; }
 const { slug, name, posts } = Astro.props;
+const description = categoryDescription(slug);
 ---
-<Base title={`Category: ${name}`}>
-  <header class="page-heading"><a class="back-link" href="/blog/categories/"><span class="link-arrow" aria-hidden="true">←</span> All categories</a><h1 class="category-title">{name}.</h1><p>{posts.length} {posts.length === 1 ? 'article' : 'articles'} · <a href={`/blog/categories/${slug}/atom.xml`}>Subscribe to this topic <span class="link-arrow" aria-hidden="true">→</span></a></p></header>
+<Base title={`Category: ${name}`} description={description} canonicalPath={`/blog/categories/${canonicalCategorySlug(slug)}/`}>
+  <header class="page-heading"><a class="back-link" href="/blog/categories/"><span class="link-arrow" aria-hidden="true">←</span> All categories</a><h1 class="category-title">{name}.</h1><p>{description}</p><p>{posts.length} {posts.length === 1 ? 'article' : 'articles'} · <a href={`/blog/categories/${canonicalCategorySlug(slug)}/atom.xml`}>Subscribe to this topic <span class="link-arrow" aria-hidden="true">→</span></a></p></header>
   <PostList posts={posts} />
 </Base>

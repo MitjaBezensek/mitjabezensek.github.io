@@ -1,11 +1,14 @@
 import { getPosts, getCategories, PAGE_SIZE, pageUrl, SITE } from '../lib/posts';
+import { canonicalCategorySlug } from '../lib/categories';
 
 export async function GET() {
   const posts = await getPosts();
   const paths = [
     '/', '/about/', '/blog/archives/', '/blog/categories/',
     ...posts.map((post) => post.data.url),
-    ...getCategories(posts).map((category) => `/blog/categories/${category.slug}/`),
+    ...getCategories(posts)
+      .filter((category) => canonicalCategorySlug(category.slug) === category.slug)
+      .map((category) => `/blog/categories/${category.slug}/`),
     ...Array.from({ length: Math.max(0, Math.ceil(posts.length / PAGE_SIZE) - 1) }, (_, index) => pageUrl(index + 2)),
   ];
   return new Response(`<?xml version="1.0" encoding="utf-8"?>

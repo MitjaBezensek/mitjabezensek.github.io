@@ -13,6 +13,7 @@ interface Props {
   article?: boolean;
   published?: string;
   noindex?: boolean;
+  canonicalPath?: string;
 }
 const {
   title,
@@ -20,9 +21,20 @@ const {
   article = false,
   published,
   noindex = false,
+  canonicalPath = Astro.url.pathname,
 } = Astro.props;
 const fullTitle = title ? `${title} · ${AUTHOR}` : AUTHOR;
-const canonical = new URL(Astro.url.pathname, SITE).href;
+const canonical = new URL(canonicalPath, SITE).href;
+const articleSchema = article ? {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: published,
+  mainEntityOfPage: canonical,
+  url: canonical,
+  author: { '@type': 'Person', name: AUTHOR, url: `${SITE}/about/` },
+} : undefined;
 const isWriting = article || Astro.url.pathname === '/' || /^\/page\/\d+\/$/.test(Astro.url.pathname) || Astro.url.pathname.startsWith('/blog/');
 const isAbout = Astro.url.pathname === '/about/';
 ---
@@ -49,6 +61,7 @@ const isAbout = Astro.url.pathname === '/about/';
     <meta property="og:site_name" content={AUTHOR} />
     <meta name="twitter:card" content="summary" />
     {published && <meta property="article:published_time" content={published} />}
+    {articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema).replace(/</g, '\\u003c')} />}
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>

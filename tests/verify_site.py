@@ -101,6 +101,25 @@ def built_posts():
 
 
 class MigrationChecks(unittest.TestCase):
+    def test_excel_alias_consolidates_into_the_main_category(self):
+        alias = Document(output_path('/blog/categories/excel-excel/').read_text())
+        self.assertEqual(alias.canonicals, ['https://bezensek.com/blog/categories/excel/'])
+        sitemap = ET.parse(DIST / 'sitemap.xml').getroot()
+        urls = {el.text for el in sitemap.iter() if el.tag.endswith('}loc')}
+        self.assertIn('https://bezensek.com/blog/categories/excel/', urls)
+        self.assertNotIn('https://bezensek.com/blog/categories/excel-excel/', urls)
+
+    def test_posts_have_article_structured_data(self):
+        for post in built_posts():
+            markup = output_path(post['url']).read_text()
+            schemas = [json.loads(value) for value in re.findall(
+                r'<script type="application/ld\+json">(.*?)</script>', markup, re.S)]
+            article = next(value for value in schemas if value.get('@type') == 'BlogPosting')
+            self.assertEqual(article['headline'], ''.join(post['doc'].h1))
+            self.assertEqual(article['mainEntityOfPage'], post['doc'].canonicals[0])
+            self.assertEqual(article['datePublished'], post['doc'].dates[0])
+            self.assertEqual(article['author']['url'], 'https://bezensek.com/about/')
+
     def test_old_post_urls_redirect_directly_to_short_canonicals(self):
         for post in LEGACY["posts"]:
             with self.subTest(url=post["url"]):
