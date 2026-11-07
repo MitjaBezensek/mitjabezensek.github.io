@@ -7,7 +7,7 @@ import { palettes } from '../src/lib/palettes.ts';
 const markup = readFileSync(new URL('../dist/palettes/index.html', import.meta.url), 'utf8');
 const scripts = [...markup.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map(match => match[1]);
 
-function preview(url, targets, { savedTheme = null, systemDark = false, storageBlocked = false } = {}) {
+function preview(url, targets, { savedTheme = null, systemDark = false, storageBlocked = false, mediaSupport = 'available' } = {}) {
   const links = targets.map(href => ({ href: new URL(href, url).href }));
   const colors = {};
   const ready = [];
@@ -21,7 +21,10 @@ function preview(url, targets, { savedTheme = null, systemDark = false, storageB
   };
   const context = {
     URL, URLSearchParams,
-    window: { location: new URL(url), localStorage, matchMedia: () => ({ matches: systemDark }) },
+    window: { location: new URL(url), localStorage, matchMedia: mediaSupport === 'missing' ? undefined : () => {
+      if (mediaSupport === 'blocked') throw new Error('System preference is unavailable');
+      return { matches: systemDark };
+    } },
     document: {
       documentElement: { style: { setProperty: (name, value) => { colors[name] = value; } }, dataset },
       addEventListener: (_, callback) => ready.push(callback),
@@ -57,12 +60,37 @@ test('unrecognized palettes use the default theme and leave links alone', () => 
   assert.equal(links[0].href, 'https://bezensek.com/about/');
 });
 
-test('new visitors start in light mode even when the system prefers dark', () => {
-  const page = preview('https://bezensek.com/', [], { systemDark: true });
-  assert.equal(page.dataset.paletteMode, 'light');
-  assert.equal(page.colors['--paper'], palettes[0].colors.paper);
-  assert.equal(page.button.hidden, false);
-  assert.equal(page.button.ariaLabel, 'Switch to dark mode');
+test('new visitors follow the system color scheme', () => {
+  for (const systemDark of [false, true]) {
+    const page = preview('https://bezensek.com/', [], { systemDark });
+    assert.equal(page.dataset.paletteMode, systemDark ? 'dark' : 'light');
+    assert.equal(page.button.hidden, false);
+    assert.equal(page.button.ariaLabel, systemDark ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+});
+
+test('unavailable or unreadable system preferences fall back to light', () => {
+  for (const mediaSupport of ['missing', 'blocked']) {
+    const page = preview('https://bezensek.com/', [], { systemDark: true, mediaSupport });
+    assert.equal(page.dataset.paletteMode, 'light');
+    assert.equal(page.colors['--paper'], palettes[0].colors.paper);
+    page.toggle();
+    assert.equal(page.dataset.paletteMode, 'dark');
+  }
+});
+
+test('saved choices override the system preference even when it cannot be read', () => {
+  for (const savedTheme of ['light', 'dark']) {
+    for (const mediaSupport of ['available', 'missing', 'blocked']) {
+      const page = preview('https://bezensek.com/', [], { savedTheme, systemDark: savedTheme === 'light', mediaSupport });
+      assert.equal(page.dataset.paletteMode, savedTheme);
+    }
+  }
+});
+
+test('an unrecognized saved choice follows the system preference', () => {
+  const page = preview('https://bezensek.com/', [], { savedTheme: 'invalid', systemDark: true });
+  assert.equal(page.dataset.paletteMode, 'dark');
 });
 
 test('the switch persists the choice across pages and can switch back', () => {
@@ -81,11 +109,12 @@ test('the switch persists the choice across pages and can switch back', () => {
 });
 
 test('the switch works when browser storage is blocked', () => {
-  const page = preview('https://bezensek.com/', [], { storageBlocked: true });
-  page.toggle();
+  const page = preview('https://bezensek.com/', [], { storageBlocked: true, systemDark: true });
   assert.equal(page.dataset.paletteMode, 'dark');
   page.toggle();
   assert.equal(page.dataset.paletteMode, 'light');
+  page.toggle();
+  assert.equal(page.dataset.paletteMode, 'dark');
 });
 
 test('explicit palette previews take priority over saved dark mode', () => {

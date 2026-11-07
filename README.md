@@ -194,6 +194,10 @@ Astro checker.
 
 ## Theme
 
+The theme follows the system color scheme unless the reader has saved a choice
+with the sun/moon toggle. If the system preference cannot be read, it defaults
+to light mode. Explicit palette previews take priority over both.
+
 Fonts are self-hosted WOFF2 files with metric-matched fallbacks. Only the three
 font faces used above the fold are preloaded; code and italic fonts load when
 needed. Font, CSS, and optimized image filenames change with their contents,
@@ -206,8 +210,7 @@ SVG computer artwork. The header uses a solid cream backing for readability.
 JetBrains Mono is used for headings/navigation, Source Sans 3 for reading text, and
 Fira Code with contextual ligatures for code blocks. Fonts are served locally; their SIL Open Font Licenses are
 included in `public/licenses/`. The blue-and-coral palette supports light and dark
-modes. New visitors start in light mode; the header switch remembers an explicit
-choice for later visits. Edit `src/styles/global.css` for theme styling and
+modes. Edit `src/styles/global.css` for theme styling and
 `src/components/PixelComputer.astro` for the illustration.
 
 `/palettes/` compares five color alternatives on the real homepage. Open a

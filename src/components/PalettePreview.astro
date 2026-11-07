@@ -19,7 +19,14 @@ import { darkColors, palettes } from '../lib/palettes';
   } catch {
     // Storage can be blocked; the switch still works for this page.
   }
-  const dark = savedTheme === 'dark';
+  let dark = savedTheme === 'dark';
+  if (savedTheme !== 'light' && savedTheme !== 'dark') {
+    try {
+      dark = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+    } catch {
+      // Keep the light default if the system preference cannot be read.
+    }
+  }
   if (previewPalette) applyColors(previewPalette.colors, previewPalette.dark);
   else applyColors(dark ? darkColors : palettes[0].colors, dark);
 
