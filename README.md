@@ -234,6 +234,13 @@ text links share the underline, color, and hover rules; navigation buttons and
 post-list titles have explicit treatments. Palette colors remain in
 `src/lib/palettes.ts` and feed the link color variables in either theme.
 
+Syntax highlighting uses the custom Shiki theme in `src/lib/syntax-theme.mjs`.
+Its `--code-*` variables in the global stylesheet reference the same palette
+colors: coral keywords and blue functions, with dedicated teal types, green
+strings, amber constants, and muted comments. The dedicated colors have light
+and dark variants. Code panels use the soft-panel background in light, dark, and
+preview palettes. Publishing checks verify highlighted output and text contrast.
+
 `/palettes/` compares five color alternatives on the real homepage. Open a
 preview to carry that palette through internal article links using a query
 parameter; it does not save a preference or change the default theme. The

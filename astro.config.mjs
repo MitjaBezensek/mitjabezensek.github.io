@@ -1,6 +1,7 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import markdownImages from './integrations/markdown-images.mjs';
 import { readFileSync } from 'node:fs';
+import { syntaxTheme } from './src/lib/syntax-theme.mjs';
 
 function fontVariants(family, faces) {
   const ranges = JSON.parse(readFileSync(new URL(import.meta.resolve(`@fontsource/${family}/unicode.json`)), 'utf8'));
@@ -29,7 +30,7 @@ export default defineConfig({
   ],
   markdown: {
     shikiConfig: {
-      themes: { light: 'github-light', dark: 'github-dark' },
+      theme: syntaxTheme,
       wrap: false,
     },
   },
