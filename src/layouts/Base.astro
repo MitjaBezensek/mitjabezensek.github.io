@@ -47,7 +47,7 @@ const isAbout = Astro.url.pathname === '/about/';
     <div class="site-shell">
       <header class="site-header">
         <a class="wordmark" href="/" aria-label={`${AUTHOR}, home`}>
-          <svg class="site-sprout" viewBox="0 0 24 24" shape-rendering="crispEdges" aria-hidden="true"><path fill="#6d8550" d="M11 10h3v12h-3zM3 3h7v3h3v7H6v-3H3zM17 6h5v7h-3v3h-5V9h3z"/><path fill="#a2b27d" d="M5 5h4v3H5zM17 8h3v3h-3z"/></svg>
+          <svg class="site-computer" viewBox="0 0 24 24" shape-rendering="crispEdges" aria-hidden="true"><path fill="#73637e" d="M1 2h22v16H1zM10 18h4v3h-4zM6 21h12v2H6z"/><path fill="#c5b5ce" d="M3 4h18v12H3z"/><path fill="#faf7ef" d="M5 6h14v8H5z"/><path fill="#644181" d="M7 7h2v2H7zM9 9h2v2H9zM7 11h2v2H7zM12 11h5v2h-5z"/></svg>
           <span>{AUTHOR}<small>Software developer</small></span>
         </a>
         <nav aria-label="Main navigation">
@@ -57,7 +57,7 @@ const isAbout = Astro.url.pathname === '/about/';
         </nav>
       </header>
       <main id="main">
-        <div class="window-bar" aria-hidden="true"><span><span class="status-pixel"></span> bezensek.com / notebook</span><span class="window-marks">─ □ ×</span></div>
+        <div class="window-bar" aria-hidden="true"><span><span class="status-pixel"></span> bezensek.com / dev-notes</span><span class="window-marks">─ □ ×</span></div>
         <div class="window-content"><slot /></div>
       </main>
       <footer class="site-footer">

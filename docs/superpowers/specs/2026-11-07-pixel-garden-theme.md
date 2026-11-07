@@ -1,5 +1,15 @@
 # Pixel garden blog theme
 
+Follow-up: the user requested a software-development/computer theme rather
+than gardening. The current theme uses a pixel monitor logo/favicon and a
+CRT, tower, keyboard, and mouse illustration (`PixelComputer.astro`). All
+gardening copy and plant artwork were removed. The header now has an opaque
+cream panel so the author's name never sits directly on the dotted texture.
+Desktop and 390px mobile previews fit without horizontal overflow; Astro
+check, build, and all eight preservation checks pass. Review found no blockers.
+The original reference and implementation notes below describe the first
+iteration.
+
 The user requested a custom pixel-art theme based on their Greenhouse app at
 localhost:5100. Its pixel-garden skin provides the visual reference: cream
 panels, lavender dotted gutters, beveled borders, violet controls, moss-green
