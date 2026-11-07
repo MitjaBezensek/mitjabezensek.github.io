@@ -15,7 +15,7 @@ authorized a pre-astro snapshot and work on a migration branch.
 
 - Editable source is on `source`, at `1a77db3` before migration.
 - Local annotated tag `pre-astro` preserves that source revision.
-- Work proceeds on `codex/astro-migration`.
+- Work proceeds on `MitjaBezensek/astro-migration`.
 - GitHub Pages currently publishes `/` from `master` using the legacy build.
   Its custom domain is `bezensek.com`; HTTPS enforcement is currently off.
 - Nine posts are published. One additional post has `published: false`, and

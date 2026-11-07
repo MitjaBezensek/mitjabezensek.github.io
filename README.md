@@ -294,7 +294,7 @@ and HTTP should redirect to HTTPS once enforcement is enabled.
 ## First deployment (GitHub Pages)
 
 The existing Pages site serves generated HTML from `master`; editable source
-lives on `source`. The migration is on `codex/astro-migration`. All work is
+lives on `source`. The migration is on `MitjaBezensek/astro-migration`. All work is
 local until explicitly approved for publishing.
 
 When ready to publish:
@@ -311,7 +311,7 @@ When ready to publish:
    pnpm test
    ```
 
-2. Commit any remaining work on `codex/astro-migration`. Skip this first block
+2. Commit any remaining work on `MitjaBezensek/astro-migration`. Skip this first block
    if `git status --short` is empty. Review the staged diff for private writing
    before committing; the repository is public.
 
@@ -325,7 +325,7 @@ When ready to publish:
 
    ```sh
    git switch source
-   git merge --ff-only codex/astro-migration
+   git merge --ff-only MitjaBezensek/astro-migration
    ```
 
 3. In [Settings → Pages](https://github.com/MitjaBezensek/mitjabezensek.github.io/settings/pages),

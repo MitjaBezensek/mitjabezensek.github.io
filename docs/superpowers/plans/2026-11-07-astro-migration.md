@@ -66,7 +66,7 @@ The user's explicit instruction to go ahead authorizes inline execution of the a
 
 ## Result
 
-Completed locally on `codex/astro-migration`. Independent review found no
+Completed locally on `MitjaBezensek/astro-migration`. Independent review found no
 blocking migration issues. The inconsistent pnpm declaration was removed so
 tooling follows the npm lockfile and documented commands.
 
