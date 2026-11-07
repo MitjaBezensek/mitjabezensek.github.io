@@ -1,0 +1,9 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getPosts, getCategories } from '../../../lib/posts';
+const categories = getCategories(await getPosts());
+---
+<Base title="Categories">
+  <header class="page-heading"><p class="eyebrow">Browse by subject</p><h1>Categories.</h1></header>
+  <ul class="category-list">{categories.map((category) => <li><a href={`/blog/categories/${category.slug}/`}><span>{category.name}</span><span class="category-count">{category.posts.length} {category.posts.length === 1 ? 'article' : 'articles'} ↗</span></a></li>)}</ul>
+</Base>

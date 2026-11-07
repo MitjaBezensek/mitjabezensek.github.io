@@ -1,0 +1,10 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPosts, formatDate } from '../../lib/posts';
+const posts = await getPosts();
+const years = [...new Set(posts.map((post) => post.data.pubDate.slice(0, 4)))];
+---
+<Base title="Archives">
+  <header class="page-heading"><p class="eyebrow">The complete notebook</p><h1>Archives.</h1><p>{posts.length} articles, collected in one place.</p></header>
+  {years.map((year) => <section class="archive-year"><h2>{year}</h2><ul>{posts.filter((post) => post.data.pubDate.startsWith(year)).map((post) => <li><a href={post.data.url}>{post.data.title}</a><time datetime={post.data.pubDate.slice(0, 10)}>{formatDate(post.data.pubDate)}</time></li>)}</ul></section>)}
+</Base>

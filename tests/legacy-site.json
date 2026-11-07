@@ -1,0 +1,280 @@
+{
+  "pages": [
+    "about/index.html",
+    "blog/2014/03/06/using-git-with-visual-studio/index.html",
+    "blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model/index.html",
+    "blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround/index.html",
+    "blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons/index.html",
+    "blog/2014/08/05/excel-rgb-color-bug/index.html",
+    "blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/index.html",
+    "blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/index.html",
+    "blog/2015/04/30/powerset-construction/index.html",
+    "blog/2015/05/08/deterministic-finite-state-machine-minimization/index.html",
+    "blog/archives/index.html",
+    "blog/categories/automata/index.html",
+    "blog/categories/blog/index.html",
+    "blog/categories/color/index.html",
+    "blog/categories/csharp/index.html",
+    "blog/categories/dotnet/index.html",
+    "blog/categories/excel-bug/index.html",
+    "blog/categories/excel-excel/index.html",
+    "blog/categories/excel/index.html",
+    "blog/categories/git/index.html",
+    "blog/categories/index.html",
+    "blog/categories/octopress/index.html",
+    "blog/categories/programming/index.html",
+    "blog/categories/social/index.html",
+    "blog/categories/source-control/index.html",
+    "blog/categories/theory-of-computation/index.html",
+    "blog/categories/vsto/index.html",
+    "index.html",
+    "page/2/index.html"
+  ],
+  "feeds": [
+    "atom.xml",
+    "blog/categories/automata/atom.xml",
+    "blog/categories/blog/atom.xml",
+    "blog/categories/color/atom.xml",
+    "blog/categories/csharp/atom.xml",
+    "blog/categories/dotnet/atom.xml",
+    "blog/categories/excel-bug/atom.xml",
+    "blog/categories/excel-excel/atom.xml",
+    "blog/categories/excel/atom.xml",
+    "blog/categories/git/atom.xml",
+    "blog/categories/octopress/atom.xml",
+    "blog/categories/programming/atom.xml",
+    "blog/categories/social/atom.xml",
+    "blog/categories/source-control/atom.xml",
+    "blog/categories/theory-of-computation/atom.xml",
+    "blog/categories/vsto/atom.xml"
+  ],
+  "posts": [
+    {
+      "url": "/blog/2014/03/06/using-git-with-visual-studio/",
+      "title": "Using Git with Visual Studio",
+      "date": [
+        "2014",
+        "03",
+        "06"
+      ],
+      "id": "http://bezensek.com/blog/2014/03/06/using-git-with-visual-studio",
+      "images": [
+        "http://bezensek.com/img/gitflow.png",
+        "http://bezensek.com/img/gitExtensions.png",
+        "http://bezensek.com/img/gitExtensions2.png",
+        "http://www.sourcetreeapp.com/images/sourcetree_hero_win_full_interface_windows.png",
+        "http://bezensek.com/img/sourceTree2.png"
+      ],
+      "code": []
+    },
+    {
+      "url": "/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model/",
+      "title": "The best way to get to know Excel Object Model",
+      "date": [
+        "2014",
+        "03",
+        "24"
+      ],
+      "id": "http://bezensek.com/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model",
+      "images": [
+        "http://bezensek.com/img/enableDeveloperRibbon.png",
+        "http://bezensek.com/img/recordMacro.gif",
+        "http://bezensek.com/img/quickAccess.png"
+      ],
+      "code": []
+    },
+    {
+      "url": "/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround/",
+      "title": "Excel's ActivePane Index property bug and a workaround",
+      "date": [
+        "2014",
+        "07",
+        "23"
+      ],
+      "id": "http://bezensek.com/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround",
+      "images": [
+        "http://bezensek.com/img/ActivePane.gif"
+      ],
+      "code": [
+        "var window = Globals.ThisAddIn.Application.ActiveWindow;\nvar activePane = window.ActivePane;\nMessageBox.Show(activePane.Index.ToString());",
+        "private int GetPaneIndex(){\n    Range selection = Globals.ThisAddIn.Application.Selection;\n    var window = Globals.ThisAddIn.Application.ActiveWindow;\n    var paneCount = window.Panes.Count;\n    if (paneCount == 2){\n        Pane secondPane = window.Panes[2];\n        if (secondPane.ScrollRow > 1\n          && secondPane.VisibleRange.Top < selection.Top)\n            return 2;\n        if (secondPane.ScrollColumn > 1\n          && secondPane.VisibleRange.Left < selection.Left)\n           return 2;\n    }\n    else if (paneCount == 4){\n        Pane secondPane = window.Panes[2];\n        Pane thirdPane = window.Panes[3];\n        if (selection.Left < secondPane.VisibleRange.Left\n          && selection.Top < thirdPane.VisibleRange.Top)\n           return 1;\n        if (selection.Left > secondPane.VisibleRange.Left\n          && selection.Top > thirdPane.VisibleRange.Top)\n           return 4;\n        if (selection.Left > secondPane.VisibleRange.Left )\n           return 2;\n        return 3;\n     }\n     return 1;\n}"
+      ]
+    },
+    {
+      "url": "/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons/",
+      "title": "How to use Add This with Octopress to add social buttons",
+      "date": [
+        "2014",
+        "07",
+        "31"
+      ],
+      "id": "http://bezensek.com/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons",
+      "images": [
+        "http://bezensek.com/img/OriginalSharingButtons.png"
+      ],
+      "code": [
+        "<article class=\"post\" itemscope itemtype=\"http://schema.org/BlogPosting\">\n  {% include article.html %}\n</article>\n{% unless page.sharing == false %}\n  {% include post/sharing.html %}\n{% endunless %}",
+        "<script type=\"text/javascript\"\n  src=\"//s7.addthis.com/js/300/addthis_widget.js#pubid=yourPubId\">\n</script>\n<div class=\"addthis_native_toolbox\"></div>"
+      ]
+    },
+    {
+      "url": "/blog/2014/08/05/excel-rgb-color-bug/",
+      "title": "Excel VSTO RGB Color bug",
+      "date": [
+        "2014",
+        "08",
+        "05"
+      ],
+      "id": "http://bezensek.com/blog/2014/08/05/excel-rgb-color-bug",
+      "images": [
+        "http://bezensek.com/img/chart.png"
+      ],
+      "code": [
+        "Series series = Globals.ThisAddIn.Application.Selection;\nseries.Format.Fill.ForeColor.RGB = Color.Red.ToArgb();",
+        "private void ApplyColorToSeries(){\n    Series series = Globals.ThisAddIn.Application.Selection;\n    series.Format.Fill.ForeColor.RGB = InteropColor(255, 0, 0);\n}\n\npublic int InteropColor(int red, int green, int blue){\n    return Color.FromArgb(blue, green, red).ToArgb();\n}"
+      ]
+    },
+    {
+      "url": "/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number/",
+      "title": "Deterministic finite state machine implementation in C#",
+      "date": [
+        "2014",
+        "08",
+        "13"
+      ],
+      "id": "http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number",
+      "images": [
+        "http://bezensek.com/img/FSM.png",
+        "http://bezensek.com/img/Output.png"
+      ],
+      "code": [
+        "// Declaration\nvar Q = new List<string>{\"q0\", \"q1\", \"q2\"};\nvar Sigma = new List<char>{'a'};\nvar Delta = new List<Transition>{\n    new Transition(\"q0\", 'a', \"q1\"),\n    new Transition(\"q1\", 'a', \"q2\"),\n    new Transition(\"q2\", 'a', \"q1\")\n};\nvar Q0 = \"q0\";\nvar F = new List<string>{\"q0\", \"q2\"};\nvar dFSM = new DeterministicFSM(Q, Sigma, Delta, Q0, F);",
+        "// Asking the machine if certain inputs are a part of it's language\ndFSM.Accepts(\"\");\ndFSM.Accepts(\"a\");\ndFSM.Accepts(\"aa\");",
+        "public class Transition{\n    public string StartState { get; private set; }\n    public char Token { get; private set; }\n    public string EndState { get; private set; }\n\n    public Transition(string startState, char token, string endState){\n        StartState = startState;\n        Token = token;\n        EndState = endState;\n    }\n\n    public override string ToString(){\n        return string.Format(\"({0}, {1}) -> {2}\", StartState, Symbol, EndState);\n    }\n}",
+        "public class DeterministicFSM{\n    private readonly List<string> Q = new List<string>();\n    private readonly List<char> Sigma = new List<char>();\n    private readonly List<Transition> Delta = new List<Transition>();\n    private string Q0;\n    private readonly List<string> F = new List<string>();\n\n    public DeterministicFSM(IEnumerable<string> q, IEnumerable<char> sigma,\n                            IEnumerable<Transition> delta, string q0,\n                            IEnumerable<string> f){\n        Q = q.ToList();\n        Sigma = sigma.ToList();\n        AddTransitions(delta);\n        AddInitialState(q0);\n        AddFinalStates(f);\n    }\n}",
+        "private void AddTransitions(IEnumerable<Transition> transitions){\n    foreach (var transition in transitions.Where(ValidTransition)){\n        Delta.Add(transition);\n    }\n}\n\nprivate bool ValidTransition(Transition transition){\n    return  Q.Contains(transition.StartState) &&\n            Q.Contains(transition.EndState)   &&\n            Sigma.Contains(transition.Symbol) &&\n            !TransitionAlreadyDefined(transition);\n  }\n\n private bool TransitionAlreadyDefined(Transition transition){\n    return Delta.Any(t => t.StartState == transition.StartState &&\n                          t.Symbol == transition.Symbol);\n }",
+        "private void AddInitialState(string q0){\n    if (Q.Contains(q0)){\n        Q0 = q0;\n    }\n}\n\nprivate void AddFinalStates(IEnumerable<string> finalStates){\n    foreach (var finalState in finalStates.Where(\n               finalState => Q.Contains(finalState))){\n        F.Add(finalState);\n    }\n}",
+        "public void Accepts(string input) {\n    var currentState = Q0;\n    var steps = new StringBuilder();\n    foreach (var symbol in input.ToCharArray()) {\n        var transition = Delta.Find(t => t.StartState == currentState &&\n                                         t.Symbol == symbol);\n        if (transition == null) {\n            ConsoleWriter.Failure(\"No transitions for current state and symbol\");\n            ConsoleWriter.Failure(steps);\n           return;\n        }\n        currentState = transition.EndState;\n        steps.Append(transition + \"\\n\");\n    }\n    if (F.Contains(currentState)) {\n        ConsoleWriter.Success(\"Accepted the input with steps:\\n\" + steps);\n        return;\n    }\n    ConsoleWriter.Failure(\"Stopped in state \" + currentState +\n                         \" which is not a final state.\");\n    ConsoleWriter.Failure(steps);\n}",
+        "dFSM.Accepts(\"\");\ndFSM.Accepts(\"a\");\ndFSM.Accepts(\"aa\");\ndFSM.Accepts(\"aaa\");\ndFSM.Accepts(\"aaaa\");"
+      ]
+    },
+    {
+      "url": "/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number/",
+      "title": "Non-deterministic Finite State Machine implementation in C#",
+      "date": [
+        "2015",
+        "04",
+        "12"
+      ],
+      "id": "http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number",
+      "images": [],
+      "code": [
+        "private bool ValidTransition(Transition transition){\n    return  Q.Contains(transition.StartState) &&\n            Q.Contains(transition.EndState) &&\n            Sigma.Contains(transition.Symbol);\n}",
+        "public void Accepts(string input){\n    ConsoleWriter.Success(\"Trying to accept: \" + input);\n\n    if (Accepts(Q0, input, new StringBuilder())){\n        return;\n    }\n    ConsoleWriter.Failure(\"Could not accept the input: \" + input);\n}",
+        "private bool Accepts(string currentState, string input, StringBuilder steps){\n    if (input.Length > 0){\n        var transitions = GetAllTransitions(currentState, input[0]);\n        foreach (var transition in transitions){\n            var currentSteps = new StringBuilder(steps.ToString() + transition);\n            if (Accepts(transition.EndState, input.Substring(1), currentSteps)){\n                return true;\n            }\n        }\n        return false;\n    }\n    if (F.Contains(currentState)){\n        ConsoleWriter.Success(\"Successfully accepted the input \" + input + \" \" +\n                               \"in the final state \" + currentState +\n                               \" with steps:\\n\" + steps);\n        return true;\n    }\n    return false;\n}",
+        "private IEnumerable<Transition> GetAllTransitions(string currentState, char symbol){\n    return Delta.FindAll(t => t.StartState == currentState &&\n                         t.Symbol == symbol);\n}"
+      ]
+    },
+    {
+      "url": "/blog/2015/04/30/powerset-construction/",
+      "title": "Powerset construction in C#",
+      "date": [
+        "2015",
+        "04",
+        "30"
+      ],
+      "id": "http://bezensek.com/blog/2015/04/30/powerset-construction",
+      "images": [
+        "http://bezensek.com/img/PowersetConstruction.png"
+      ],
+      "code": [
+        "public static DFSM Convert(NDFSM nd){\n  var Q = new List<string>();\n  var Sigma = nd.Sigma.ToList();\n  var Delta = new List<Transition>();\n  var Q0 = nd.Q0.ToList();\n  var F = new List<string>();\n  \n  var processed = new List<string>();\n  var queue = new Queue<string>(Q0);\n  while (queue.Count > 0){\n     var setState = queue.Dequeue();\n     processed.Add(setState);\n     Q.Add(setState);\n\n      var statesInCurrentSetState = setState.Split(',').ToList();\n      foreach (var state in statesInCurrentSetState){\n          if (nd.F.Contains(state)){\n              F.Add(setState);\n              break;\n         }\n      }\n      var symbols = nd.Delta\n         .Where(t => statesInCurrentSetState.Contains(t.StartState))\n         .Select(t => t.Symbol)\n         .Distinct();\n      foreach (var symbol in symbols){\n         var reachableStates =\n            nd.Delta\n               .Where(t => t.Symbol == symbol &&\n                           statesInCurrentSetState.Contains(t.StartState))\n               .OrderBy(t => t.EndState)\n               .Select(t => t.EndState);\n         var reachableSetState = string.Join(\",\", reachableStates);\n\n         Delta.Add(new Transition(setState, symbol, reachableSetState));\n\n         if (!processed.Contains(reachableSetState)){\n            queue.Enqueue(reachableSetState);\n         }\n      }\n  }\n  return new DFSM(Q, Sigma, Delta, Q0, F);\n}"
+      ]
+    },
+    {
+      "url": "/blog/2015/05/08/deterministic-finite-state-machine-minimization/",
+      "title": "Deterministic finite state machine minimization",
+      "date": [
+        "2015",
+        "05",
+        "08"
+      ],
+      "id": "http://bezensek.com/blog/2015/05/08/deterministic-finite-state-machine-minimization",
+      "images": [
+        "http://bezensek.com/img/Equivalence.png",
+        "http://bezensek.com/img/Minimization.png"
+      ],
+      "code": [
+        "var reachableStates = new HashSet<string>{Q0};\nvar newStates = new HashSet<string>{Q0};\ndo{\n  var temp = new HashSet<string>();\n  foreach (var q in newStates){\n      foreach (var c in Sigma){\n          var transition = Delta.Find(t => t.StartState == q &&\n                                             t.Symbol == c);\n            if (transition != null){\n              temp.Add(transition.EndState);\n            }\n        }\n    }\n    temp.ExceptWith(reachableStates);\n    newStates = temp;\n    reachableStates.UnionWith(newStates);\n} while (newStates.Count > 0);\nvar unreachableStates = Q.Where(q => !reachableStates.Contains(q));",
+        "foreach (var q in newStates){\n  var reachableFromQ = Delta.FindAll(t => t.StartState == q)\n                            .Select(t => t.EndState);\n    temp.UnionWith(reachableFromQ);\n}",
+        "for (int i = Delta.Count - 1; i >= 0; i--){\n  var transition = Delta[i];\n  if (unreachableStates.Contains(transition.EndState) ||\n      unreachableStates.Contains(transition.StartState)){\n      Delta.Remove(transition);\n    }\n}\nforeach (var unreachableState in unreachableStates){\n  Q.Remove(unreachableState);\n}",
+        "private NDFSM Reverse(DFSM d){\n    var delta = new List<Transition>();\n    foreach (var transition in d.Delta) {\n        delta.Add(new Transition(transition.EndState,\n                                 transition.Symbol,\n                                 transition.StartState));\n    }\n    return new NDFSM(d.Q, d.Sigma, delta, d.F, d.Q0);\n}",
+        "private static DFSM PowersetConstruction(NDFSM ndfsm){\n     var Q = new List<string>();\n     var Sigma = ndfsm.Sigma.ToList();\n     var Delta = new List<Transition>();\n     var Q0 = new List<string> { string.Join(\" \", ndfsm.Q0) };\n     var F = new List<string>();\n\n     var processed = new List<string>();\n     var queue = new Queue<string>();\n     queue.Enqueue(string.Join(\",\", ndfsm.Q0));\n\n     while (queue.Count > 0){\n        var setState = queue.Dequeue();\n        processed.Add(setState);\n        Q.Add(CleanupState(setState));\n\n        var statesInCurrentSetState = setState.Split(',').ToList();\n        foreach (var state in statesInCurrentSetState){\n           if (ndfsm.F.Contains(state)){\n              F.Add(CleanupState(setState));\n              break;\n           }\n        }\n        var symbols = ndfsm.Delta\n           .Where(t => statesInCurrentSetState.Contains(t.StartState))\n           .Select(t => t.Symbol)\n           .Distinct();\n        foreach (var symbol in symbols){\n           var reachableStates =\n              ndfsm.Delta\n                 .Where(t => t.Symbol == symbol &&\n                             statesInCurrentSetState.Contains(t.StartState))\n                 .OrderBy(t => t.EndState).\n                 Select(t => t.EndState);\n           var reachableSetState = string.Join(\",\", reachableStates);\n\n           Delta.Add(new Transition(\n                                    CleanupState(setState),\n                                    symbol,\n                                    CleanupState(reachableSetState)));\n\n           if (!processed.Contains(reachableSetState)){\n              queue.Enqueue(reachableSetState);\n           }\n        }\n     }\n     return new DFSM(Q, Sigma, Delta, Q0, F);\n  }\n\n  private static string CleanupState(string state){\n     return state.Replace(\",\", \" \");\n  }",
+        "public static DFSM MinimizeDFSM(DFSM fsm){\n   var reversedNDFSM = Reverse(fsm);\n   var reversedDFSM = PowersetConstruction(reversedNDFSM);\n   reversedDFSM.RemoveUnreachableStates();\n   var NDFSM = Reverse(reversedDFSM);\n   var DFSM = PowersetConstruction(NDFSM);\n   DFSM.RemoveUnreachableStates();\n   return DFSM;\n}",
+        "public static DFSM MinimizeDFSM(DFSM fsm){\n   var reversedNDFSM = Reverse(fsm);\n   var reversedDFSM = PowersetConstruction(reversedNDFSM);\n   var NDFSM = Reverse(reversedDFSM);\n   return PowersetConstruction(NDFSM);\n}"
+      ]
+    }
+  ],
+  "categoryEntries": {
+    "automata": [
+      "http://bezensek.com/blog/2015/05/08/deterministic-finite-state-machine-minimization",
+      "http://bezensek.com/blog/2015/04/30/powerset-construction",
+      "http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number",
+      "http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number"
+    ],
+    "blog": [
+      "http://bezensek.com/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons"
+    ],
+    "color": [
+      "http://bezensek.com/blog/2014/08/05/excel-rgb-color-bug"
+    ],
+    "csharp": [
+      "http://bezensek.com/blog/2015/05/08/deterministic-finite-state-machine-minimization",
+      "http://bezensek.com/blog/2015/04/30/powerset-construction",
+      "http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number",
+      "http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number"
+    ],
+    "dotnet": [
+      "http://bezensek.com/blog/2015/05/08/deterministic-finite-state-machine-minimization",
+      "http://bezensek.com/blog/2015/04/30/powerset-construction",
+      "http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number",
+      "http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number"
+    ],
+    "excel-bug": [
+      "http://bezensek.com/blog/2014/08/05/excel-rgb-color-bug",
+      "http://bezensek.com/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround"
+    ],
+    "excel-excel": [
+      "http://bezensek.com/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model"
+    ],
+    "excel": [
+      "http://bezensek.com/blog/2014/08/05/excel-rgb-color-bug",
+      "http://bezensek.com/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround",
+      "http://bezensek.com/blog/2014/03/24/the-best-way-to-get-to-know-excel-object-model"
+    ],
+    "git": [
+      "http://bezensek.com/blog/2014/03/06/using-git-with-visual-studio"
+    ],
+    "octopress": [
+      "http://bezensek.com/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons"
+    ],
+    "programming": [
+      "http://bezensek.com/blog/2014/03/06/using-git-with-visual-studio"
+    ],
+    "social": [
+      "http://bezensek.com/blog/2014/07/31/how-to-use-add-this-with-octopress-to-add-social-buttons"
+    ],
+    "source-control": [
+      "http://bezensek.com/blog/2014/03/06/using-git-with-visual-studio"
+    ],
+    "theory-of-computation": [
+      "http://bezensek.com/blog/2015/05/08/deterministic-finite-state-machine-minimization",
+      "http://bezensek.com/blog/2015/04/30/powerset-construction",
+      "http://bezensek.com/blog/2015/04/12/non-deterministic-finite-state-machine-implementation-in-c-number",
+      "http://bezensek.com/blog/2014/08/13/deterministic-finite-state-machine-implementation-in-c-number"
+    ],
+    "vsto": [
+      "http://bezensek.com/blog/2014/07/23/excel-activepane-index-property-bug-and-a-workaround"
+    ]
+  }
+}

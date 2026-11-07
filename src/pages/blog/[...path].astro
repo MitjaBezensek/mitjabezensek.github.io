@@ -1,0 +1,32 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Disqus from '../../components/Disqus.astro';
+import { getPosts, formatDate, categorySlug, type Post } from '../../lib/posts';
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, index) => ({
+    params: { path: post.data.url.replace(/^\/blog\//, '').replace(/\/$/, '') },
+    props: { post, newer: posts[index - 1], older: posts[index + 1] },
+  }));
+}
+interface Props { post: Post; newer?: Post; older?: Post; }
+const { post, newer, older } = Astro.props;
+const { Content } = await render(post);
+---
+<Base title={post.data.title} description={post.data.description} article published={post.data.pubDate}>
+  <article class="article">
+    <header class="article-header">
+      <a class="back-link" href="/">← All writing</a>
+      <div class="article-meta"><time datetime={post.data.pubDate}>{formatDate(post.data.pubDate)}</time><span aria-hidden="true">/</span><span>Mitja Bezenšek</span></div>
+      <h1>{post.data.title}</h1>
+      <ul class="tags" aria-label="Categories">{post.data.categories.map((category) => <li><a href={`/blog/categories/${categorySlug(category)}/`}>{category}</a></li>)}</ul>
+    </header>
+    <div class="prose"><Content /></div>
+    <nav class="post-navigation" aria-label="Other articles">
+      {older && <a href={older.data.url}><small>← Earlier</small>{older.data.title}</a>}
+      {newer && <a href={newer.data.url}><small>More recent →</small>{newer.data.title}</a>}
+    </nav>
+    {post.data.comments && <Disqus url={post.data.url} />}
+  </article>
+</Base>
