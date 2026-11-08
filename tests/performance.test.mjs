@@ -63,20 +63,24 @@ test('optimized animations preserve every frame, timing, and the original GIF fa
 });
 
 test('responsive sources exist and are smaller than their original fallback', async () => {
-  const html = await readFile('dist/about/index.html', 'utf8');
-  for (const [, picture] of html.matchAll(/<picture>([\s\S]*?)<\/picture>/g)) {
-    const image = attributes(picture.match(/<img\b[^>]*>/)[0]);
-    const source = attributes(picture.match(/<source\b[^>]*>/)[0]);
-    const largestWidth = Number(source.srcset.split(',').at(-1).trim().split(/\s+/)[1].slice(0, -1));
-    assert.ok(largestWidth >= Math.min(Number(image.width), 1480), `${image.src}: retain desktop/retina resolution`);
-    for (const candidate of source.srcset.split(',')) {
-      const [path, width] = candidate.trim().split(/\s+/);
-      const info = await sharp(join('dist', path)).metadata();
-      assert.equal(`${info.width}w`, width);
-      assert.ok((await stat(join('dist', path))).size < (await stat(join('dist', image.src))).size);
+  let count = 0;
+  for (const file of files.filter((file) => file.endsWith('.html'))) {
+    const html = await readFile(join('dist', file), 'utf8');
+    for (const [, picture] of html.matchAll(/<picture>([\s\S]*?)<\/picture>/g)) {
+      const image = attributes(picture.match(/<img\b[^>]*>/)[0]);
+      const source = attributes(picture.match(/<source\b[^>]*>/)[0]);
+      const largestWidth = Number(source.srcset.split(',').at(-1).trim().split(/\s+/)[1].slice(0, -1));
+      assert.ok(largestWidth >= Math.min(Number(image.width), 1480), `${file}: ${image.src}: retain desktop/retina resolution`);
+      for (const candidate of source.srcset.split(',')) {
+        const [path, width] = candidate.trim().split(/\s+/);
+        const info = await sharp(join('dist', path)).metadata();
+        assert.equal(`${info.width}w`, width);
+        assert.ok((await stat(join('dist', path))).size < (await stat(join('dist', image.src))).size);
+      }
+      count++;
     }
   }
-  assert.match(html, /<picture>/, 'About uses optimized images');
+  assert.ok(count > 0, 'checked responsive sources in published content');
 });
 
 test('only critical fonts preload, with local WOFF2 files and metric-matched fallbacks', async () => {

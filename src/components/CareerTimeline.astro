@@ -131,7 +131,7 @@ const formatDate = (date: string) => monthYear.format(new Date(`${date}-01T00:00
     <h2 id="career-heading">How I got here.</h2>
   </header>
   <ol class="timeline" role="list">
-    {story.map((experience) => (
+    {story.map((experience, index) => (
       <li class:list={['timeline-stop', { 'is-current': experience.start && !experience.end }]}>
         <article class="experience" id={experience.id}>
           <span class="timeline-dot" aria-hidden="true"></span>
@@ -152,8 +152,8 @@ const formatDate = (date: string) => monthYear.format(new Date(`${date}-01T00:00
         </article>
         <figure class:list={['story-image', experience.imageStyle]}>
           {experience.imageSource ? <a href={experience.imageSource} aria-label={experience.caption}>
-            <img src={experience.image} alt={experience.imageAlt} width={experience.imageWidth} height={experience.imageHeight} loading="lazy" />
-          </a> : <img src={experience.image} alt={experience.imageAlt} width={experience.imageWidth} height={experience.imageHeight} loading="lazy" />}
+            <img src={experience.image} alt={experience.imageAlt} width={experience.imageWidth} height={experience.imageHeight} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+          </a> : <img src={experience.image} alt={experience.imageAlt} width={experience.imageWidth} height={experience.imageHeight} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />}
           <figcaption class="image-caption">
             {experience.caption}
             {experience.credit && <span class="image-credit"><a href={experience.imageSource}>Photo: {experience.credit.author}</a> · <a href={experience.credit.licenseUrl}>{experience.credit.license}</a> · resized, converted to WebP.</span>}
