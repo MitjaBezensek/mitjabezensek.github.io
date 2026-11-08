@@ -21,5 +21,6 @@ test('development showcase and obsolete palette preview are absent from producti
     assert.ok(!body.includes('showcase-page'), `${file}: no development showcase markup or styles`);
     assert.ok(!body.includes('href="/showcase/"'), `${file}: no development navigation link`);
     assert.ok(!body.includes('Showcase interaction example'), `${file}: no development script`);
+    assert.ok(!body.includes('dev-drawer'), `${file}: no development drawer markup, styles, or script`);
   }
 });

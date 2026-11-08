@@ -168,9 +168,6 @@ importers:
 
   .:
     dependencies:
-      '@fontsource/fira-code':
-        specifier: ^5.3.0
-        version: 5.3.0
       '@fontsource/source-sans-3':
         specifier: ^5.3.1
         version: 5.3.1
@@ -441,9 +438,6 @@ packages:
 
   '@emnapi/wasi-threads@2.2.0':
     resolution: {integrity: sha512-JP7OYH38Q7+pyTAe14raZHLQIK7BDKbdwji+Xi3pcd/6QkJYQH3SX4wu6EplGrGJWRepoNzedfm0G3B9Z4e9Rw==}
-
-  '@fontsource/fira-code@5.3.0':
-    resolution: {integrity: sha512-EJL968RJRkakubAj/coU8pSUaeTE5UNoRjtzAr6kGiSZ3jWuN8/AKWHwym/PFUaQL1q7IL/H+EXs4358YhrTBQ==}
 
   '@fontsource/source-sans-3@5.3.1':
     resolution: {integrity: sha512-O3YxvbotUOgYI2Zx0bBcEMNjnwitRf9P2+9pd54sMoux1NHrdXnMwZusw2P78lFhEzOPN4glOEQmX0ASaS68uA==}
@@ -2134,8 +2128,6 @@ snapshots:
     dependencies:
       tslib: 2.9.1
     optional: true
-
-  '@fontsource/fira-code@5.3.0': {}
 
   '@fontsource/source-sans-3@5.3.1': {}
 
