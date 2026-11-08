@@ -1,0 +1,99 @@
+<dialog id="dev-drawer" aria-labelledby="dev-drawer-title">
+  <section class="dev-drawer-panel">
+    <header>
+      <div>
+        <small>LOCAL DEVELOPMENT</small>
+        <h2 id="dev-drawer-title">Dev tools</h2>
+      </div>
+      <form method="dialog"><button aria-label="Close dev tools" autofocus>×</button></form>
+    </header>
+    <nav aria-label="Development pages">
+      <a href="/showcase/">Showcase <span aria-hidden="true">↗</span></a>
+      <a href="/404-preview/">404 <span aria-hidden="true">↗</span></a>
+    </nav>
+    <section aria-labelledby="dev-flags-title">
+      <h3 id="dev-flags-title">Feature flags</h3>
+      <p>No experiments yet.</p>
+    </section>
+    <footer><kbd>Shift</kbd> + <kbd>D</kbd> to toggle · <kbd>Esc</kbd> to close</footer>
+  </section>
+</dialog>
+
+<!-- Inline assets keep the development drawer out of production output. -->
+<style is:inline>
+  #dev-drawer {
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(380px, 100%);
+    height: 100%;
+    height: 100dvh;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    overflow: visible;
+    transform: translateX(100%);
+    transition: transform 200ms ease, display 200ms allow-discrete, overlay 200ms allow-discrete;
+  }
+  #dev-drawer[open] { transform: translateX(0); }
+  #dev-drawer::backdrop {
+    background: rgb(0 0 0 / .35);
+    opacity: 0;
+    transition: opacity 200ms ease, display 200ms allow-discrete, overlay 200ms allow-discrete;
+  }
+  #dev-drawer[open]::backdrop { opacity: 1; }
+  @starting-style {
+    #dev-drawer[open] { transform: translateX(100%); }
+    #dev-drawer[open]::backdrop { opacity: 0; }
+  }
+  #dev-drawer .dev-drawer-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    height: 100%;
+    padding: 24px;
+    overflow-y: auto;
+    background: var(--paper);
+    border-left: 1px solid var(--border);
+    box-shadow: -4px 0 16px rgb(0 0 0 / .15);
+    font: var(--text-body)/var(--leading-ui) var(--sans);
+  }
+  #dev-drawer header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  #dev-drawer h2 { margin: 4px 0 0; font-size: 20px; }
+  #dev-drawer h3 { margin: 0; font-size: 16px; }
+  #dev-drawer small, #dev-drawer footer { color: var(--muted); font-size: 12px; }
+  #dev-drawer nav { display: grid; border-top: 1px solid var(--rule); }
+  #dev-drawer nav a {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+    font: var(--weight-mono) 14px/1.5 var(--mono);
+  }
+  #dev-drawer p { color: var(--muted); font-size: 14px; }
+  #dev-drawer footer { margin-top: auto; }
+  @media (prefers-reduced-motion: reduce) {
+    #dev-drawer, #dev-drawer::backdrop { transition: none; }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const drawer = document.getElementById('dev-drawer');
+    document.addEventListener('keydown', (event) => {
+      if (event.defaultPrevented || event.repeat || event.isComposing ||
+        !event.shiftKey || event.ctrlKey || event.metaKey || event.altKey ||
+        event.key.toLowerCase() !== 'd' ||
+        event.target?.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="textbox"]')) return;
+      event.preventDefault();
+      if (drawer.open) drawer.close();
+      else drawer.showModal();
+    });
+    drawer.addEventListener('click', (event) => {
+      if (event.target === drawer) drawer.close();
+    });
+  })();
+</script>

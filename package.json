@@ -16,7 +16,6 @@
     "test:drafts": "python3 tests/verify_draft_filter.py"
   },
   "dependencies": {
-    "@fontsource/fira-code": "^5.3.0",
     "@fontsource/source-sans-3": "^5.3.1",
     "astro": "7.4.7"
   },

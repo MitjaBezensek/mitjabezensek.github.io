@@ -86,7 +86,7 @@ A future `pubDate` does not schedule a post: only `draft: true` hides it.
 
 Use the post's own title for the page heading; start body sections at `##`.
 Fenced code blocks accept names such as `csharp`, `typescript`, and
-`javascript`. Code blocks use Fira Code.
+`javascript`. Code blocks use Ioskeley Mono.
 
 For an existing post, edit its Markdown file and keep its `url`, publication
 date, and `legacyUrl` unless you intend to change those identities.
@@ -197,6 +197,7 @@ Astro checker.
 | `src/styles/global.css` | Typography, spacing, and shared theme styles. |
 | `src/lib/theme.ts` | Shared light and dark color tokens. |
 | `src/components/ThemeScript.astro` | System theme detection, saved preference, and theme switching. |
+| `src/components/DevDrawer.astro` | Development-only drawer, opened with Shift+D. |
 | `src/dev/showcase.astro` | Development-only component showcase. |
 | `integrations/dev-showcase.mjs` | Registers `/showcase/` only for `pnpm dev`. |
 | `src/components/PixelComputer.astro` | Pixel computer illustration. |
@@ -214,8 +215,8 @@ with the sun/moon toggle. If the system preference cannot be read, it defaults
 to light mode.
 
 Fonts are self-hosted WOFF2 files with metric-matched fallbacks. The heading and
-regular body faces preload four small files for their Latin and extended Latin
-subsets. These cover characters such as `š`; other weights and styles load when needed.
+regular body faces preload three files: Ioskeley Mono Bold and the Latin and
+extended Latin subsets of Source Sans 3. These cover characters such as `š`; other weights and styles load when needed.
 Font, CSS, and optimized image filenames change with their contents,
 allowing cached assets to be reused safely. GitHub Pages sets the HTTP cache
 headers; this repository cannot override them with a `_headers` file.
@@ -223,8 +224,8 @@ headers; this repository cannot override them with a `_headers` file.
 The custom pixel-computer theme uses dotted gutters, ivory reading panels,
 beveled controls, and SVG computer artwork. The header uses a solid cream
 backing for readability.
-The site uses two font families: Fira Code for headings, navigation, and code
-blocks (with contextual ligatures), and Source Sans 3 for reading text.
+The site uses two font families: Ioskeley Mono for headings (700), navigation, and code
+blocks (500, with contextual ligatures), and Source Sans 3 for reading text.
 Reading text is 18px on desktop and 16px on phones, with an 85ch maximum
 reading measure. Functional labels are at least 12px; navigation controls
 have a 44px minimum height. The compact mobile hero keeps writing near the top.
@@ -254,8 +255,13 @@ and dark variants. Code panels use the soft-panel background in both themes. Pub
 
 ### Component showcase
 
-Run `pnpm dev` and open `/showcase/` on the URL Astro prints. The footer links
-to it during development. It includes real buttons and links, state examples,
+Run `pnpm dev` and press **Shift+D** to open the development drawer from the
+right. It links to `/showcase/` and `/404-preview/`, with space for future feature
+flags. Press **Escape**, click the backdrop, or use the close button to dismiss
+it. The shortcut is ignored while typing in form fields or editable content.
+The drawer and its assets are excluded from production.
+
+The showcase includes real buttons and links, state examples,
 typography, article content, post lists, navigation, artwork, and design tokens.
 Use the normal theme switch to compare light and dark appearances.
 

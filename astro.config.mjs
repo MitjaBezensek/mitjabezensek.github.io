@@ -19,9 +19,12 @@ export default defineConfig({
   integrations: [markdownImages(), devShowcase()],
   fonts: [
     {
-      name: 'Fira Code', cssVariable: '--font-mono', provider: fontProviders.local(),
+      name: 'Ioskeley Mono', cssVariable: '--font-mono', provider: fontProviders.local(),
       fallbacks: ['monospace'],
-      options: { variants: fontVariants('fira-code', [[400], [600]]) },
+      options: { variants: [
+        { src: ['./public/fonts/ioskeley-mono/IoskeleyMono-Medium.woff2'], weight: 500, style: 'normal' },
+        { src: ['./public/fonts/ioskeley-mono/IoskeleyMono-Bold.woff2'], weight: 700, style: 'normal' },
+      ] },
     },
     {
       name: 'Source Sans 3', cssVariable: '--font-body', provider: fontProviders.local(),
