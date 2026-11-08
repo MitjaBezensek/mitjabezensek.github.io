@@ -1,13 +1,33 @@
 ---
-import { getEntry, render } from 'astro:content';
+import { getEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import CareerTimeline from '../components/CareerTimeline.astro';
 const page = await getEntry('pages', 'about');
 if (!page) throw new Error('About page is missing');
-const { Content } = await render(page);
 ---
 <Base title={page.data.title} description={page.data.description}>
   <article class="article about">
-    <header class="page-heading"><p class="eyebrow">A little background</p><h1>{page.data.title}.</h1><div class="article-meta">Originally written in 2014.</div></header>
-    <div class="prose"><Content /></div>
+    <header class="page-heading"><p class="eyebrow">A little background</p><h1>{page.data.title}.</h1></header>
+    <div class="prose">
+      <p>I’m Mitja (as in “nice to meet ya”), Chief gardener at <a href="#tldraw">tldraw</a>, formerly an arrow bender. I like figuring out how things work and making things of my own. Over the years, that’s meant researching algorithms, building products, leading teams, and helping run a food blog.</p>
+    </div>
+    <CareerTimeline />
+    <div class="prose personal-note">
+      <h2>Outside of software.</h2>
+      <p>I like to travel and take photos. We write about our trips on <a class="travel-blog-link" href="https://www.gremonekam.si/">Gremo nekam</a>. Closer to home, I cycle, go to the gym, and tend to my garden. So the gardener title isn’t entirely made up.</p>
+      <figure class="travel-photo">
+        <a class="travel-image-link" href="https://www.gremonekam.si/" aria-label="Visit our travel blog, Gremo nekam"><img src="/about/gremonekam-japan.webp" alt="Kyoto’s Golden Pavilion reflected in a pond, surrounded by green trees" width="1000" height="750" loading="lazy" /></a>
+        <figcaption class="image-caption">Kyoto’s Golden Pavilion, from our trip to Japan. <a class="travel-blog-link" href="https://www.gremonekam.si/">More on Gremo nekam ↗</a></figcaption>
+      </figure>
+    </div>
   </article>
 </Base>
+
+<style>
+  .personal-note { margin-top: var(--space-10); padding-top: var(--space-6); border-top: 1px dashed var(--line); }
+  .personal-note h2 { margin-top: 0; }
+  .travel-blog-link { white-space: nowrap; }
+  .travel-photo { margin: var(--space-6) 0 0; }
+  .travel-photo img { width: 100%; margin: 0; border: 1px solid var(--line); box-shadow: var(--shadow-code); }
+  .travel-image-link { display: block; position: relative; }
+</style>

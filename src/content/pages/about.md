@@ -1,6 +1,6 @@
 ---
 title: "About me"
-description: "A brief biography of Mitja Bezenšek, the author of this blog."
+description: "I’m Mitja, Chief gardener at tldraw. A few things I’ve built, learned, and done along the way."
 ---
 
 ## Computers and Gaming

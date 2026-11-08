@@ -1,0 +1,206 @@
+---
+interface CareerEntry {
+  company: string;
+  href?: string;
+  role: string;
+  dates?: string;
+  start?: string;
+  end?: string;
+  id?: string;
+  imageStyle?: 'pixelated' | 'window';
+  description: string;
+  article?: { text: string; href: string };
+  image: string;
+  imageAlt: string;
+  imageSource?: string;
+  imageWidth: number;
+  imageHeight: number;
+  caption: string;
+  credit?: { author: string; license: string; licenseUrl: string };
+}
+
+const story: CareerEntry[] = [
+  {
+    company: 'It started with games',
+    role: 'C64 → Sega Mega Drive → PC',
+    imageStyle: 'pixelated',
+    dates: 'Growing up',
+    description: 'I spent a lot of time playing games on the C64 and Sega Mega Drive. Eventually, I wanted to know how they worked. In high school, Joker, a Slovenian computer magazine, introduced me to programming. Now I could try making things myself.',
+    image: '/about/tyrian.png',
+    imageAlt: 'The game Tyrian',
+    caption: 'Tyrian. Many hours well spent.',
+    imageWidth: 640,
+    imageHeight: 400,
+  },
+  {
+    company: 'Finding my direction',
+    role: 'Computer science · a semester in Denmark',
+    dates: 'College',
+    description: 'Choosing what to study was easy. I went to Ljubljana to study computer science and got especially interested in programming and algorithms. I also spent a semester in Denmark. College went by too quickly, particularly that part.',
+    image: '/about/ljubljana-night.webp',
+    imageAlt: 'Ljubljana at night, with a lit footbridge over the river and the castle glowing above the old town',
+    imageSource: 'https://commons.wikimedia.org/wiki/File:Ljubljanica_banks_night.jpg',
+    caption: 'Ljubljana, where I studied computer science.',
+    credit: { author: 'Aleš Kravos', license: 'CC BY-SA 4.0', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/' },
+    imageWidth: 960,
+    imageHeight: 641,
+  },
+  {
+    company: 'University of Ljubljana',
+    href: 'https://www.fri.uni-lj.si/en',
+    role: 'Junior Researcher & Teaching Assistant',
+    start: '2007-10',
+    end: '2012-09',
+    description: 'After college, I stayed on as a researcher, working on network protocols and multicast routing. I studied how Steiner trees could help route data and co-authored a survey of parallel and distributed algorithms for the problem. I also taught programming, algorithms, and data structures. Teaching wasn’t something I’d pictured myself doing, but I quite enjoyed it.',
+    article: { text: 'survey of parallel and distributed algorithms', href: 'https://doi.org/10.1007/s10766-013-0243-z' },
+    image: '/about/multicast.png',
+    imageAlt: 'A network diagram illustrating application layer multicast',
+    imageSource: 'https://en.wikipedia.org/wiki/Overlay_multicast',
+    caption: 'Multicast: getting the same data to several places.',
+    imageWidth: 810,
+    imageHeight: 391,
+  },
+  {
+    company: 'Zebra BI',
+    href: 'https://zebrabi.com/',
+    role: 'Chief Technology Officer',
+    start: '2012-12',
+    end: '2021-02',
+    description: 'I joined Zebra BI as its first developer and helped build our first product. I chose the technology, worked on product decisions, and handled technical support. Over the next eight years, I helped launch more products and led a team of four developers. By the time I left, the company had grown to around 20 people.',
+    image: '/about/Income-Statement-Actual-vs-Budget-705x382.png',
+    imageAlt: 'Zebra BI waterfall charts comparing income statements with budget',
+    imageSource: 'https://zebrabi.com/',
+    caption: 'Actual vs. budget, in Zebra BI charts.',
+    imageWidth: 705,
+    imageHeight: 382,
+  },
+  {
+    company: 'Vibrant Plate',
+    href: 'https://www.vibrantplate.com/',
+    role: 'Owner · side project',
+    start: '2016-01',
+    description: 'Alongside my day job, I look after the technical side of our food blog: WordPress, design, page speed, and SEO. I also help with photo and video editing. Together, we’ve grown Vibrant Plate to more than 100,000 monthly visitors.',
+    image: '/about/vibrant-plate-stew.webp',
+    imageAlt: 'Tomato and lentil stew with leafy greens and bread in a ceramic bowl',
+    imageSource: 'https://www.vibrantplate.com/',
+    caption: 'Tomato and lentil stew, from our kitchen at Vibrant Plate.',
+    imageWidth: 1000,
+    imageHeight: 667,
+  },
+  {
+    company: 'Pitch',
+    href: 'https://pitch.com/',
+    role: 'Senior Frontend Engineer → Engineering Manager',
+    start: '2021-02',
+    end: '2022-12',
+    description: 'I joined Pitch’s DataViz team to work on charts and tables, including making them render faster. Later, I managed a team of four engineers working on charts, tables, shapes, embeds, and the design panel. I spent more time hiring and mentoring, and helping the team improve how we built things together.',
+    image: '/about/pitch-presentation-maker.webp',
+    imageAlt: 'Pitch’s presentation workspace and mobile dashboard on a purple background',
+    imageSource: 'https://pitch.com/',
+    caption: 'The presentation workspace. Image: Pitch.',
+    imageWidth: 1200,
+    imageHeight: 630,
+  },
+  {
+    company: 'tldraw',
+    id: 'tldraw',
+    imageStyle: 'window',
+    href: 'https://www.tldraw.com/',
+    role: 'Chief gardener · formerly arrow bender',
+    start: '2023-01',
+    description: 'There’s a surprising amount of work behind a canvas you can draw on. I’ve worked on the editor, SDK, and VS Code extension, and helped build the sync engine and the logged-in experience. These days, I’m trying to sneak in a command palette.',
+    image: '/about/tldraw-window.webp',
+    imageAlt: 'The tldraw browser window with a handwritten hello on its white canvas',
+    imageSource: 'https://www.tldraw.com/',
+    caption: 'A quick hello on the canvas. Image: tldraw.',
+    imageWidth: 1200,
+    imageHeight: 676,
+  },
+];
+
+const monthYear = new Intl.DateTimeFormat('en', {
+  month: 'short',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+const formatDate = (date: string) => monthYear.format(new Date(`${date}-01T00:00:00Z`));
+---
+
+<section class="career" aria-labelledby="career-heading" id="career">
+  <header class="career-heading">
+    <h2 id="career-heading">How I got here.</h2>
+  </header>
+  <ol class="timeline" role="list">
+    {story.map((experience) => (
+      <li class:list={['timeline-stop', { 'is-current': experience.start && !experience.end }]}>
+        <article class="experience" id={experience.id}>
+          <span class="timeline-dot" aria-hidden="true"></span>
+          <p class="experience-dates">
+            {experience.start ? <>
+              <time datetime={experience.start}>{formatDate(experience.start)}</time>
+              {' – '}
+              {experience.end ? <time datetime={experience.end}>{formatDate(experience.end)}</time> : <span>now</span>}
+            </> : experience.dates}
+          </p>
+          <h3>{experience.href ? <a href={experience.href}>{experience.company}<span class="link-arrow" aria-hidden="true"> ↗</span></a> : experience.company}</h3>
+          <p class="experience-role">{experience.role}</p>
+          <p class="experience-description">
+            {experience.article ? <>
+              {experience.description.split(experience.article.text)[0]}<a href={experience.article.href}>{experience.article.text}</a>{experience.description.split(experience.article.text)[1]}
+            </> : experience.description}
+          </p>
+        </article>
+        <figure class:list={['story-image', experience.imageStyle]}>
+          {experience.imageSource ? <a href={experience.imageSource} aria-label={experience.caption}>
+            <img src={experience.image} alt={experience.imageAlt} width={experience.imageWidth} height={experience.imageHeight} loading="lazy" />
+          </a> : <img src={experience.image} alt={experience.imageAlt} width={experience.imageWidth} height={experience.imageHeight} loading="lazy" />}
+          <figcaption class="image-caption">
+            {experience.caption}
+            {experience.credit && <span class="image-credit"><a href={experience.imageSource}>Photo: {experience.credit.author}</a> · <a href={experience.credit.licenseUrl}>{experience.credit.license}</a> · resized, converted to WebP.</span>}
+          </figcaption>
+        </figure>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .career { margin-top: var(--space-8); padding-top: var(--space-8); border-top: 1px dashed var(--line); }
+  .career-heading { margin-bottom: var(--space-10); }
+  .career-heading h2 { margin: 0; font-size: var(--text-heading); letter-spacing: var(--tracking-heading); }
+  .timeline { position: relative; list-style: none; padding: 0; margin: 0; }
+  .timeline::before { content: ''; position: absolute; top: 12px; bottom: var(--space-6); left: calc(50% - 1px); border-left: 2px dotted var(--line); }
+  .timeline-stop { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--space-12); align-items: center; padding-bottom: calc(var(--space-10) + var(--space-8)); }
+  .timeline-stop:last-child { padding-bottom: 0; }
+  .experience { position: relative; min-width: 0; grid-column: 1; grid-row: 1; scroll-margin-top: var(--space-8); }
+  .timeline-stop:nth-child(even) .experience { grid-column: 2; }
+  .timeline-dot { position: absolute; top: 7px; right: calc(-1 * var(--space-6) - 5px); width: 10px; height: 10px; border: 2px solid var(--secondary); background: var(--paper); box-shadow: 0 0 0 5px var(--paper); }
+  .timeline-stop:nth-child(even) .timeline-dot { right: auto; left: calc(-1 * var(--space-6) - 5px); }
+  .is-current .timeline-dot { background: var(--accent); border-color: var(--accent); }
+  .story-image { position: relative; margin: 0; min-width: 0; grid-column: 2; grid-row: 1; align-self: center; }
+  .timeline-stop:nth-child(even) .story-image { grid-column: 1; }
+  .story-image > a { display: block; position: relative; }
+  .story-image img { display: block; width: 100%; height: auto; border: 1px solid var(--line); background: #fff; box-shadow: var(--shadow-code); }
+  .story-image.window img { border: 0; background: transparent; box-shadow: none; }
+  .story-image.pixelated img { image-rendering: pixelated; }
+  .image-credit { display: block; margin-top: var(--space-1); }
+  .experience::before { content: ''; position: absolute; top: 11px; right: calc(-1 * var(--space-6)); width: var(--space-4); border-top: 1px dotted var(--line); }
+  .timeline-stop:nth-child(even) .experience::before { right: auto; left: calc(-1 * var(--space-6)); }
+  .experience-dates { margin: 0 0 var(--space-3); color: var(--secondary); font: var(--weight-mono) var(--text-caption)/var(--leading-body) var(--mono); }
+  .experience h3 { margin: 0 0 var(--space-2); font-size: var(--text-prose); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); }
+  .experience h3 a { color: var(--ink); }
+  .experience h3 a:hover { color: var(--accent); }
+  .experience h3 .link-arrow { font-size: var(--text-label); color: var(--secondary); }
+  .experience-role { margin: 0 0 var(--space-3); font-size: var(--text-label); line-height: 1.6; color: var(--muted); }
+  .experience-description { margin: 0; font-size: var(--text-body); line-height: var(--leading-prose); }
+  @media (max-width: 640px) {
+    .timeline::before { left: 4px; }
+    .timeline-stop { display: block; padding-left: var(--space-8); padding-bottom: var(--space-10); }
+    .timeline-dot, .timeline-stop:nth-child(even) .timeline-dot { left: calc(-1 * var(--space-8)); right: auto; }
+    .story-image { display: block; margin: var(--space-5) 0 0; }
+    .experience::before, .timeline-stop:nth-child(even) .experience::before { left: calc(-1 * var(--space-5)); right: auto; width: var(--space-3); }
+  }
+  @media print {
+    .timeline-stop { break-inside: avoid; }
+  }
+</style>

@@ -148,6 +148,7 @@ main, .site-footer { background: var(--paper); border: 1px solid var(--border); 
 .prose h3 { font: var(--weight-semibold) var(--text-post)/var(--leading-heading) var(--mono); margin: var(--space-8) 0 var(--space-4); }
 .prose li { padding-left: .15em; }
 .prose img { display: block; max-width: 100%; height: auto; margin: var(--space-7) auto; }
+.image-caption { margin: var(--space-2) 0 0; color: var(--muted); font: var(--weight-regular) var(--text-caption)/1.6 var(--sans); }
 .prose blockquote { margin: var(--space-6) 0; border-left: 3px solid var(--line); padding: var(--space-4); background: var(--soft); color: var(--muted); }
 .prose blockquote > :first-child { margin-top: 0; }
 .prose blockquote > :last-child { margin-bottom: 0; }
