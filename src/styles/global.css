@@ -70,7 +70,7 @@ body { margin: 0; min-width: 320px; }
 a { color: var(--link-color); text-decoration-line: underline; text-underline-offset: var(--link-underline-offset); text-decoration-thickness: var(--link-underline-thickness); }
 a, a span { text-decoration-style: dashed; text-decoration-color: color-mix(in srgb, currentColor 80%, transparent); }
 a:hover { color: var(--link-hover-color); }
-.link-arrow { position: relative; top: -.12em; }
+.link-arrow { vertical-align: .12em; }
 a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 ::selection { background: var(--selection); color: var(--ink); }
 h1, h2, h3 { font-family: var(--mono); }
