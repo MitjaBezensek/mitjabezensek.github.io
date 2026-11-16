@@ -8,8 +8,6 @@ Personal blog built with Astro and Markdown, published at
 - [Publish an update](#publishing-updates)
 - [Find files](#repository-map)
 - [Handle private drafts](#draft-privacy)
-- [Configure the domain and HTTPS](#domain-and-https)
-- [Configure GitHub Pages](#github-pages-configuration)
 
 ## Local development
 
@@ -84,7 +82,7 @@ A future `pubDate` does not schedule a post: only `draft: true` hides it.
 
 Use the post's own title for the page heading; start body sections at `##`.
 Fenced code blocks accept names such as `csharp`, `typescript`, and
-`javascript`. Code blocks use Ioskeley Mono.
+`javascript`.
 
 For an existing post, edit its Markdown file and keep its `url`, publication
 date, and `legacyUrl` unless you intend to change those identities.
@@ -108,14 +106,9 @@ Reference them using a root-relative URL and descriptive alternative text:
 Everything in `public/` is copied to the live site, even if the post using it
 is a draft. Keep private draft assets outside that directory until publishing.
 
-Images in Markdown get width and height automatically, so they reserve their
-space before loading. The first image loads normally; subsequent images use
-native lazy loading and asynchronous decoding. Builds create responsive WebP
-alternatives under `public/_images/` when they are smaller, preserving animation
-and keeping the original files and URLs as fallbacks. This generated directory
-is ignored by Git; continue adding images to `public/img/` as usual. Replacing
-an image restarts the development server automatically to refresh its metadata
-and optimized copies.
+Markdown images get dimensions and responsive alternatives automatically,
+with animation and original files preserved. Generated files in
+`public/_images/` are ignored by Git; add originals to `public/img/`.
 
 ### About and automatic pages
 
@@ -124,10 +117,7 @@ Edit `src/content/pages/about.md` for the biography and
 
 The homepage shows five posts per page, newest first. Archives, categories,
 Atom feeds, and the sitemap update automatically. Category display names live
-in `src/lib/categories.ts`; duplicate Excel tags share one browsing destination,
-while the historical `excel-excel` page and feed remain available. `/atom.xml` contains the
-latest twenty articles; category feeds contain the latest five. Posts have
-no discussion section or third-party comment scripts.
+in `src/lib/categories.ts`.
 
 ## Publishing updates
 
@@ -163,8 +153,6 @@ After deployment, verify the changed page on [bezensek.com](https://bezensek.com
 Use pnpm for dependency changes too: `pnpm add` for runtime dependencies and
 `pnpm add -D` for development tools. Commit `package.json` and
 `pnpm-lock.yaml` together, plus `pnpm-workspace.yaml` if its settings change.
-The workspace file includes a scoped dependency fix required by the current
-Astro checker.
 
 ## Repository map
 
@@ -184,94 +172,31 @@ Astro checker.
 | `integrations/dev-showcase.mjs` | Registers `/showcase/` only for `pnpm dev`. |
 | `src/components/PixelComputer.astro` | Pixel computer illustration. |
 | `src/lib/posts.ts` | Site identity, post ordering, categories, and page size. |
-| `tests/` | Migration preservation, theme, and draft checks. |
-| `scripts/deploy.mjs` | Local verification and publishing shortcut for the `source` branch. |
+| `tests/` | Content, theme, image, and publishing checks. |
 | `.github/workflows/pages.yml` | Automated checks and GitHub Pages deployment. |
 | `assets/`, `references/` | Original working material; excluded from the built site. |
 | `dist/` | Generated production site; do not edit it. |
 
-## Theme
+## Theme and components
 
-The theme follows the system color scheme unless the reader has saved a choice
-with the sun/moon toggle. If the system preference cannot be read, it defaults
-to light mode.
+The site follows the system color scheme unless the reader saves a choice
+with the theme toggle. Fonts are self-hosted; licenses are in `public/licenses/`.
 
-Fonts are self-hosted WOFF2 files with metric-matched fallbacks. The heading and
-regular body faces preload three files: Ioskeley Mono Bold and the Latin and
-extended Latin subsets of Source Sans 3. These cover characters such as `š`; other weights and styles load when needed.
-Font, CSS, and optimized image filenames change with their contents,
-allowing cached assets to be reused safely. GitHub Pages sets the HTTP cache
-headers; this repository cannot override them with a `_headers` file.
+- `src/styles/global.css`: typography, spacing, and shared styles.
+- `src/lib/theme.ts`: light and dark palette colors.
+- `src/lib/syntax-theme.mjs`: code highlighting.
+- `src/components/PixelComputer.astro`: homepage illustration.
+- `src/assets/site-icon.svg`: header icon and favicon.
 
-The custom pixel-computer theme uses dotted gutters, ivory reading panels,
-beveled controls, and SVG computer artwork. The header uses a solid cream
-backing for readability.
-The site uses two font families: Ioskeley Mono for headings (700), navigation, and code
-blocks (500, with contextual ligatures), and Source Sans 3 for reading text.
-Reading text is 18px on desktop and 16px on phones, with an 85ch maximum
-reading measure. Functional labels are at least 12px; navigation controls
-have a 44px minimum height. The compact mobile hero keeps writing near the top.
-Fonts are served locally; their SIL Open Font Licenses are
-included in `public/licenses/`. The blue-and-coral palette supports light and dark
-modes. Edit `src/styles/global.css` for theme styling and
-`src/components/PixelComputer.astro` for the illustration.
-The header icon and favicon share `src/assets/site-icon.svg`. The header follows
-the selected site palette; the standalone favicon adapts to the system theme.
+During `pnpm dev`, press **Shift+D** for the development drawer. It links to
+`/showcase/` for components and design tokens, and `/404-preview/` for the error
+page. These tools are excluded from production builds.
 
-Shared styling values live in the stylesheet's `:root`: `--space-*` for spacing,
-`--text-*` for font sizes, and weight, line-height, and link variables. Ordinary
-text links share the underline, color, and hover rules; navigation buttons and
-article titles have explicit treatments. Homepage and archive title links share
-the `.post-title` class. Internal navigation uses →; external links use ↗.
-The Writing tab stays active on articles, archives and category pages. Palette colors live only in
-`src/lib/theme.ts`: the theme component generates the no-script CSS defaults
-and applies the selected palette. Shared panel and control shadow tokens retain
-the retro bevels. Page gutters, section spacing and list rows use semantic
-spacing tokens; heading sizes and tracking are shared across page types.
+## URL redirects
 
-Syntax highlighting uses the custom Shiki theme in `src/lib/syntax-theme.mjs`.
-Its `--code-*` variables in the global stylesheet reference the same palette
-colors: coral keywords and blue functions, with dedicated teal types, green
-strings, amber constants, and muted comments. The dedicated colors have light
-and dark variants. Code panels use the soft-panel background in both themes. Publishing checks verify highlighted output and text contrast.
-
-### Component showcase
-
-Run `pnpm dev` and press **Shift+D** to open the development drawer from the
-right. It links to `/showcase/` and `/404-preview/`, with space for future feature
-flags. Press **Escape**, click the backdrop, or use the close button to dismiss
-it. The shortcut is ignored while typing in form fields or editable content.
-The drawer and its assets are excluded from production.
-
-The showcase includes real buttons and links, state examples,
-typography, article content, post lists, navigation, artwork, and design tokens.
-Use the normal theme switch to compare light and dark appearances.
-
-The showcase route is registered only by the dev server. Production builds
-exclude its page, styles, and interaction script entirely; `pnpm preview` and
-the live site return 404 for `/showcase/`. The source is still tracked in this
-public repository. Publishing checks enforce production exclusion.
-
-The former color-preview page and URL-based palette overrides have been removed.
-
-## URL redirects and SEO
-
-Published posts use `/post-name/`. Each original dated URL serves a small
-redirect page with an early `location.replace()` that preserves query strings
-and fragments without adding a history entry. It also includes an immediate
-(zero-second) HTML meta refresh and a canonical link to the short URL. The page
-stays blank while redirecting; a clickable fallback appears only when JavaScript
-is disabled. Articles, their internal
-links, indexes, feeds, and the sitemap point directly to the short URL.
-Redirect pages are excluded from the sitemap and never duplicate article
-content. Keep the original redirects indefinitely for incoming links.
-
-An HTTP **301 Moved Permanently** is the usual choice for this move, but
-GitHub Pages cannot set custom redirect response headers. These redirect
-pages therefore return HTTP 200, not an actual 301. Google treats an immediate
-meta refresh as a permanent redirect; see [Google’s redirect guidance](https://developers.google.com/search/docs/crawling-indexing/301-redirects).
-True HTTP 301 responses would require a proxy in front of GitHub Pages or a
-host supporting redirect rules. HTTP 304 is a caching response, not a redirect.
+Posts use `/post-name/`. Keep existing `legacyUrl` values: they preserve dated
+redirects and Atom entry IDs. New posts do not need them. Redirects preserve
+query strings and fragments and stay out of the sitemap.
 
 ## Draft privacy
 
@@ -291,35 +216,11 @@ diagrams. They are preserved in the repository and never copied into the site.
 Only `dist/` is uploaded to Pages. Keep secrets in ignored `.env` files, never
 in `public/` or variables prefixed with `PUBLIC_`.
 
-## Migration checks
+## Tests
 
-`tests/legacy-site.json` records the pre-migration generated site. Verification
-covers legacy routes and redirect destinations, post titles, publication dates,
-code examples, images, feed IDs, category membership, internal links, HTTPS
-metadata, and draft exclusion. New articles are supported without changing the
-fixture; intentional changes to historical content may require fixture updates.
+Run `pnpm test` after building. Tests cover content and links, redirects,
+feeds, themes, fonts, images, and publishing safeguards. `pnpm run test:drafts`
+also checks draft exclusion and image-cache invalidation with temporary content.
 
-Additional checks cover theme switching, font coverage, image loading and
-animation preservation, syntax contrast, and deployment safeguards. All run
-through `pnpm test`; build first. `pnpm run test:drafts` also verifies draft
-exclusion and image-cache invalidation using temporary content.
-
-## Domain and HTTPS
-
-The custom domain is configured in [GitHub Pages settings](https://github.com/MitjaBezensek/mitjabezensek.github.io/settings/pages).
-For domain changes, follow [GitHub’s DNS configuration guide](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)
-and update `site` in `astro.config.mjs` and `SITE` in `src/lib/posts.ts`.
-Enable **Enforce HTTPS** after GitHub provisions the domain’s certificate.
-
-## GitHub Pages configuration
-
-The repository’s default and publishing branch is `source`. The workflow in
-`.github/workflows/pages.yml` builds Astro and publishes only `dist/`.
-
-The required repository settings are:
-
-- **Settings → Pages → Source:** GitHub Actions.
-- **Settings → Environments → github-pages:** allow the `source` branch.
-- **Settings → Pages → Custom domain:** the site’s domain, with Enforce HTTPS enabled.
-
-For updates, follow the [PR workflow](#publishing-updates).
+`tests/legacy-site.json` preserves existing article identities and content.
+Intentional edits to those articles may require fixture updates; new posts do not.
