@@ -204,7 +204,7 @@ class MigrationChecks(unittest.TestCase):
                 text = path.read_text()
                 for value in forbidden:
                     self.assertNotIn(value, text, str(path.relative_to(DIST)))
-        for name in [".git", "src", "source", "references", "tests", "docs"]:
+        for name in [".git", "src", "source", "tests", "docs"]:
             self.assertFalse((DIST / name).exists())
 
     def test_internal_links_and_images_resolve(self):

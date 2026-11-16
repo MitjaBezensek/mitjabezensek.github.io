@@ -16,6 +16,7 @@ interface CareerEntry {
   imageWidth: number;
   imageHeight: number;
   caption: string;
+  captionLink?: { text: string; href: string };
   credit?: { author: string; license: string; licenseUrl: string };
 }
 
@@ -71,6 +72,7 @@ const story: CareerEntry[] = [
     imageAlt: 'Zebra BI waterfall charts comparing income statements with budget',
     imageSource: 'https://zebrabi.com/',
     caption: 'Actual vs. budget, in Zebra BI charts.',
+    captionLink: { text: 'Zebra BI', href: 'https://zebrabi.com/' },
     imageWidth: 705,
     imageHeight: 382,
   },
@@ -155,7 +157,9 @@ const formatDate = (date: string) => monthYear.format(new Date(`${date}-01T00:00
             <img src={experience.image} alt={experience.imageAlt} width={experience.imageWidth} height={experience.imageHeight} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
           </a> : <img src={experience.image} alt={experience.imageAlt} width={experience.imageWidth} height={experience.imageHeight} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />}
           <figcaption class="image-caption">
-            {experience.caption}
+            {experience.captionLink ? <>
+              {experience.caption.split(experience.captionLink.text)[0]}<a href={experience.captionLink.href}>{experience.captionLink.text}</a>{experience.caption.split(experience.captionLink.text)[1]}
+            </> : experience.caption}
             {experience.credit && <span class="image-credit"><a href={experience.imageSource}>Photo: {experience.credit.author}</a> · <a href={experience.credit.licenseUrl}>{experience.credit.license}</a> · resized, converted to WebP.</span>}
           </figcaption>
         </figure>

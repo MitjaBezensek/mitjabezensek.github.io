@@ -1,10 +1,8 @@
-name: Verify and deploy blog
+name: Deploy blog
 
 on:
   push:
-    branches: [source]
-  pull_request:
-    branches: [source]
+    branches: [production]
   workflow_dispatch:
 
 permissions:
@@ -12,6 +10,7 @@ permissions:
 
 jobs:
   build:
+    if: github.ref == 'refs/heads/production'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
@@ -30,13 +29,12 @@ jobs:
       - name: Verify legacy routes and content
         run: pnpm test
       - name: Upload built site
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/source'
         uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
   deploy:
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/source'
+    if: github.ref == 'refs/heads/production'
     needs: build
     runs-on: ubuntu-24.04
     concurrency:

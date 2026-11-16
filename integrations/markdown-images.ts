@@ -1,3 +1,6 @@
+import type { AstroIntegration } from 'astro';
+import type { SatteriProcessorOptions } from '@astrojs/markdown-satteri';
+
 import { createHash } from 'node:crypto';
 import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { isAbsolute, relative, resolve } from 'node:path';
@@ -6,16 +9,16 @@ import sharp from 'sharp';
 import { satteri } from '@astrojs/markdown-satteri';
 
 // Keep the original public URLs as fallbacks; generate content-addressed WebP alternatives.
-export default function markdownImages() {
-  let publicDir;
-  let pipelineKey;
-  let watchImage;
-  const prepared = new Map();
-  const sources = new Map();
-  const watched = new Set();
+export default function markdownImages(): AstroIntegration {
+  let publicDir: string;
+  let pipelineKey: Buffer;
+  let watchImage: (path: string | URL) => void;
+  const prepared = new Map<string, ReturnType<typeof optimize>>();
+  const sources = new Map<string, string>();
+  const watched = new Set<string>();
   const sizes = '(max-width: 540px) calc(100vw - 66px), (max-width: 760px) calc(100vw - 90px), (max-width: 898px) calc(100vw - 158px), 740px';
 
-  async function prepare(src) {
+  async function prepare(src: unknown) {
     if (typeof src !== 'string' || !src.startsWith('/') || src.startsWith('//')) return;
     const pathname = decodeURIComponent(new URL(src, 'https://local.invalid').pathname);
     if (!/\.(png|jpe?g|gif|webp)$/i.test(pathname)) return;
@@ -33,7 +36,7 @@ export default function markdownImages() {
     return prepared.get(hash);
   }
 
-  async function optimize(input, hash) {
+  async function optimize(input: Buffer, hash: string) {
     const metadata = await sharp(input, { animated: true }).metadata();
     const width = metadata.width;
     const height = metadata.pageHeight ?? metadata.height;
@@ -56,13 +59,13 @@ export default function markdownImages() {
     return { width, height, srcset: candidates.join(', ') };
   }
 
-  function imagePlugin(assetKey) {
+  function imagePlugin(assetKey: string): NonNullable<SatteriProcessorOptions['hastPlugins']>[number] {
     return {
       name: `public-image-loading-${assetKey}`,
       element: {
         filter: ['img'],
         async visit(node, ctx) {
-          const imageIndex = ctx.data.publicImageIndex ?? 0;
+          const imageIndex = typeof ctx.data.publicImageIndex === 'number' ? ctx.data.publicImageIndex : 0;
           ctx.data.publicImageIndex = imageIndex + 1;
           const image = await prepare(node.properties.src);
           if (!image) return;

@@ -7,3 +7,4 @@ public/_images/
 .env
 .env.*
 !.env.example
+superpowers/

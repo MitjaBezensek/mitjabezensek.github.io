@@ -3,23 +3,27 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
 
+type TestEvent = { target: unknown } & Partial<Pick<KeyboardEvent,
+  "key" | "shiftKey" | "ctrlKey" | "metaKey" | "altKey" | "repeat" | "isComposing" | "defaultPrevented" | "preventDefault">>;
+type Handler = (event: TestEvent) => void;
+
 function setup() {
   const source = readFileSync('src/components/DevDrawer.astro', 'utf8');
-  const script = source.match(/<script is:inline>([\s\S]*?)<\/script>/)[1];
-  const listeners = {};
+  const script = source.match(/<script is:inline>([\s\S]*?)<\/script>/)![1];
+  const listeners: Record<string, Handler> = {};
   const drawer = {
     open: false,
     showModal() { this.open = true; },
     close() { this.open = false; },
-    addEventListener(type, handler) { listeners[`drawer:${type}`] = handler; },
+    addEventListener(type: string, handler: Handler) { listeners[`drawer:${type}`] = handler; },
   };
   vm.runInNewContext(script, {
     document: {
       getElementById: () => drawer,
-      addEventListener(type, handler) { listeners[type] = handler; },
+      addEventListener(type: string, handler: Handler) { listeners[type] = handler; },
     },
   });
-  const key = (overrides = {}) => listeners.keydown({
+  const key = (overrides: Partial<TestEvent> = {}) => listeners.keydown({
     key: 'D', shiftKey: true, target: { closest: () => null },
     preventDefault() {}, ...overrides,
   });
