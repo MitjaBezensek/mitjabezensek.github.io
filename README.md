@@ -33,8 +33,8 @@ Markdown, components, or styles. Stop it with Ctrl+C.
 | `pnpm run check` | Check Astro and TypeScript. |
 | `pnpm build` | Generate the static site in `dist/`. |
 | `pnpm preview` | Serve the existing production build locally. |
-| `pnpm run deploy` | Verify committed work on `source` and push it to trigger GitHub Pages. |
-| `pnpm run deploy --dry-run` | Run deployment checks and print the push step without publishing. |
+| `pnpm run deploy` | Legacy direct-publish helper; not part of the PR workflow. Only Mitja may deploy. |
+| `pnpm run deploy --dry-run` | Check the legacy publishing path on `source` without pushing; use the checks below on feature branches. |
 | `pnpm test` | Verify the built site, themes, image loading, animation integrity, and font setup; build first. |
 | `pnpm run test:drafts` | Verify draft exclusion, new posts, and image replacement cache invalidation, then leave a normal build. |
 
@@ -133,50 +133,60 @@ no discussion section or third-party comment scripts.
 
 ## Publishing updates
 
-Use `source`, the repository’s default branch, for writing and publishing.
-Start a writing session with:
+Work on a `mitja/<topic>` branch and open a pull request targeting `source`,
+the repository’s default and publishing branch. Keep independent work in
+separate branches/worktrees when multiple changes are in progress.
+
+Start from the latest published source:
 
 ```sh
-git switch source
-git pull --ff-only origin source
+git fetch origin
+git switch -c mitja/my-new-post origin/source
+pnpm install --frozen-lockfile
 ```
 
-Edit and preview your post. Stage the post and its images, review the diff,
-commit, and deploy:
+Edit and preview with `pnpm dev`. Before opening a PR, run the same checks
+as GitHub Actions:
+
+```sh
+pnpm run check
+pnpm run test:drafts
+pnpm test
+```
+
+`test:drafts` verifies draft exclusion and leaves a normal production build
+in `dist/`. Use `pnpm preview` to inspect that build locally.
+
+Stage only the intended files, review the diff, commit, and open a PR:
 
 ```sh
 git add src/content/posts/my-new-post.md public/img/my-new-post/
 git diff --cached
-git commit -m "Publish my new post"
-pnpm run deploy
+git commit -m "Add my new post"
+git push -u origin mitja/my-new-post
+gh pr create --base source
 ```
 
-Use your actual filenames and omit the image directory if there are no new
-images. For edits to About or other files, stage those paths instead.
-Keep commit messages focused on the change, such as `Fix a code example in
-powerset construction` or `Update the About biography`.
+Use your actual branch and filenames; omit the image directory if there are
+no new images. For homepage, About, or other changes, stage those paths instead.
+Pull requests run checks without deploying.
 
-`pnpm run deploy` requires a clean `source` branch. It fetches `origin/source`,
-stops if your branch is behind or has diverged, then runs `check`, `test:drafts`,
-and `test`. After checking that the branch, commit, and working tree still match,
-it pushes only the verified commit to `source`, without tags. It does not stage
-or commit files for you. GitHub Actions then builds and publishes the site.
-
-To run the same verification without pushing:
-
-```sh
-pnpm run deploy --dry-run
-```
-
-Use `pnpm run deploy` in full: `pnpm deploy` is pnpm's separate built-in
-command for packaging workspace dependencies.
-
-A push to `source` runs **Verify and deploy blog** in
+**Mitja reviews and merges the PR on GitHub.** Merging into `source` triggers
+**Verify and deploy blog** in
 [GitHub Actions](https://github.com/MitjaBezensek/mitjabezensek.github.io/actions).
 It installs locked dependencies, checks, builds, tests, and deploys only
-`dist/`. Pull requests targeting `source` run checks without deploying.
-Wait for a successful deployment, then check the changed page on
-[bezensek.com](https://bezensek.com).
+`dist/` to GitHub Pages. After a successful deployment, check the changed page
+on [bezensek.com](https://bezensek.com).
+
+Only Mitja may deploy, merge publishing PRs, or trigger/rerun deployment
+workflows. Agents may prepare branches, run local checks, and open PRs;
+they must not push directly to `source` or run a live deployment.
+
+Current workflow decision (2026-11-16, Mitja’s branch and deployment
+instructions): PRs into `source` supersede the previous direct-commit and
+`pnpm run deploy` publishing instructions. The legacy helper remains in the
+repository but is not part of this workflow. Do not merge into local `main`
+or use it for publishing.
 
 Use pnpm for dependency changes too: `pnpm add` for runtime dependencies and
 `pnpm add -D` for development tools. Commit `package.json` and
@@ -340,6 +350,7 @@ The required repository settings are:
 - **Settings → Environments → github-pages:** allow the `source` branch.
 - **Settings → Pages → Custom domain:** the site’s domain, with Enforce HTTPS enabled.
 
-For updates, commit your changes on `source` and run `pnpm run deploy`.
+For updates, follow the [PR workflow](#publishing-updates) above. Mitja merges
+the PR into `source` to trigger deployment.
 Check the deployment in [GitHub Actions](https://github.com/MitjaBezensek/mitjabezensek.github.io/actions),
 then verify the changed page on the live site.
