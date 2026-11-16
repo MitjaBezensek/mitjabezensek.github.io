@@ -33,8 +33,6 @@ Markdown, components, or styles. Stop it with Ctrl+C.
 | `pnpm run check` | Check Astro and TypeScript. |
 | `pnpm build` | Generate the static site in `dist/`. |
 | `pnpm preview` | Serve the existing production build locally. |
-| `pnpm run deploy` | Legacy direct-publish helper; not part of the PR workflow. Only Mitja may deploy. |
-| `pnpm run deploy --dry-run` | Check the legacy publishing path on `source` without pushing; use the checks below on feature branches. |
 | `pnpm test` | Verify the built site, themes, image loading, animation integrity, and font setup; build first. |
 | `pnpm run test:drafts` | Verify draft exclusion, new posts, and image replacement cache invalidation, then leave a normal build. |
 
@@ -133,11 +131,7 @@ no discussion section or third-party comment scripts.
 
 ## Publishing updates
 
-Work on a `mitja/<topic>` branch and open a pull request targeting `source`,
-the repository’s default and publishing branch. Keep independent work in
-separate branches/worktrees when multiple changes are in progress.
-
-Start from the latest published source:
+Create a `mitja/<topic>` branch from `source`:
 
 ```sh
 git fetch origin
@@ -145,8 +139,7 @@ git switch -c mitja/my-new-post origin/source
 pnpm install --frozen-lockfile
 ```
 
-Edit and preview with `pnpm dev`. Before opening a PR, run the same checks
-as GitHub Actions:
+Edit and preview with `pnpm dev`, then run the checks:
 
 ```sh
 pnpm run check
@@ -154,39 +147,18 @@ pnpm run test:drafts
 pnpm test
 ```
 
-`test:drafts` verifies draft exclusion and leaves a normal production build
-in `dist/`. Use `pnpm preview` to inspect that build locally.
+`test:drafts` leaves a production build in `dist/`; inspect it with `pnpm preview`.
 
-Stage only the intended files, review the diff, commit, and open a PR:
+Commit your changes, push the branch, and open a PR targeting `source`:
 
 ```sh
-git add src/content/posts/my-new-post.md public/img/my-new-post/
-git diff --cached
-git commit -m "Add my new post"
 git push -u origin mitja/my-new-post
 gh pr create --base source
 ```
 
-Use your actual branch and filenames; omit the image directory if there are
-no new images. For homepage, About, or other changes, stage those paths instead.
-Pull requests run checks without deploying.
-
-**Mitja reviews and merges the PR on GitHub.** Merging into `source` triggers
-**Verify and deploy blog** in
-[GitHub Actions](https://github.com/MitjaBezensek/mitjabezensek.github.io/actions).
-It installs locked dependencies, checks, builds, tests, and deploys only
-`dist/` to GitHub Pages. After a successful deployment, check the changed page
-on [bezensek.com](https://bezensek.com).
-
-Only Mitja may deploy, merge publishing PRs, or trigger/rerun deployment
-workflows. Agents may prepare branches, run local checks, and open PRs;
-they must not push directly to `source` or run a live deployment.
-
-Current workflow decision (2026-11-16, Mitja’s branch and deployment
-instructions): PRs into `source` supersede the previous direct-commit and
-`pnpm run deploy` publishing instructions. The legacy helper remains in the
-repository but is not part of this workflow. Do not merge into local `main`
-or use it for publishing.
+PRs run checks without deploying. Merging into `source` builds and deploys
+the site through [GitHub Actions](https://github.com/MitjaBezensek/mitjabezensek.github.io/actions).
+After deployment, verify the changed page on [bezensek.com](https://bezensek.com).
 
 Use pnpm for dependency changes too: `pnpm add` for runtime dependencies and
 `pnpm add -D` for development tools. Commit `package.json` and
@@ -350,7 +322,4 @@ The required repository settings are:
 - **Settings → Environments → github-pages:** allow the `source` branch.
 - **Settings → Pages → Custom domain:** the site’s domain, with Enforce HTTPS enabled.
 
-For updates, follow the [PR workflow](#publishing-updates) above. Mitja merges
-the PR into `source` to trigger deployment.
-Check the deployment in [GitHub Actions](https://github.com/MitjaBezensek/mitjabezensek.github.io/actions),
-then verify the changed page on the live site.
+For updates, follow the [PR workflow](#publishing-updates).
