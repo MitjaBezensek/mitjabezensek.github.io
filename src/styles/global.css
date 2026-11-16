@@ -175,6 +175,7 @@ button[aria-busy='true'] { cursor: wait; }
 .archive-year h2 { margin: 0; font: var(--weight-semibold) var(--text-post) var(--mono); color: var(--accent); }
 .archive-year ul { list-style: none; margin: 0; padding: 0; }
 .archive-year li { position: relative; padding-bottom: var(--space-6); }
+.archive-year li:last-child { padding-bottom: 0; }
 .archive-year time { display: block; font: var(--weight-mono) var(--text-caption) var(--mono); color: var(--muted); margin-top: var(--space-2); }
 .category-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--rule); }
 .category-list a { display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); border-bottom: 1px solid var(--rule); padding: var(--space-5) var(--space-2); font: var(--weight-mono) var(--text-body) var(--mono); text-decoration-line: none; }
