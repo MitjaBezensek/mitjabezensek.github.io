@@ -7,17 +7,24 @@ import { lightColors, darkColors } from '../src/lib/theme.ts';
 const markup = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8');
 const scripts = [...markup.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map(match => match[1]);
 
-function preview(url, targets, { savedTheme = null, systemDark = false, storageBlocked = false, mediaSupport = 'available' } = {}) {
+interface PreviewOptions {
+  savedTheme?: string | null;
+  systemDark?: boolean;
+  storageBlocked?: boolean;
+  mediaSupport?: string;
+}
+
+function preview(url: string, targets: string[], { savedTheme = null, systemDark = false, storageBlocked = false, mediaSupport = 'available' }: PreviewOptions = {}) {
   const links = targets.map(href => ({ href: new URL(href, url).href }));
-  const colors = {};
-  const ready = [];
-  const dataset = {};
-  const handlers = {};
+  const colors: Record<string, string> = {};
+  const ready: (() => void)[] = [];
+  const dataset: Record<string, string> = {};
+  const handlers: Record<string, () => void> = {};
   const storage = { value: savedTheme };
-  const button = { hidden: true, addEventListener: (event, handler) => { handlers[event] = handler; } };
+  const button = { hidden: true, ariaLabel: undefined as string | undefined, addEventListener: (event: string, handler: () => void) => { handlers[event] = handler; } };
   const localStorage = {
     getItem: () => { if (storageBlocked) throw new Error('Storage is blocked'); return storage.value; },
-    setItem: (_, value) => { if (storageBlocked) throw new Error('Storage is blocked'); storage.value = value; },
+    setItem: (_: string, value: string) => { if (storageBlocked) throw new Error('Storage is blocked'); storage.value = value; },
   };
   const context = {
     URL, URLSearchParams,
@@ -26,8 +33,8 @@ function preview(url, targets, { savedTheme = null, systemDark = false, storageB
       return { matches: systemDark };
     } },
     document: {
-      documentElement: { style: { setProperty: (name, value) => { colors[name] = value; } }, dataset },
-      addEventListener: (_, callback) => ready.push(callback),
+      documentElement: { style: { setProperty: (name: string, value: string) => { colors[name] = value; } }, dataset },
+      addEventListener: (_: string, callback: () => void) => ready.push(callback),
       querySelectorAll: () => links,
       querySelector: () => button,
     },
@@ -95,7 +102,7 @@ test('the switch works when browser storage is blocked', () => {
   assert.equal(page.dataset.paletteMode, 'dark');
 });
 
-function luminance(hex) {
+function luminance(hex: string) {
   return [0.2126, 0.7152, 0.0722].reduce((total, weight, index) => {
     const value = parseInt(hex.slice(index * 2 + 1, index * 2 + 3), 16) / 255;
     return total + weight * (value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
@@ -112,13 +119,13 @@ test('old palette parameters do not override the theme or rewrite links', () => 
 
 test('palette text remains readable on panels, title bars, and background dots', () => {
   for (const palette of [{ id: 'light', colors: lightColors }, { id: 'dark', colors: darkColors }]) {
-    for (const [foreground, background] of [['muted', 'paper'], ['muted', 'soft'], ['ink', 'dots'], ['on-accent', 'accent'], ['secondary', 'paper']]) {
+    for (const [foreground, background] of [['muted', 'paper'], ['muted', 'soft'], ['ink', 'dots'], ['on-accent', 'accent'], ['secondary', 'paper']] as const) {
       const [low, high] = [luminance(palette.colors[foreground]), luminance(palette.colors[background])].sort((a, b) => a - b);
       assert.ok((high + 0.05) / (low + 0.05) >= 4.5, `${palette.id}: ${foreground} on ${background}`);
     }
   }
   const { colors } = preview('https://bezensek.com/', [], { savedTheme: 'dark' });
-  for (const [foreground, background] of [['muted', 'paper'], ['muted', 'soft'], ['ink', 'dots'], ['on-accent', 'accent'], ['secondary', 'paper']]) {
+  for (const [foreground, background] of [['muted', 'paper'], ['muted', 'soft'], ['ink', 'dots'], ['on-accent', 'accent'], ['secondary', 'paper']] as const) {
     const [low, high] = [luminance(colors[`--${foreground}`]), luminance(colors[`--${background}`])].sort((a, b) => a - b);
     assert.ok((high + 0.05) / (low + 0.05) >= 4.5, `dark theme: ${foreground} on ${background}`);
   }

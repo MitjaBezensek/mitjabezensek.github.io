@@ -5,7 +5,7 @@ import PostList from '../components/PostList.astro';
 import PixelComputer from '../components/PixelComputer.astro';
 import { Code } from 'astro:components';
 import { getPosts } from '../lib/posts';
-import { syntaxTheme } from '../lib/syntax-theme.mjs';
+import { syntaxTheme } from '../lib/syntax-theme.ts';
 import siteIcon from '../assets/site-icon.svg?raw';
 
 const allPosts = await getPosts();

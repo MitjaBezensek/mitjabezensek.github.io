@@ -5,18 +5,22 @@ import test from 'node:test';
 import sharp from 'sharp';
 import { create as readFont } from 'fontkitten';
 
-const attributes = (tag) => Object.fromEntries(
+const attributes = (tag: string) => Object.fromEntries(
   [...tag.matchAll(/([\w-]+)="([^"]*)"/g)].map((match) => [match[1], match[2]]),
 );
 const files = await readdir('dist', { recursive: true });
 
 test('the shared monospace font contains the complete author name at both weights', async () => {
   const fonts = await Promise.all(files.filter(file => file.endsWith('.woff2'))
-    .map(async file => readFont(await readFile(join('dist', file)))));
+    .map(async file => {
+      const font = readFont(await readFile(join('dist', file)));
+      assert.ok('familyName' in font, `${file}: expected a single font`);
+      return font;
+    }));
   for (const weight of [500, 700]) {
     const faces = fonts.filter(font => font.familyName.startsWith('Ioskeley Mono') && font['OS/2'].usWeightClass === weight);
     for (const character of 'Mitja Bezenšek') {
-      assert.ok(faces.some(font => font.hasGlyphForCodePoint(character.codePointAt(0))), `${weight}: ${character}`);
+      assert.ok(faces.some(font => font.hasGlyphForCodePoint(character.codePointAt(0)!)), `${weight}: ${character}`);
     }
   }
 });
@@ -45,9 +49,9 @@ test('optimized animations preserve every frame, timing, and the original GIF fa
     const picture = [...html.matchAll(/<picture>([\s\S]*?)<\/picture>/g)]
       .find(([tag]) => tag.includes(`/img/${name}.gif`));
     assert.ok(picture, `${name}: WebP picture with GIF fallback`);
-    const source = attributes(picture[1].match(/<source\b[^>]*>/)[0]);
+    const source = attributes(picture[1].match(/<source\b[^>]*>/)![0]);
     assert.equal(source.type, 'image/webp');
-    const largest = source.srcset.split(',').at(-1).trim().split(/\s+/)[0];
+    const largest = source.srcset.split(',').at(-1)!.trim().split(/\s+/)![0];
     const optimized = join('dist', largest);
     const original = `public/img/${name}.gif`;
     const before = await sharp(original, { animated: true }).metadata();
@@ -67,9 +71,9 @@ test('responsive sources exist and are smaller than their original fallback', as
   for (const file of files.filter((file) => file.endsWith('.html'))) {
     const html = await readFile(join('dist', file), 'utf8');
     for (const [, picture] of html.matchAll(/<picture>([\s\S]*?)<\/picture>/g)) {
-      const image = attributes(picture.match(/<img\b[^>]*>/)[0]);
-      const source = attributes(picture.match(/<source\b[^>]*>/)[0]);
-      const largestWidth = Number(source.srcset.split(',').at(-1).trim().split(/\s+/)[1].slice(0, -1));
+      const image = attributes(picture.match(/<img\b[^>]*>/)![0]);
+      const source = attributes(picture.match(/<source\b[^>]*>/)![0]);
+      const largestWidth = Number(source.srcset.split(',').at(-1)!.trim().split(/\s+/)[1].slice(0, -1));
       assert.ok(largestWidth >= Math.min(Number(image.width), 1480), `${file}: ${image.src}: retain desktop/retina resolution`);
       for (const candidate of source.srcset.split(',')) {
         const [path, width] = candidate.trim().split(/\s+/);

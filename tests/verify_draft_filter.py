@@ -88,7 +88,7 @@ try:
     images[0].write_bytes(png(48, 24, (0, 255, 0)))
     subprocess.run(["pnpm", "run", "build"], cwd=ROOT, check=True)
     assert (image_output()[0]['width'], image_output()[0]['height']) == ('48', '24')
-    subprocess.run(['node', '--test', 'tests/performance.test.mjs'], cwd=ROOT, check=True)
+    subprocess.run(['node', '--test', 'tests/performance.test.ts'], cwd=ROOT, check=True)
     print('Image-only replacements and URL swaps invalidate cached Markdown output.')
 finally:
     draft.unlink(missing_ok=True)

@@ -1,6 +1,6 @@
 import { spawnSync } from 'node:child_process';
 
-function run(command, args, capture = false) {
+function run(command: string, args: string[], capture = false): string {
   const result = spawnSync(command, args, {
     encoding: 'utf8', stdio: capture ? ['ignore', 'pipe', 'pipe'] : 'inherit',
   });
@@ -8,14 +8,14 @@ function run(command, args, capture = false) {
   if (result.status !== 0) {
     throw new Error(`${command} ${args.join(' ')} failed${capture && result.stderr ? `: ${result.stderr.trim()}` : '.'}`);
   }
-  return capture ? result.stdout.trim() : '';
+  return capture ? (result.stdout ?? '').trim() : '';
 }
 
-const git = (...args) => run('git', args, true);
+const git = (...args: string[]) => run('git', args, true);
 
-function assertReady(commit) {
-  if (git('branch', '--show-current') !== 'source') {
-    throw new Error('Deploy from the source branch. Merge your finished work into source first.');
+function assertReady(commit?: string) {
+  if (git('branch', '--show-current') !== 'production') {
+    throw new Error('Deploy from the production branch. Merge your finished work into production first.');
   }
   if (git('status', '--porcelain', '--untracked-files=all')) {
     throw new Error('Deploy requires a clean working tree. Review and commit your changes first.');
@@ -28,19 +28,19 @@ function assertReady(commit) {
 try {
   const args = process.argv.slice(2);
   if (args.includes('--help')) {
-    console.log('Usage: pnpm run deploy [--dry-run]\nVerify committed source and push it to GitHub Pages. --dry-run runs checks without pushing.');
+    console.log('Usage: pnpm run deploy [--dry-run]\nVerify the production branch and push it to GitHub Pages. --dry-run runs checks without pushing.');
   } else {
     if (args.some((arg) => arg !== '--dry-run')) throw new Error('Usage: pnpm run deploy [--dry-run]');
     assertReady();
     const commit = git('rev-parse', 'HEAD');
-    run('git', ['fetch', '--no-tags', 'origin', 'refs/heads/source:refs/remotes/origin/source']);
-    if (Number(git('rev-list', '--count', `${commit}..refs/remotes/origin/source`)) > 0) {
-      throw new Error('source does not contain the latest origin/source. Run git pull --ff-only origin source and resolve any divergence before deploying.');
+    run('git', ['fetch', '--no-tags', 'origin', 'refs/heads/production:refs/remotes/origin/production']);
+    if (Number(git('rev-list', '--count', `${commit}..refs/remotes/origin/production`)) > 0) {
+      throw new Error('production does not contain the latest origin/production. Run git pull --ff-only origin production and resolve any divergence before deploying.');
     }
 
     for (const task of ['check', 'test:drafts', 'test']) run('pnpm', ['run', task]);
     assertReady(commit);
-    const push = ['push', '--no-follow-tags', 'origin', `${commit}:refs/heads/source`];
+    const push = ['push', '--no-follow-tags', 'origin', `${commit}:refs/heads/production`];
     if (args.includes('--dry-run')) {
       console.log(`Dry run passed. Would run: git ${push.join(' ')}`);
     } else {
@@ -49,6 +49,6 @@ try {
     }
   }
 } catch (error) {
-  console.error(`Deploy stopped: ${error.message}`);
+  console.error(`Deploy stopped: ${error instanceof Error ? error.message : String(error)}`);
   process.exitCode = 1;
 }

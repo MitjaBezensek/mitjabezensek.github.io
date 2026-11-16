@@ -1,7 +1,7 @@
 // CSS variables keep highlighting in sync with the active site palette.
 export const syntaxTheme = {
   name: 'dev-notes',
-  type: 'light',
+  type: 'light' as const,
   colors: {
     'editor.background': 'var(--code-background, #e8e9e3)',
     'editor.foreground': 'var(--code-foreground, #292a28)',

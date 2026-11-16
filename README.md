@@ -121,11 +121,11 @@ in `src/lib/categories.ts`.
 
 ## Publishing updates
 
-Create a `mitja/<topic>` branch from `source`:
+Create a `mitja/<topic>` branch from `production`:
 
 ```sh
 git fetch origin
-git switch -c mitja/my-new-post origin/source
+git switch -c mitja/my-new-post origin/production
 pnpm install --frozen-lockfile
 ```
 
@@ -139,14 +139,15 @@ pnpm test
 
 `test:drafts` leaves a production build in `dist/`; inspect it with `pnpm preview`.
 
-Commit your changes, push the branch, and open a PR targeting `source`:
+Commit your changes, push the branch, and open a PR targeting `production`:
 
 ```sh
 git push -u origin mitja/my-new-post
-gh pr create --base source
+gh pr create --base production
 ```
 
-PRs run checks without deploying. Merging into `source` builds and deploys
+PRs run **Check blog** without deploying. Merging into `production` runs
+**Deploy blog**, which checks, builds, and deploys
 the site through [GitHub Actions](https://github.com/MitjaBezensek/mitjabezensek.github.io/actions).
 After deployment, verify the changed page on [bezensek.com](https://bezensek.com).
 
@@ -169,12 +170,13 @@ Use pnpm for dependency changes too: `pnpm add` for runtime dependencies and
 | `src/components/ThemeScript.astro` | System theme detection, saved preference, and theme switching. |
 | `src/components/DevDrawer.astro` | Development-only drawer, opened with Shift+D. |
 | `src/dev/showcase.astro` | Development-only component showcase. |
-| `integrations/dev-showcase.mjs` | Registers `/showcase/` only for `pnpm dev`. |
+| `integrations/dev-showcase.ts` | Registers `/showcase/` only for `pnpm dev`. |
 | `src/components/PixelComputer.astro` | Pixel computer illustration. |
 | `src/lib/posts.ts` | Site identity, post ordering, categories, and page size. |
 | `tests/` | Content, theme, image, and publishing checks. |
-| `.github/workflows/pages.yml` | Automated checks and GitHub Pages deployment. |
-| `assets/`, `references/` | Original working material; excluded from the built site. |
+| `.github/workflows/check.yml` | PR checks. |
+| `.github/workflows/deploy.yml` | Checks and GitHub Pages deployment on `production`. |
+| `assets/` | Original diagrams and slides; excluded from the built site. |
 | `dist/` | Generated production site; do not edit it. |
 
 ## Theme and components
@@ -184,7 +186,7 @@ with the theme toggle. Fonts are self-hosted; licenses are in `public/licenses/`
 
 - `src/styles/global.css`: typography, spacing, and shared styles.
 - `src/lib/theme.ts`: light and dark palette colors.
-- `src/lib/syntax-theme.mjs`: code highlighting.
+- `src/lib/syntax-theme.ts`: code highlighting.
 - `src/components/PixelComputer.astro`: homepage illustration.
 - `src/assets/site-icon.svg`: header icon and favicon.
 
@@ -211,8 +213,7 @@ if its branch or history is pushed to a public repository. Keep future private
 writing on local-only branches and back it up privately. Before sharing a
 branch, check its complete commit range for unfinished writing.
 
-`assets/` and `references/` contain original working material, including source
-diagrams. They are preserved in the repository and never copied into the site.
+`assets/` contains original diagrams and slides, which are not copied into the site.
 Only `dist/` is uploaded to Pages. Keep secrets in ignored `.env` files, never
 in `public/` or variables prefixed with `PUBLIC_`.
 
