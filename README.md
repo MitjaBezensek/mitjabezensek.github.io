@@ -161,7 +161,6 @@ Use pnpm for dependency changes too: `pnpm add` for runtime dependencies and
 | --- | --- |
 | `src/content/posts/` | Published articles and posts marked as drafts. |
 | `src/content/pages/about.md` | Editable About biography. |
-| `src/content/drafts/` | Content outside the loaded collections; excluded from builds. |
 | `public/img/`, `public/about/` | Images copied directly to the site. |
 | `src/layouts/Base.astro` | Shared header, navigation, metadata, and footer. |
 | `src/pages/` | Page templates, article routes, archives, feeds, and redirects. |
@@ -176,7 +175,7 @@ Use pnpm for dependency changes too: `pnpm add` for runtime dependencies and
 | `tests/` | Content, theme, image, and publishing checks. |
 | `.github/workflows/check.yml` | PR checks. |
 | `.github/workflows/deploy.yml` | Checks and GitHub Pages deployment on `production`. |
-| `assets/` | Original diagrams and slides; excluded from the built site. |
+| `assets/` | Original diagrams; excluded from the built site. |
 | `dist/` | Generated production site; do not edit it. |
 
 ## Theme and components
@@ -203,17 +202,15 @@ query strings and fragments and stay out of the sitemap.
 ## Draft privacy
 
 `draft: true` excludes a post from every published route, listing, feed, and
-sitemap, including during local development. Files in `src/content/drafts/`
-are outside the loaded collections entirely.
-To preview one, move it into `posts/` on a local branch and temporarily set
-`draft: false` with valid post metadata. Revert that flag before publishing.
+sitemap, including during local development. To preview a draft, temporarily
+set `draft: false` on a local branch. Revert that flag before publishing.
 
 Build exclusion does **not** make a tracked draft private: anyone can read it
 if its branch or history is pushed to a public repository. Keep future private
 writing on local-only branches and back it up privately. Before sharing a
 branch, check its complete commit range for unfinished writing.
 
-`assets/` contains original diagrams and slides, which are not copied into the site.
+`assets/` contains original diagrams, which are not copied into the site.
 Only `dist/` is uploaded to Pages. Keep secrets in ignored `.env` files, never
 in `public/` or variables prefixed with `PUBLIC_`.
 
