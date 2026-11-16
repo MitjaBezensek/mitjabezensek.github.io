@@ -173,14 +173,13 @@ const formatDate = (date: string) => monthYear.format(new Date(`${date}-01T00:00
   .career-heading { margin-bottom: var(--space-10); }
   .career-heading h2 { margin: 0; font-size: var(--text-heading); letter-spacing: var(--tracking-heading); }
   .timeline { position: relative; list-style: none; padding: 0; margin: 0; }
-  .timeline::before { content: ''; position: absolute; top: 12px; bottom: var(--space-6); left: calc(50% - 1px); border-left: 2px dotted var(--line); }
+  .timeline::before { content: ''; position: absolute; top: var(--spine-top, 17px); bottom: var(--spine-bottom, var(--space-6)); left: calc(50% - 1px); width: 2px; background: linear-gradient(180deg, var(--line) 2px, transparent 2px) center top / 2px 4px repeat-y; }
   .timeline-stop { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--space-12); align-items: center; padding-bottom: calc(var(--space-10) + var(--space-8)); }
   .timeline-stop:last-child { padding-bottom: 0; }
   .experience { position: relative; min-width: 0; grid-column: 1; grid-row: 1; scroll-margin-top: var(--space-8); }
   .timeline-stop:nth-child(even) .experience { grid-column: 2; }
-  .timeline-dot { position: absolute; top: 7px; right: calc(-1 * var(--space-6) - 5px); width: 10px; height: 10px; border: 2px solid var(--secondary); background: var(--paper); box-shadow: 0 0 0 5px var(--paper); }
+  .timeline-dot { position: absolute; top: 7px; right: calc(-1 * var(--space-6) - 5px); width: 10px; height: 10px; border: 2px solid var(--secondary); background: var(--paper); }
   .timeline-stop:nth-child(even) .timeline-dot { right: auto; left: calc(-1 * var(--space-6) - 5px); }
-  .is-current .timeline-dot { background: var(--accent); border-color: var(--accent); }
   .story-image { position: relative; margin: 0; min-width: 0; grid-column: 2; grid-row: 1; align-self: center; }
   .timeline-stop:nth-child(even) .story-image { grid-column: 1; }
   .story-image > a { display: block; position: relative; }
@@ -188,8 +187,13 @@ const formatDate = (date: string) => monthYear.format(new Date(`${date}-01T00:00
   .story-image.window img { border: 0; background: transparent; box-shadow: none; }
   .story-image.pixelated img { image-rendering: pixelated; }
   .image-credit { display: block; margin-top: var(--space-1); }
-  .experience::before { content: ''; position: absolute; top: 11px; right: calc(-1 * var(--space-6)); width: var(--space-4); border-top: 1px dotted var(--line); }
-  .timeline-stop:nth-child(even) .experience::before { right: auto; left: calc(-1 * var(--space-6)); }
+  .experience::before { content: ''; position: absolute; top: 11px; right: calc(-1 * var(--space-6)); width: calc(var(--space-6) - 9px); height: 2px; background: linear-gradient(90deg, var(--line) 2px, transparent 2px) left center / 4px 2px repeat-x; }
+  .timeline-stop:nth-child(even) .experience::before { right: auto; left: calc(-1 * var(--space-6) + 5px); }
+  @media (min-width: 641px) {
+    .timeline-stop:nth-child(odd) .experience::before { display: none; }
+    .timeline-stop:nth-child(odd) .experience-dates { display: flex; align-items: center; gap: var(--space-2); }
+    .timeline-stop:nth-child(odd) .experience-dates::after { content: ''; flex: 1; margin-right: calc(-1 * var(--space-6) + 5px); position: relative; top: 1px; height: 2px; background: linear-gradient(90deg, var(--line) 2px, transparent 2px) right center / 4px 2px repeat-x; }
+  }
   .experience-dates { margin: 0 0 var(--space-3); color: var(--secondary); font: var(--weight-mono) var(--text-caption)/var(--leading-body) var(--mono); }
   .experience h3 { margin: 0 0 var(--space-2); font-size: var(--text-prose); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); }
   .experience h3 a { color: var(--ink); }
@@ -208,3 +212,18 @@ const formatDate = (date: string) => monthYear.format(new Date(`${date}-01T00:00
     .timeline-stop { break-inside: avoid; }
   }
 </style>
+
+<script>
+  // Spine runs from the first marker's bottom edge to the last marker's top edge.
+  const fitSpine = () => {
+    for (const timeline of document.querySelectorAll<HTMLElement>('.timeline')) {
+      const dots = timeline.querySelectorAll('.timeline-dot')
+      if (dots.length < 2) continue
+      const box = timeline.getBoundingClientRect()
+      timeline.style.setProperty('--spine-top', `${dots[0].getBoundingClientRect().bottom - box.top}px`)
+      timeline.style.setProperty('--spine-bottom', `${box.bottom - dots[dots.length - 1].getBoundingClientRect().top}px`)
+    }
+  }
+  fitSpine()
+  new ResizeObserver(fitSpine).observe(document.body)
+</script>
